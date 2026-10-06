@@ -1,0 +1,3628 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NR AV Executive Command Center – Complete Admin Portal</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script>
+      try {
+        const t = localStorage.getItem('nr_admin_theme');
+        if (t === 'dark') {
+          document.documentElement.setAttribute('data-admin-theme', 'dark');
+        }
+      } catch (e) {}
+    </script>
+    <style>
+      :root {
+        --admin-sidebar-w: 260px;
+        /* White & Half-White (Executive Paper / Clean Light Theme) */
+        --admin-bg-base: #f6f8fb;          /* Soft refined half-white background */
+        --admin-bg-card: #ffffff;          /* Pure crisp white card surface */
+        --admin-bg-sidebar: #ffffff;       /* Pure white sidebar */
+        --admin-bg-topbar: #ffffff;        /* Pure white topbar */
+        --admin-bg-subtle: #f1f5f9;        /* Subtle half-white chip / table header */
+        --admin-border: #e2e8f0;           /* Clean slate border */
+        --admin-border-strong: #cbd5e1;
+        --admin-border-focus: #ff5c00;
+        --admin-text-title: #0f172a;       /* Deep slate heading text - 100% visible */
+        --admin-text-body: #334155;        /* Crisp readable text */
+        --admin-text-muted: #64748b;       /* Muted secondary text */
+        --admin-accent: #ff5c00;           /* Signature NR Hot Orange */
+        --admin-accent-glow: rgba(255, 92, 0, 0.16);
+        --admin-accent-subtle: rgba(255, 92, 0, 0.08);
+        --admin-input-bg: #ffffff;         /* White input background */
+        --admin-input-border: #cbd5e1;     /* Border for inputs */
+        --admin-input-text: #0f172a;       /* Dark text in inputs */
+        --admin-table-hover: #f8fafc;
+        --admin-th-bg: #f8fafc;
+        --admin-modal-bg: #ffffff;
+        --admin-modal-overlay: rgba(15, 23, 42, 0.6);
+        --admin-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.03);
+        --admin-shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+
+        /* Global overrides for styles.css leakage */
+        --text-primary: #0f172a;
+        --text-secondary: #334155;
+        --text-muted: #64748b;
+        --bg-surface: #f1f5f9;
+        --border-strong: #cbd5e1;
+      }
+
+      /* Dark mode toggle option */
+      [data-admin-theme="dark"] {
+        --admin-bg-base: #0b0e14;
+        --admin-bg-card: #131720;
+        --admin-bg-sidebar: #0d1017;
+        --admin-bg-topbar: #0d1017;
+        --admin-bg-subtle: #1c2230;
+        --admin-border: rgba(255, 255, 255, 0.09);
+        --admin-border-strong: rgba(255, 255, 255, 0.18);
+        --admin-border-focus: #ff5c00;
+        --admin-text-title: #ffffff;
+        --admin-text-body: #e2e8f0;
+        --admin-text-muted: #94a3b8;
+        --admin-accent: #ff5c00;
+        --admin-accent-glow: rgba(255, 92, 0, 0.25);
+        --admin-accent-subtle: rgba(255, 92, 0, 0.14);
+        --admin-input-bg: #181e29;
+        --admin-input-border: rgba(255, 255, 255, 0.15);
+        --admin-input-text: #ffffff;
+        --admin-table-hover: rgba(255, 255, 255, 0.03);
+        --admin-th-bg: rgba(255, 255, 255, 0.02);
+        --admin-modal-bg: #131720;
+        --admin-modal-overlay: rgba(0, 0, 0, 0.85);
+        --admin-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --admin-shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.7);
+
+        --text-primary: #ffffff;
+        --text-secondary: #e2e8f0;
+        --text-muted: #94a3b8;
+        --bg-surface: #1c2230;
+        --border-strong: rgba(255, 255, 255, 0.18);
+      }
+
+      .admin-main h1, .admin-main h2, .admin-main h3, .admin-main h4 {
+        color: var(--admin-text-title);
+      }
+      .admin-table td strong {
+        color: var(--admin-text-title);
+      }
+
+      body.admin-body {
+        background: var(--admin-bg-base);
+        color: var(--admin-text-body);
+        font-family: var(--font-sans);
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        transition: background 0.2s, color 0.2s;
+      }
+
+      /* Pin Screen Modal */
+      #auth-gate-modal {
+        position: fixed;
+        inset: 0;
+        background: var(--admin-modal-overlay);
+        backdrop-filter: blur(16px);
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+      }
+      .auth-card {
+        background: var(--admin-bg-card);
+        border: 1px solid var(--admin-border);
+        border-radius: var(--radius-xl);
+        padding: 2.5rem;
+        max-width: 440px;
+        width: 100%;
+        text-align: center;
+        box-shadow: var(--admin-shadow-lg);
+      }
+      .auth-lock-icon {
+        width: 56px;
+        height: 56px;
+        background: var(--admin-accent-subtle);
+        border: 1px solid var(--admin-accent-glow);
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--admin-accent);
+        margin-bottom: 1.25rem;
+      }
+      .auth-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--admin-text-title);
+        margin-bottom: 0.4rem;
+      }
+      .auth-subtitle {
+        font-size: 0.88rem;
+        color: var(--admin-text-muted);
+        margin-bottom: 1.75rem;
+        line-height: 1.5;
+      }
+      .pin-input-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .pin-input {
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+        letter-spacing: 0.35em;
+        font-size: 1.5rem;
+        font-family: var(--font-mono);
+        padding: 0.75rem 1rem;
+        background: var(--admin-input-bg);
+        border: 1px solid var(--admin-input-border);
+        border-radius: var(--radius-md);
+        color: var(--admin-input-text);
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+      .pin-input:focus {
+        border-color: var(--admin-accent);
+        box-shadow: 0 0 0 3px var(--admin-accent-glow);
+      }
+      .pin-error {
+        color: #ef4444;
+        font-size: 0.8rem;
+        display: none;
+      }
+
+      /* Admin Layout */
+      .admin-layout {
+        display: flex;
+        flex: 1;
+        min-height: 100vh;
+        background: var(--admin-bg-base);
+      }
+
+      /* Sidebar */
+      .admin-sidebar {
+        width: var(--admin-sidebar-w);
+        background: var(--admin-bg-sidebar);
+        border-right: 1px solid var(--admin-border);
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+      }
+      .admin-sidebar-header {
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid var(--admin-border);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .admin-brand-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--admin-text-title);
+        line-height: 1.2;
+      }
+      .admin-brand-badge {
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        background: var(--admin-accent);
+        color: #fff;
+        padding: 0.15rem 0.45rem;
+        border-radius: 4px;
+        display: inline-block;
+        margin-top: 0.2rem;
+      }
+
+      .admin-nav {
+        padding: 0.75rem 0.6rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        flex: 1;
+        overflow-y: auto;
+      }
+      .admin-nav-item {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        padding: 0.6rem 0.85rem;
+        border-radius: var(--radius-md);
+        color: var(--admin-text-muted);
+        font-size: 0.84rem;
+        font-weight: 500;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: 1px solid transparent;
+      }
+      .admin-nav-item:hover {
+        background: var(--admin-bg-subtle);
+        color: var(--admin-text-title);
+      }
+      .admin-nav-item.active {
+        background: var(--admin-accent-subtle);
+        color: var(--admin-accent);
+        border-color: rgba(255, 92, 0, 0.25);
+        font-weight: 600;
+      }
+      .admin-nav-badge {
+        margin-left: auto;
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        background: var(--admin-bg-subtle);
+        color: var(--admin-text-body);
+        padding: 0.1rem 0.45rem;
+        border-radius: 9999px;
+      }
+      .admin-nav-badge.danger {
+        background: #ef4444;
+        color: #fff;
+      }
+
+      .admin-sidebar-footer {
+        padding: 1rem 1.25rem;
+        border-top: 1px solid var(--admin-border);
+        font-size: 0.75rem;
+        color: var(--admin-text-muted);
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      /* Main Area */
+      .admin-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+      }
+
+      /* Top Header Bar */
+      .admin-topbar {
+        background: var(--admin-bg-topbar);
+        border-bottom: 1px solid var(--admin-border);
+        padding: 0.85rem 1.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+      .topbar-left {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .admin-page-title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--admin-text-title);
+        margin: 0;
+      }
+      .topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      /* Content Container */
+      .admin-content-wrap {
+        padding: 2rem 2.5rem;
+        flex: 1;
+      }
+
+      .tab-section {
+        display: none;
+      }
+      .tab-section.active {
+        display: block;
+      }
+
+      /* KPI Metric Cards */
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      .kpi-card {
+        background: var(--admin-bg-card);
+        border: 1px solid var(--admin-border);
+        border-radius: var(--radius-lg);
+        padding: 1.15rem 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        box-shadow: var(--admin-shadow);
+      }
+      .kpi-label {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--admin-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .kpi-val {
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: var(--admin-text-title);
+        line-height: 1;
+      }
+      .kpi-sub {
+        font-size: 0.75rem;
+        color: #10b981;
+      }
+
+      /* Tables & Cards */
+      .admin-card {
+        background: var(--admin-bg-card);
+        border: 1px solid var(--admin-border);
+        border-radius: var(--radius-xl);
+        overflow: hidden;
+        margin-bottom: 2rem;
+        box-shadow: var(--admin-shadow);
+      }
+      .admin-card-header {
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid var(--admin-border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .admin-card-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--admin-text-title);
+        margin: 0;
+      }
+      .admin-card-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .admin-table-wrap {
+        overflow-x: auto;
+      }
+      .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.88rem;
+        text-align: left;
+      }
+      .admin-table th {
+        background: var(--admin-th-bg);
+        padding: 0.85rem 1.25rem;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--admin-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid var(--admin-border);
+      }
+      .admin-table td {
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid var(--admin-border);
+        vertical-align: middle;
+        color: var(--admin-text-body);
+      }
+      .admin-table tr:hover td {
+        background: var(--admin-table-hover);
+      }
+
+      /* Badges & Tags */
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        padding: 0.2rem 0.6rem;
+        border-radius: 9999px;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+      .status-pill.new {
+        background: rgba(239, 68, 68, 0.12);
+        color: #dc2626;
+        border: 1px solid rgba(239, 68, 68, 0.25);
+      }
+      .status-pill.contacted {
+        background: rgba(245, 158, 11, 0.12);
+        color: #d97706;
+        border: 1px solid rgba(245, 158, 11, 0.25);
+      }
+      .status-pill.confirmed {
+        background: rgba(16, 185, 129, 0.12);
+        color: #059669;
+        border: 1px solid rgba(16, 185, 129, 0.25);
+      }
+      .status-pill.closed {
+        background: rgba(100, 116, 139, 0.12);
+        color: #475569;
+        border: 1px solid rgba(100, 116, 139, 0.25);
+      }
+
+      /* Forms in Admin */
+      .admin-form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        margin-bottom: 1.25rem;
+      }
+      .admin-form-label {
+        font-family: var(--font-mono);
+        font-size: 0.76rem;
+        color: var(--admin-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+      }
+      .admin-input, .admin-select, .admin-textarea {
+        background: var(--admin-input-bg);
+        border: 1px solid var(--admin-input-border);
+        border-radius: var(--radius-md);
+        color: var(--admin-input-text);
+        padding: 0.65rem 0.85rem;
+        font-size: 0.88rem;
+        font-family: inherit;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .admin-input:focus, .admin-select:focus, .admin-textarea:focus {
+        border-color: var(--admin-accent);
+        box-shadow: 0 0 0 3px var(--admin-accent-glow);
+      }
+      .admin-textarea {
+        min-height: 80px;
+        line-height: 1.55;
+        resize: vertical;
+        overflow-y: hidden;
+        field-sizing: content;
+        transition: height 0.1s ease, border-color 0.2s, box-shadow 0.2s;
+      }
+
+      /* Modal Dialog */
+      /* Modal Dialog */
+      .admin-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: var(--admin-modal-overlay);
+        backdrop-filter: blur(8px);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.25rem;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+      }
+      .admin-modal-card {
+        background: var(--admin-modal-bg);
+        border: 1px solid var(--admin-border);
+        border-radius: var(--radius-xl);
+        max-width: 650px;
+        width: 100%;
+        max-height: min(88vh, calc(100vh - 2.5rem));
+        display: flex;
+        flex-direction: column;
+        box-shadow: var(--admin-shadow-lg);
+        overflow: hidden;
+        margin: auto;
+        position: relative;
+      }
+      .admin-modal-card form {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+      }
+      .admin-modal-header {
+        padding: 1.15rem 1.5rem;
+        border-bottom: 1px solid var(--admin-border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-shrink: 0;
+        background: var(--admin-modal-bg);
+      }
+      .admin-modal-header h3 {
+        color: var(--admin-text-title);
+      }
+      .admin-modal-body {
+        padding: 1.5rem;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        flex: 1;
+        min-height: 0;
+        scrollbar-width: thin;
+        scrollbar-color: var(--admin-border) transparent;
+      }
+      .admin-modal-body::-webkit-scrollbar {
+        width: 6px;
+      }
+      .admin-modal-body::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .admin-modal-body::-webkit-scrollbar-thumb {
+        background: var(--admin-border);
+        border-radius: 9999px;
+      }
+      .admin-modal-body::-webkit-scrollbar-thumb:hover {
+        background: var(--admin-accent);
+      }
+      .admin-modal-footer {
+        padding: 0.95rem 1.5rem;
+        border-top: 1px solid var(--admin-border);
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.75rem;
+        background: var(--admin-bg-subtle);
+        flex-shrink: 0;
+        z-index: 5;
+      }
+
+      /* Compact Buttons */
+      .btn-admin {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.5rem 0.9rem;
+        border-radius: var(--radius-md);
+        font-size: 0.84rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: 1px solid transparent;
+        transition: all 0.2s;
+        text-decoration: none;
+      }
+      .btn-admin-primary {
+        background: var(--admin-accent);
+        color: #fff;
+      }
+      .btn-admin-primary:hover {
+        background: #e05200;
+        box-shadow: 0 0 15px var(--admin-accent-glow);
+      }
+      .btn-admin-secondary {
+        background: var(--admin-bg-subtle);
+        color: var(--admin-text-body);
+        border-color: var(--admin-border);
+      }
+      .btn-admin-secondary:hover {
+        background: var(--admin-border);
+        color: var(--admin-text-title);
+      }
+      .btn-admin-danger {
+        background: rgba(239, 68, 68, 0.1);
+        color: #dc2626;
+        border-color: rgba(239, 68, 68, 0.25);
+      }
+      .btn-admin-danger:hover {
+        background: #dc2626;
+        color: #fff;
+      }
+      .btn-admin-sm {
+        padding: 0.35rem 0.65rem;
+        font-size: 0.78rem;
+      }
+
+      /* Notification Toast */
+      #admin-toast {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: var(--admin-bg-card);
+        color: var(--admin-text-title);
+        padding: 0.85rem 1.4rem;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--admin-accent);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        font-size: 0.88rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        z-index: 999999;
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      #admin-toast.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body class="admin-body">
+    
+    <!-- PIN / Security Gate Modal -->
+    <div id="auth-gate-modal">
+      <div class="auth-card">
+        <div class="auth-lock-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="auth-title">NR Audio Visual Portal</div>
+        <div class="auth-subtitle">Enter your 4-digit administrative security passcode to access website content, fleet management, and CRM leads.</div>
+        <form id="pin-form" class="pin-input-wrap" onsubmit="event.preventDefault(); verifyPin();">
+          <input type="password" id="pin-input-field" class="pin-input" maxlength="6" placeholder="••••" autofocus autocomplete="current-password" />
+          <div id="pin-error-msg" class="pin-error">Incorrect passcode. Try again. (Default: 8130)</div>
+          <button type="submit" class="btn-admin btn-admin-primary" style="padding: 0.85rem; justify-content: center; font-size: 0.95rem;">Unlock Portal →</button>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Default Security PIN: <strong>8130</strong> (can be changed in settings)</div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Main Admin Shell -->
+    <div class="admin-layout" id="admin-shell" style="display: none;">
+      
+      <!-- Left Sidebar Navigation -->
+      <aside class="admin-sidebar">
+        <div class="admin-sidebar-header">
+          <svg width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="48" height="48" rx="8" fill="var(--admin-bg-subtle)" stroke="var(--admin-border-strong)" stroke-width="1.5"/>
+            <path d="M12 34V14L22 34V14" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M26 34V14H33C35.2 14 37 15.8 37 18C37 20.2 35.2 22 33 22H26M32 22L37 34" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="24" cy="24" r="19" stroke="var(--accent-hot)" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+          </svg>
+          <div>
+            <div class="admin-brand-title">NR Audio Visual</div>
+            <span class="admin-brand-badge">ADMIN CONTROL</span>
+          </div>
+        </div>
+
+        <nav class="admin-nav" id="admin-nav-bar">
+          <div class="admin-nav-item active" data-tab="overview">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+            <span>Overview</span>
+          </div>
+          <div class="admin-nav-item" data-tab="inventory">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            <span>Equipment Fleet</span>
+            <span class="admin-nav-badge" id="sidebar-inventory-count">11</span>
+          </div>
+          <div class="admin-nav-item" data-tab="packages">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 16v1a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v1"/><path d="M18 8h4a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-4"/><circle cx="8" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+            <span>Starter Packages</span>
+            <span class="admin-nav-badge" id="sidebar-packages-count">3</span>
+          </div>
+          <div class="admin-nav-item" data-tab="services">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            <span>Core Services</span>
+            <span class="admin-nav-badge" id="sidebar-services-count">7</span>
+          </div>
+          <div class="admin-nav-item" data-tab="events">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span>Event Solutions</span>
+            <span class="admin-nav-badge" id="sidebar-events-count">6</span>
+          </div>
+          <div class="admin-nav-item" data-tab="faqs">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span>FAQ Manager</span>
+            <span class="admin-nav-badge" id="sidebar-faqs-count">7</span>
+          </div>
+          <div class="admin-nav-item" data-tab="homepage">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>Hero & Protocol</span>
+          </div>
+          <div class="admin-nav-item" data-tab="about">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>About & Story</span>
+          </div>
+          <div class="admin-nav-item" data-tab="gallery">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Setup Gallery</span>
+            <span class="admin-nav-badge" id="sidebar-gallery-count">12</span>
+          </div>
+          <div class="admin-nav-item" data-tab="cities">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>City Hubs</span>
+            <span class="admin-nav-badge">3</span>
+          </div>
+          <div class="admin-nav-item" data-tab="inquiries">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>Event Inquiries</span>
+            <span class="admin-nav-badge danger" id="sidebar-inquiries-badge">0</span>
+          </div>
+          <div class="admin-nav-item" data-tab="settings">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>Settings & Backups</span>
+          </div>
+        </nav>
+
+        <div class="admin-sidebar-footer">
+          <div>Logged in as <strong>Administrator</strong></div>
+          <div style="display: flex; gap: 0.5rem; margin-top: 0.4rem;">
+            <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" style="flex: 1; justify-content: center;" onclick="lockDashboard()">Sign Out</button>
+            <a href="/" target="_blank" class="btn-admin btn-admin-primary btn-admin-sm" style="flex: 1; justify-content: center;">Live Site ↗</a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right Main Content -->
+      <main class="admin-main">
+        
+        <!-- Top Toolbar -->
+        <header class="admin-topbar">
+          <div class="topbar-left">
+            <h1 class="admin-page-title" id="page-title-display">Dashboard Overview</h1>
+            <span class="status-pill confirmed" style="font-size: 0.68rem;">● Live Sync Active</span>
+          </div>
+          <div class="topbar-right">
+            <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" id="theme-toggle-btn" onclick="toggleAdminTheme()" title="Switch Light (White / Half-White) / Dark theme">
+              <span id="theme-toggle-icon">🌙</span>
+              <span id="theme-toggle-text">Dark Mode</span>
+            </button>
+            <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="exportDataJson()" title="Download complete JSON data backup">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Export JSON</span>
+            </button>
+            <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="triggerImportJson()" title="Upload JSON configuration">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <span>Import JSON</span>
+            </button>
+            <input type="file" id="json-file-input" style="display: none;" accept=".json" onchange="handleFileImport(event)" />
+            <button type="button" class="btn-admin btn-admin-danger btn-admin-sm" onclick="confirmResetDefaults()" title="Reset to original config.js">
+              <span>Reset Defaults</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- Main Body -->
+        <div class="admin-content-wrap">
+          
+          <!-- TAB 1: OVERVIEW -->
+          <section id="tab-overview" class="tab-section active">
+            <div class="kpi-grid">
+              <div class="kpi-card" onclick="switchTab('inventory')" style="cursor: pointer;" title="Click to view Equipment Fleet">
+                <span class="kpi-label">Active Fleet Hardware</span>
+                <span class="kpi-val" id="kpi-fleet-count">11</span>
+                <span class="kpi-sub">Verified rental hardware</span>
+              </div>
+              <div class="kpi-card" onclick="switchTab('packages')" style="cursor: pointer;" title="Click to view Rental Packages">
+                <span class="kpi-label">Rental Packages</span>
+                <span class="kpi-val" id="kpi-packages-count">3</span>
+                <span class="kpi-sub">Starter bundles</span>
+              </div>
+              <div class="kpi-card" onclick="switchTab('services')" style="cursor: pointer;" title="Click to view Core Services">
+                <span class="kpi-label">Core Services</span>
+                <span class="kpi-val" id="kpi-services-count">7</span>
+                <span class="kpi-sub">Audio, visual, backline</span>
+              </div>
+              <div class="kpi-card" onclick="switchTab('events')" style="cursor: pointer;" title="Click to view Event Solutions">
+                <span class="kpi-label">Event Solutions</span>
+                <span class="kpi-val" id="kpi-events-count">6</span>
+                <span class="kpi-sub">Weddings, summits, bands</span>
+              </div>
+              <div class="kpi-card" onclick="switchTab('faqs')" style="cursor: pointer;" title="Click to view FAQ Manager">
+                <span class="kpi-label">FAQ Questions</span>
+                <span class="kpi-val" id="kpi-faqs-count">7</span>
+                <span class="kpi-sub">Customer knowledge base</span>
+              </div>
+              <div class="kpi-card" onclick="switchTab('gallery')" style="cursor: pointer;" title="Click to view Setup Gallery">
+                <span class="kpi-label">Gallery Setups</span>
+                <span class="kpi-val" id="kpi-gallery-count">12</span>
+                <span class="kpi-sub">Real staging photos</span>
+              </div>
+              <div class="kpi-card" onclick="switchTab('cities')" style="cursor: pointer;" title="Click to view City Hubs">
+                <span class="kpi-label">City Hubs</span>
+                <span class="kpi-val">3</span>
+                <span class="kpi-sub">Hyderabad · BLR · Mumbai</span>
+              </div>
+              <div class="kpi-card" onclick="switchTab('inquiries')" style="cursor: pointer;" title="Click to view CRM Leads">
+                <span class="kpi-label">Quote Inquiries</span>
+                <span class="kpi-val" id="kpi-inquiries-count">0</span>
+                <span class="kpi-sub">Client CRM leads</span>
+              </div>
+            </div>
+
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <h3 class="admin-card-title">Quick Administration Actions</h3>
+              </div>
+              <div style="padding: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.75rem;">
+                <button type="button" class="btn-admin btn-admin-primary" onclick="openEquipmentModal()">+ Add New Equipment</button>
+                <button type="button" class="btn-admin btn-admin-primary" onclick="openServiceModal()">+ Add New Service</button>
+                <button type="button" class="btn-admin btn-admin-primary" onclick="openEventModal()">+ Add Event Type</button>
+                <button type="button" class="btn-admin btn-admin-primary" onclick="openFaqModal()">+ Add FAQ</button>
+                <button type="button" class="btn-admin btn-admin-primary" onclick="openGalleryModal()">+ Add Gallery Setup</button>
+                <button type="button" class="btn-admin btn-admin-secondary" onclick="switchTab('homepage')">Edit Homepage & Hero</button>
+                <button type="button" class="btn-admin btn-admin-secondary" onclick="switchTab('about')">Edit Founder Story</button>
+                <button type="button" class="btn-admin btn-admin-secondary" onclick="switchTab('inquiries')">View CRM Leads</button>
+                <a href="/" target="_blank" class="btn-admin btn-admin-secondary">Open Live Website ↗</a>
+              </div>
+            </div>
+
+            <!-- Recent Inquiries Preview -->
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <h3 class="admin-card-title">Recent Event Quote Inquiries</h3>
+                <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="switchTab('inquiries')">View All Leads →</button>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Client Name</th>
+                      <th>City</th>
+                      <th>Event Type</th>
+                      <th>Event Date</th>
+                      <th>Equipment Rider</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="overview-inquiries-tbody">
+                    <!-- Populated via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 2: EQUIPMENT INVENTORY -->
+          <section id="tab-inventory" class="tab-section">
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <div>
+                  <h3 class="admin-card-title">Rental Fleet Inventory (Hardware Catalogue)</h3>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">All authentic sound, lighting, video, and backline items available on the website.</div>
+                </div>
+                <div class="admin-card-actions">
+                  <input type="text" id="inventory-search" class="admin-input" placeholder="Search equipment..." style="width: 200px;" oninput="filterInventoryTable()" />
+                  <select id="inventory-cat-filter" class="admin-select" style="width: 150px;" onchange="filterInventoryTable()">
+                    <option value="ALL">All Categories</option>
+                    <option value="Sound">Sound & PA</option>
+                    <option value="Mixers">Mixers</option>
+                    <option value="Wireless Mics">Wireless Mics</option>
+                    <option value="Backline">Backline & Drums</option>
+                    <option value="Video">Video & Cameras</option>
+                    <option value="Lighting">Lighting</option>
+                    <option value="Projection">Projection</option>
+                    <option value="LED Walls">LED Walls</option>
+                  </select>
+                  <button type="button" class="btn-admin btn-admin-primary" onclick="openEquipmentModal()">+ Add Equipment</button>
+                </div>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table" id="inventory-table">
+                  <thead>
+                    <tr>
+                      <th>Hardware Details</th>
+                      <th>Category & Type</th>
+                      <th>Specs / Features</th>
+                      <th>Photo Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="inventory-tbody">
+                    <!-- Populated via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 3: PACKAGES -->
+          <section id="tab-packages" class="tab-section">
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <div>
+                  <h3 class="admin-card-title">Pre-Assembled Starter Bundles</h3>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">Complete AV packages displayed on `/packages.html`.</div>
+                </div>
+                <button type="button" class="btn-admin btn-admin-primary" onclick="openPackageModal()">+ Add Package</button>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Package & Capacity</th>
+                      <th>Included Hardware Rider</th>
+                      <th>Ideal For</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="packages-tbody">
+                    <!-- Populated via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 4: CORE SERVICES -->
+          <section id="tab-services" class="tab-section">
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <div>
+                  <h3 class="admin-card-title">Core AV Production Services</h3>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">Services showcased on `/services.html` and homepage capabilities.</div>
+                </div>
+                <button type="button" class="btn-admin btn-admin-primary" onclick="openServiceModal()">+ Add Service</button>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Service Title & ID</th>
+                      <th>Short Tagline</th>
+                      <th>Full Description</th>
+                      <th>Equipment Highlights</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="services-tbody">
+                    <!-- Populated via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 5: EVENT SOLUTIONS -->
+          <section id="tab-events" class="tab-section">
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <div>
+                  <h3 class="admin-card-title">Event Types & Solutions</h3>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">Event solutions displayed on `/events.html` (Weddings, Corporate, Worship, etc.).</div>
+                </div>
+                <button type="button" class="btn-admin btn-admin-primary" onclick="openEventModal()">+ Add Event Type</button>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Event Solution</th>
+                      <th>Tagline & Purpose</th>
+                      <th>Typical Rig & Gear Setup</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="events-tbody">
+                    <!-- Populated via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 6: FAQ MANAGER -->
+          <section id="tab-faqs" class="tab-section">
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <div>
+                  <h3 class="admin-card-title">Frequently Asked Questions (FAQ)</h3>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">Questions and verified policies displayed on `/faq.html`.</div>
+                </div>
+                <button type="button" class="btn-admin btn-admin-primary" onclick="openFaqModal()">+ Add FAQ Question</button>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 35%;">Question</th>
+                      <th style="width: 50%;">Answer Content</th>
+                      <th style="width: 15%;">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="faqs-tbody">
+                    <!-- Populated via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 7: HOMEPAGE & PROTOCOL -->
+          <section id="tab-homepage" class="tab-section">
+            <!-- Hero Editor -->
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <div>
+                  <h3 class="admin-card-title">Homepage Hero Banner & Headline</h3>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">Main headline, kicker badge, and lead text on the homepage.</div>
+                </div>
+                <button type="button" class="btn-admin btn-admin-primary" onclick="saveHeroSettings()">Save Hero Copy</button>
+              </div>
+              <div style="padding: 1.5rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                  <div class="admin-form-group">
+                    <label class="admin-form-label">Kicker Badge Text</label>
+                    <input type="text" id="hero-badge" class="admin-input" />
+                  </div>
+                  <div class="admin-form-group">
+                    <label class="admin-form-label">Coverage Row Text</label>
+                    <input type="text" id="hero-coverage" class="admin-input" />
+                  </div>
+                </div>
+                <div class="admin-form-group">
+                  <label class="admin-form-label">Main Headline</label>
+                  <input type="text" id="hero-headline" class="admin-input" />
+                </div>
+                <div class="admin-form-group">
+                  <label class="admin-form-label">Lead Paragraph</label>
+                  <textarea id="hero-lead" class="admin-textarea" rows="3"></textarea>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                  <div class="admin-form-group">
+                    <label class="admin-form-label">Featured Gear Card Title</label>
+                    <input type="text" id="hero-gear-name" class="admin-input" />
+                  </div>
+                  <div class="admin-form-group">
+                    <label class="admin-form-label">Featured Gear Subtitle / Specs</label>
+                    <input type="text" id="hero-gear-spec" class="admin-input" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Rental Protocol 4 Steps -->
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <div>
+                  <h3 class="admin-card-title">4-Step Rental Protocol ("How It Works")</h3>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">The 4 process steps displayed on the homepage.</div>
+                </div>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Step</th>
+                      <th>Title</th>
+                      <th>Description</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="protocol-tbody">
+                    <!-- Populated via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Rotating Marquee Band -->
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <div>
+                  <h3 class="admin-card-title">Event Types Marquee Ribbon</h3>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">Scrolling band under the hero banner.</div>
+                </div>
+                <button type="button" class="btn-admin btn-admin-primary" onclick="saveMarqueeSettings()">Save Marquee</button>
+              </div>
+              <div style="padding: 1.5rem;">
+                <div class="admin-form-group">
+                  <label class="admin-form-label">Marquee Items (comma separated)</label>
+                  <input type="text" id="marquee-items-input" class="admin-input" />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 8: ABOUT & STORY -->
+          <section id="tab-about" class="tab-section">
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <div>
+                  <h3 class="admin-card-title">Founder Story & Mission Statement</h3>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">Ramavath's founder bio, company mission, and client commitments on `/about.html`.</div>
+                </div>
+                <button type="button" class="btn-admin btn-admin-primary" onclick="saveAboutSettings()">Save About Story</button>
+              </div>
+              <div style="padding: 1.5rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem;">
+                  <div class="admin-form-group">
+                    <label class="admin-form-label">Founder & Lead Engineer</label>
+                    <input type="text" id="about-founder-name" class="admin-input" />
+                  </div>
+                  <div class="admin-form-group">
+                    <label class="admin-form-label">Founder Title</label>
+                    <input type="text" id="about-founder-title" class="admin-input" />
+                  </div>
+                  <div class="admin-form-group">
+                    <label class="admin-form-label">Year Established</label>
+                    <input type="text" id="about-year" class="admin-input" />
+                  </div>
+                </div>
+
+                <div class="admin-form-group">
+                  <label class="admin-form-label">About Tagline</label>
+                  <input type="text" id="about-tagline" class="admin-input" />
+                </div>
+
+                <div class="admin-form-group">
+                  <label class="admin-form-label">Mission Headline</label>
+                  <input type="text" id="about-mission-headline" class="admin-input" />
+                </div>
+
+                <div class="admin-form-group">
+                  <label class="admin-form-label">Mission Story Paragraphs</label>
+                  <textarea id="about-mission-story" class="admin-textarea" rows="4"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Client Commitments -->
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <div>
+                  <h3 class="admin-card-title">Client Commitments ("Our Commitments to Every Client")</h3>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">Tested gear, punctual logistics, rider precision, etc.</div>
+                </div>
+                <button type="button" class="btn-admin btn-admin-primary" onclick="openCommitmentModal()">+ Add Commitment</button>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 30%;">Commitment Title</th>
+                      <th style="width: 55%;">Description</th>
+                      <th style="width: 15%;">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="commitments-tbody">
+                    <!-- Populated via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 9: GALLERY SHOWCASE -->
+          <section id="tab-gallery" class="tab-section">
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <div>
+                  <h3 class="admin-card-title">Production Gallery Setups (All 12 Real Staging Photos)</h3>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">All authentic photos displayed in `/gallery.html` with lightbox inspection.</div>
+                </div>
+                <button type="button" class="btn-admin btn-admin-primary" onclick="openGalleryModal()">+ Add Setup Photo</button>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Image Preview</th>
+                      <th>Title & Subtitle</th>
+                      <th>Category</th>
+                      <th>Venue / City</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="gallery-tbody">
+                    <!-- Populated via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 10: CITY HUBS -->
+          <section id="tab-cities" class="tab-section">
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <div>
+                  <h3 class="admin-card-title">City Hub Operations & Dispatch Points</h3>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">Hyderabad, Bangalore, and Mumbai local address, phone, coverage, and map embeds.</div>
+                </div>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>City & State</th>
+                      <th>Hub Label & Address</th>
+                      <th>Contact Phone & Email</th>
+                      <th>Coverage Notes</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cities-tbody">
+                    <!-- Populated via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 11: INQUIRIES CRM -->
+          <section id="tab-inquiries" class="tab-section">
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <div>
+                  <h3 class="admin-card-title">Client Event Inquiries & Quotes (CRM)</h3>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">Direct leads submitted through contact forms and quote drawer with WhatsApp triggers.</div>
+                </div>
+                <div class="admin-card-actions">
+                  <select id="inquiries-status-filter" class="admin-select" style="width: 140px;" onchange="renderInquiriesTable()">
+                    <option value="ALL">All Statuses</option>
+                    <option value="New">New</option>
+                    <option value="Contacted">Contacted</option>
+                    <option value="Confirmed">Confirmed</option>
+                    <option value="Closed">Closed</option>
+                  </select>
+                  <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="addMockInquiry()">+ Add Test Lead</button>
+                  <button type="button" class="btn-admin btn-admin-danger btn-admin-sm" onclick="clearAllInquiries()">Clear Leads</button>
+                </div>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Received</th>
+                      <th>Client Name & Contact</th>
+                      <th>City & Venue</th>
+                      <th>Event Type & Date</th>
+                      <th>Selected Gear Rider</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="inquiries-tbody">
+                    <!-- Populated via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 12: SETTINGS & BACKUPS -->
+          <section id="tab-settings" class="tab-section">
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <h3 class="admin-card-title">Global Company Profile & Contact Channels</h3>
+              </div>
+              <div style="padding: 1.5rem;">
+                <form id="business-settings-form" onsubmit="event.preventDefault(); saveBusinessSettings();">
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="admin-form-group">
+                      <label class="admin-form-label">Brand Name</label>
+                      <input type="text" id="set-brand-name" class="admin-input" required />
+                    </div>
+                    <div class="admin-form-group">
+                      <label class="admin-form-label">Domain Name</label>
+                      <input type="text" id="set-domain" class="admin-input" required />
+                    </div>
+                    <div class="admin-form-group">
+                      <label class="admin-form-label">Founder / Lead Contact Name</label>
+                      <input type="text" id="set-founder" class="admin-input" required />
+                    </div>
+                    <div class="admin-form-group">
+                      <label class="admin-form-label">Founder Title</label>
+                      <input type="text" id="set-title" class="admin-input" required />
+                    </div>
+                    <div class="admin-form-group">
+                      <label class="admin-form-label">Phone (Display Format)</label>
+                      <input type="text" id="set-phone" class="admin-input" required />
+                    </div>
+                    <div class="admin-form-group">
+                      <label class="admin-form-label">WhatsApp Clean Digits (with 91 country code)</label>
+                      <input type="text" id="set-phone-clean" class="admin-input" placeholder="919133133003" required />
+                    </div>
+                    <div class="admin-form-group">
+                      <label class="admin-form-label">Official Email</label>
+                      <input type="email" id="set-email" class="admin-input" required />
+                    </div>
+                    <div class="admin-form-group">
+                      <label class="admin-form-label">Operating Hours</label>
+                      <input type="text" id="set-hours" class="admin-input" required />
+                    </div>
+                  </div>
+
+                  <div class="admin-form-group" style="margin-top: 1rem;">
+                    <label class="admin-form-label">Primary Tagline</label>
+                    <input type="text" id="set-tagline" class="admin-input" required />
+                  </div>
+
+                  <div class="admin-form-group">
+                    <label class="admin-form-label">Sub-Tagline / Value Proposition</label>
+                    <textarea id="set-subtagline" class="admin-textarea" rows="2" required></textarea>
+                  </div>
+
+                  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                    <div class="admin-form-group">
+                      <label class="admin-form-label">Instagram URL</label>
+                      <input type="text" id="set-social-ig" class="admin-input" />
+                    </div>
+                    <div class="admin-form-group">
+                      <label class="admin-form-label">Facebook URL</label>
+                      <input type="text" id="set-social-fb" class="admin-input" />
+                    </div>
+                    <div class="admin-form-group">
+                      <label class="admin-form-label">YouTube URL</label>
+                      <input type="text" id="set-social-yt" class="admin-input" />
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 1.5rem;">
+                    <button type="submit" class="btn-admin btn-admin-primary" style="padding: 0.75rem 1.5rem;">Save Business Settings</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <!-- Security Passcode Settings -->
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <h3 class="admin-card-title">Admin Portal Passcode</h3>
+              </div>
+              <div style="padding: 1.5rem; max-width: 400px;">
+                <form id="passcode-settings-form" onsubmit="event.preventDefault(); updateAdminPasscode();">
+                  <div class="admin-form-group">
+                    <label class="admin-form-label">Current Passcode</label>
+                    <input type="password" id="cur-passcode" class="admin-input" required />
+                  </div>
+                  <div class="admin-form-group">
+                    <label class="admin-form-label">New 4 to 6-Digit Passcode</label>
+                    <input type="password" id="new-passcode" class="admin-input" maxlength="6" required />
+                  </div>
+                  <button type="submit" class="btn-admin btn-admin-secondary">Update Passcode</button>
+                </form>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </main>
+    </div>
+
+    <!-- MODAL 1: ADD / EDIT EQUIPMENT -->
+    <div id="equipment-modal" class="admin-modal-overlay" style="display: none;">
+      <div class="admin-modal-card">
+        <div class="admin-modal-header">
+          <h3 id="equipment-modal-title" style="margin: 0; font-size: 1.15rem;">Edit Equipment Item</h3>
+          <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="closeEquipmentModal()">✕</button>
+        </div>
+        <form id="equipment-form" onsubmit="event.preventDefault(); saveEquipmentItem();">
+          <div class="admin-modal-body">
+            <input type="hidden" id="eq-edit-index" value="-1" />
+            <div class="admin-form-group">
+              <label class="admin-form-label">Item Unique ID (URL slug, e.g. yamaha-tf5)</label>
+              <input type="text" id="eq-id" class="admin-input" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Full Equipment Name</label>
+              <input type="text" id="eq-name" class="admin-input" required />
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="admin-form-group">
+                <label class="admin-form-label">Category</label>
+                <select id="eq-category" class="admin-select" required>
+                  <option value="Sound">Sound</option>
+                  <option value="Mixers">Mixers</option>
+                  <option value="Wireless Mics">Wireless Mics</option>
+                  <option value="Backline">Backline</option>
+                  <option value="Video">Video</option>
+                  <option value="Lighting">Lighting</option>
+                  <option value="Projection">Projection</option>
+                  <option value="LED Walls">LED Walls</option>
+                </select>
+              </div>
+              <div class="admin-form-group">
+                <label class="admin-form-label">Type / Sub-heading</label>
+                <input type="text" id="eq-type" class="admin-input" placeholder="e.g. Digital Console" required />
+              </div>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Equipment Photographs (Upload Multiple Images)</label>
+              <div class="admin-upload-zone" onclick="document.getElementById('eq-photo-files').click()" style="border: 2px dashed var(--admin-border-focus); border-radius: var(--radius-lg); padding: 1.25rem; text-align: center; cursor: pointer; background: var(--admin-input-bg); transition: all 0.2s;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--admin-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 0.4rem; display: inline-block;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <div style="font-weight: 600; font-size: 0.9rem; color: var(--admin-text-title);">Click to Upload Images</div>
+                <div style="font-size: 0.78rem; color: var(--admin-text-muted); margin-top: 0.2rem;">Select one or multiple photos from your device (PNG, JPG, WebP)</div>
+              </div>
+              <input type="file" id="eq-photo-files" accept="image/*" multiple style="display: none;" onchange="handleEquipmentPhotoUpload(event)" />
+              <input type="hidden" id="eq-photo" />
+              <div id="eq-photos-preview-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 0.75rem; margin-top: 0.75rem;"></div>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Summary Description</label>
+              <textarea id="eq-summary" class="admin-textarea" placeholder="Equipment summary description..." required></textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Specifications (comma separated)</label>
+              <input type="text" id="eq-specs" class="admin-input" placeholder="32 Analog Inputs, Motorized Faders, Road Case" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Ideal For Events</label>
+              <input type="text" id="eq-ideal" class="admin-input" placeholder="Live bands, corporate keynotes, weddings" required />
+            </div>
+            <div class="admin-form-group">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.9rem;">
+                <input type="checkbox" id="eq-has-photo" />
+                <span>Verified authentic real photograph available</span>
+              </label>
+            </div>
+          </div>
+          <div class="admin-modal-footer">
+            <button type="button" class="btn-admin btn-admin-secondary" onclick="closeEquipmentModal()">Cancel</button>
+            <button type="submit" class="btn-admin btn-admin-primary">Save Equipment Item</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL 2: ADD / EDIT PACKAGE -->
+    <div id="package-modal" class="admin-modal-overlay" style="display: none;">
+      <div class="admin-modal-card">
+        <div class="admin-modal-header">
+          <h3 id="package-modal-title" style="margin: 0; font-size: 1.15rem;">Edit Rental Package</h3>
+          <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="closePackageModal()">✕</button>
+        </div>
+        <form id="package-form" onsubmit="event.preventDefault(); savePackageItem();">
+          <div class="admin-modal-body">
+            <input type="hidden" id="pkg-edit-index" value="-1" />
+            <div class="admin-form-group">
+              <label class="admin-form-label">Package ID</label>
+              <input type="text" id="pkg-id" class="admin-input" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Package Name</label>
+              <input type="text" id="pkg-name" class="admin-input" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Audience Guideline</label>
+              <input type="text" id="pkg-audience" class="admin-input" placeholder="e.g. Up to ~250 attendees" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Summary</label>
+              <textarea id="pkg-summary" class="admin-textarea" rows="2" required></textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Package Photograph (Upload Image or Enter URL)</label>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <input type="text" id="pkg-photo" class="admin-input" placeholder="/assets/photos/... or upload image" style="flex: 1;" oninput="updatePackagePhotoPreview(this.value)" />
+                <button type="button" class="btn-admin btn-admin-secondary" onclick="document.getElementById('pkg-photo-file').click()" style="white-space: nowrap; flex-shrink: 0;">📁 Upload Image</button>
+                <input type="file" id="pkg-photo-file" accept="image/*" style="display: none;" onchange="handlePackagePhotoUpload(event)" />
+              </div>
+              <div id="pkg-photo-preview" style="margin-top: 0.5rem; display: none;">
+                <img id="pkg-preview-img" src="" alt="Package preview" style="max-height: 90px; border-radius: 6px; border: 1px solid var(--admin-border); object-fit: cover;" />
+              </div>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Included Equipment (one item per line)</label>
+              <textarea id="pkg-items" class="admin-textarea" rows="4" placeholder="1x Yamaha TF5 32-channel digital console&#10;2x LD Systems column PA arrays&#10;4x Shure wireless handheld mics" required></textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Ideal For</label>
+              <input type="text" id="pkg-ideal" class="admin-input" placeholder="Conferences, wedding receptions, product launches" required />
+            </div>
+          </div>
+          <div class="admin-modal-footer">
+            <button type="button" class="btn-admin btn-admin-secondary" onclick="closePackageModal()">Cancel</button>
+            <button type="submit" class="btn-admin btn-admin-primary">Save Package</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL 3: ADD / EDIT SERVICE -->
+    <div id="service-modal" class="admin-modal-overlay" style="display: none;">
+      <div class="admin-modal-card">
+        <div class="admin-modal-header">
+          <h3 id="service-modal-title" style="margin: 0; font-size: 1.15rem;">Edit Service</h3>
+          <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="closeServiceModal()">✕</button>
+        </div>
+        <form id="service-form" onsubmit="event.preventDefault(); saveServiceItem();">
+          <div class="admin-modal-body">
+            <input type="hidden" id="srv-edit-index" value="-1" />
+            <div class="admin-form-group">
+              <label class="admin-form-label">Service ID (slug)</label>
+              <input type="text" id="srv-id" class="admin-input" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Service Title</label>
+              <input type="text" id="srv-title" class="admin-input" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Short Summary / Tagline</label>
+              <input type="text" id="srv-short" class="admin-input" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Service Photograph (Upload Image or Enter URL)</label>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <input type="text" id="srv-photo" class="admin-input" placeholder="/assets/photos/... or upload image" style="flex: 1;" oninput="updateServicePhotoPreview(this.value)" />
+                <button type="button" class="btn-admin btn-admin-secondary" onclick="document.getElementById('srv-photo-file').click()" style="white-space: nowrap; flex-shrink: 0;">📁 Upload Image</button>
+                <input type="file" id="srv-photo-file" accept="image/*" style="display: none;" onchange="handleServicePhotoUpload(event)" />
+              </div>
+              <div id="srv-photo-preview" style="margin-top: 0.5rem; display: none;">
+                <img id="srv-preview-img" src="" alt="Service preview" style="max-height: 90px; border-radius: 6px; border: 1px solid var(--admin-border); object-fit: cover;" />
+              </div>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Full Description</label>
+              <textarea id="srv-full" class="admin-textarea" rows="3" required></textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Equipment Highlights (comma separated)</label>
+              <input type="text" id="srv-highlights" class="admin-input" placeholder="Yamaha TF5, LD Systems, Wireless Mics" required />
+            </div>
+          </div>
+          <div class="admin-modal-footer">
+            <button type="button" class="btn-admin btn-admin-secondary" onclick="closeServiceModal()">Cancel</button>
+            <button type="submit" class="btn-admin btn-admin-primary">Save Service</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL 4: ADD / EDIT EVENT TYPE -->
+    <div id="event-modal" class="admin-modal-overlay" style="display: none;">
+      <div class="admin-modal-card">
+        <div class="admin-modal-header">
+          <h3 id="event-modal-title" style="margin: 0; font-size: 1.15rem;">Edit Event Solution</h3>
+          <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="closeEventModal()">✕</button>
+        </div>
+        <form id="event-form" onsubmit="event.preventDefault(); saveEventItem();">
+          <div class="admin-modal-body">
+            <input type="hidden" id="evt-edit-index" value="-1" />
+            <div class="admin-form-group">
+              <label class="admin-form-label">Event ID (slug)</label>
+              <input type="text" id="evt-id" class="admin-input" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Event Solution Title</label>
+              <input type="text" id="evt-title" class="admin-input" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Tagline</label>
+              <input type="text" id="evt-tagline" class="admin-input" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Event Banner / Photograph (Upload Image or Enter URL)</label>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <input type="text" id="evt-photo" class="admin-input" placeholder="/assets/banners/... or upload image" style="flex: 1;" oninput="updateEventPhotoPreview(this.value)" />
+                <button type="button" class="btn-admin btn-admin-secondary" onclick="document.getElementById('evt-photo-file').click()" style="white-space: nowrap; flex-shrink: 0;">📁 Upload Image</button>
+                <input type="file" id="evt-photo-file" accept="image/*" style="display: none;" onchange="handleEventPhotoUpload(event)" />
+              </div>
+              <div id="evt-photo-preview" style="margin-top: 0.5rem; display: none;">
+                <img id="evt-preview-img" src="" alt="Event preview" style="max-height: 90px; border-radius: 6px; border: 1px solid var(--admin-border); object-fit: cover;" />
+              </div>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Typical Hardware Setup</label>
+              <textarea id="evt-setup" class="admin-textarea" rows="3" required></textarea>
+            </div>
+          </div>
+          <div class="admin-modal-footer">
+            <button type="button" class="btn-admin btn-admin-secondary" onclick="closeEventModal()">Cancel</button>
+            <button type="submit" class="btn-admin btn-admin-primary">Save Event Solution</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL 5: ADD / EDIT FAQ -->
+    <div id="faq-modal" class="admin-modal-overlay" style="display: none;">
+      <div class="admin-modal-card">
+        <div class="admin-modal-header">
+          <h3 id="faq-modal-title" style="margin: 0; font-size: 1.15rem;">Edit FAQ Question</h3>
+          <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="closeFaqModal()">✕</button>
+        </div>
+        <form id="faq-form" onsubmit="event.preventDefault(); saveFaqItem();">
+          <div class="admin-modal-body">
+            <input type="hidden" id="faq-edit-index" value="-1" />
+            <div class="admin-form-group">
+              <label class="admin-form-label">Question</label>
+              <input type="text" id="faq-question" class="admin-input" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Answer</label>
+              <textarea id="faq-answer" class="admin-textarea" rows="4" required></textarea>
+            </div>
+          </div>
+          <div class="admin-modal-footer">
+            <button type="button" class="btn-admin btn-admin-secondary" onclick="closeFaqModal()">Cancel</button>
+            <button type="submit" class="btn-admin btn-admin-primary">Save FAQ</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL 6: ADD / EDIT PROTOCOL STEP -->
+    <div id="protocol-modal" class="admin-modal-overlay" style="display: none;">
+      <div class="admin-modal-card">
+        <div class="admin-modal-header">
+          <h3 id="protocol-modal-title" style="margin: 0; font-size: 1.15rem;">Edit Rental Protocol Step</h3>
+          <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="closeProtocolModal()">✕</button>
+        </div>
+        <form id="protocol-form" onsubmit="event.preventDefault(); saveProtocolItem();">
+          <div class="admin-modal-body">
+            <input type="hidden" id="proto-edit-index" value="-1" />
+            <div class="admin-form-group">
+              <label class="admin-form-label">Step Number (e.g. 01)</label>
+              <input type="text" id="proto-step" class="admin-input" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Step Title</label>
+              <input type="text" id="proto-title" class="admin-input" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Step Description</label>
+              <textarea id="proto-desc" class="admin-textarea" rows="3" required></textarea>
+            </div>
+          </div>
+          <div class="admin-modal-footer">
+            <button type="button" class="btn-admin btn-admin-secondary" onclick="closeProtocolModal()">Cancel</button>
+            <button type="submit" class="btn-admin btn-admin-primary">Save Step</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL 7: ADD / EDIT COMMITMENT -->
+    <div id="commitment-modal" class="admin-modal-overlay" style="display: none;">
+      <div class="admin-modal-card">
+        <div class="admin-modal-header">
+          <h3 id="commitment-modal-title" style="margin: 0; font-size: 1.15rem;">Edit Client Commitment</h3>
+          <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="closeCommitmentModal()">✕</button>
+        </div>
+        <form id="commitment-form" onsubmit="event.preventDefault(); saveCommitmentItem();">
+          <div class="admin-modal-body">
+            <input type="hidden" id="cmt-edit-index" value="-1" />
+            <div class="admin-form-group">
+              <label class="admin-form-label">Commitment Title</label>
+              <input type="text" id="cmt-title" class="admin-input" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Description</label>
+              <textarea id="cmt-desc" class="admin-textarea" rows="3" required></textarea>
+            </div>
+          </div>
+          <div class="admin-modal-footer">
+            <button type="button" class="btn-admin btn-admin-secondary" onclick="closeCommitmentModal()">Cancel</button>
+            <button type="submit" class="btn-admin btn-admin-primary">Save Commitment</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL 8: ADD / EDIT GALLERY -->
+    <div id="gallery-modal" class="admin-modal-overlay" style="display: none;">
+      <div class="admin-modal-card">
+        <div class="admin-modal-header">
+          <h3 id="gallery-modal-title" style="margin: 0; font-size: 1.15rem;">Edit Setup Photo</h3>
+          <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="closeGalleryModal()">✕</button>
+        </div>
+        <form id="gallery-form" onsubmit="event.preventDefault(); saveGalleryItem();">
+          <div class="admin-modal-body">
+            <input type="hidden" id="gal-edit-index" value="-1" />
+            <div class="admin-form-group">
+              <label class="admin-form-label">Setup Photograph (Upload or Enter URL)</label>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <input type="text" id="gal-photo" class="admin-input" placeholder="/assets/photos/... or upload image" required style="flex: 1;" oninput="updateGalleryPhotoPreview(this.value)" />
+                <button type="button" class="btn-admin btn-admin-secondary" onclick="document.getElementById('gal-photo-file').click()" style="white-space: nowrap; flex-shrink: 0;">📁 Upload Image</button>
+                <input type="file" id="gal-photo-file" accept="image/*" style="display: none;" onchange="handleGalleryPhotoUpload(event)" />
+              </div>
+              <div id="gal-photo-preview" style="margin-top: 0.5rem; display: none;">
+                <img id="gal-preview-img" src="" alt="Setup preview" style="max-height: 90px; border-radius: 6px; border: 1px solid var(--admin-border); object-fit: cover;" />
+              </div>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Setup Title</label>
+              <input type="text" id="gal-title" class="admin-input" placeholder="Grand Ballroom Sound & Lighting" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Subtitle / Equipment Line</label>
+              <input type="text" id="gal-subtitle" class="admin-input" placeholder="Sound · 32 Channels · Motorized Faders" />
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="admin-form-group">
+                <label class="admin-form-label">Category</label>
+                <select id="gal-category" class="admin-select" required onchange="handleGalCategoryChange(this)">
+                  <option value="Weddings">Weddings</option>
+                  <option value="Corporate">Corporate</option>
+                  <option value="Live Concerts">Live Concerts</option>
+                  <option value="Worship">Worship</option>
+                  <option value="Sound">Sound & PA</option>
+                  <option value="Wireless Mics">Wireless Mics</option>
+                  <option value="Visuals">Visuals & LED Walls</option>
+                  <option value="Lighting">Lighting</option>
+                  <option value="Backline">Backline</option>
+                  <option value="__custom__">Other</option>
+                </select>
+                <input type="text" id="gal-category-custom" class="admin-input" placeholder="Type category name..." style="display: none; margin-top: 0.5rem;" />
+              </div>
+
+              <div class="admin-form-group">
+                <label class="admin-form-label">City</label>
+                <select id="gal-city" class="admin-select" required onchange="handleGalCityChange(this)">
+                  <option value="Hyderabad">Hyderabad</option>
+                  <option value="Bangalore">Bangalore</option>
+                  <option value="Mumbai">Mumbai</option>
+                  <option value="__custom__">Other</option>
+                </select>
+                <input type="text" id="gal-city-custom" class="admin-input" placeholder="Type city name..." style="display: none; margin-top: 0.5rem;" />
+              </div>
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label">Venue / Hall / Location Name</label>
+              <input type="text" id="gal-venue" class="admin-input" list="gal-venue-suggestions" placeholder="e.g. Hyderabad Convention Centre, Novotel Hitec City..." required />
+              <datalist id="gal-venue-suggestions">
+                <option value="Hyderabad International Convention Centre (HICC)">
+                <option value="Novotel Hitec City">
+                <option value="HITEX Exhibition Center">
+                <option value="Taj Krishna, Banjara Hills">
+                <option value="JRC Conventions, Film Nagar">
+                <option value="Gachibowli Indoor Stadium">
+                <option value="Palace Grounds, Bangalore">
+                <option value="Bangalore International Exhibition Centre (BIEC)">
+                <option value="The Leela Palace, Bangalore">
+                <option value="Jio World Convention Centre, BKC Mumbai">
+                <option value="Bombay Exhibition Centre (NESCO), Mumbai">
+                <option value="Grand Hyatt Mumbai, Kalina">
+                <option value="Taj Mahal Palace, Colaba Mumbai">
+                <option value="Concert Stages & Banquets">
+                <option value="Keynotes & Worship Halls">
+                <option value="Auditoriums & Wedding Lawns">
+              </datalist>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Technical Metadata</label>
+              <input type="text" id="gal-meta" class="admin-input" placeholder="FOH Console in Heavy Duty Case" />
+            </div>
+          </div>
+          <div class="admin-modal-footer">
+            <button type="button" class="btn-admin btn-admin-secondary" onclick="closeGalleryModal()">Cancel</button>
+            <button type="submit" class="btn-admin btn-admin-primary">Save Photo</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL 9: EDIT CITY HUB -->
+    <div id="city-modal" class="admin-modal-overlay" style="display: none;">
+      <div class="admin-modal-card">
+        <div class="admin-modal-header">
+          <h3 id="city-modal-title" style="margin: 0; font-size: 1.15rem;">Edit City Hub</h3>
+          <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="closeCityModal()">✕</button>
+        </div>
+        <form id="city-form" onsubmit="event.preventDefault(); saveCityModal();">
+          <div class="admin-modal-body">
+            <input type="hidden" id="city-edit-key" value="" />
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="admin-form-group">
+                <label class="admin-form-label">City Name</label>
+                <input type="text" id="city-name" class="admin-input" required />
+              </div>
+              <div class="admin-form-group">
+                <label class="admin-form-label">State</label>
+                <input type="text" id="city-state" class="admin-input" required />
+              </div>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Hub Label</label>
+              <input type="text" id="city-hub-label" class="admin-input" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Physical Address</label>
+              <input type="text" id="city-address" class="admin-input" required />
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="admin-form-group">
+                <label class="admin-form-label">Direct Phone</label>
+                <input type="text" id="city-phone" class="admin-input" required />
+              </div>
+              <div class="admin-form-group">
+                <label class="admin-form-label">Contact Email</label>
+                <input type="email" id="city-email" class="admin-input" required />
+              </div>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Regional Coverage Note</label>
+              <textarea id="city-coverage" class="admin-textarea" rows="2" required></textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Typical Venues</label>
+              <input type="text" id="city-venues" class="admin-input" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Location Map Embed URL</label>
+              <input type="text" id="city-map" class="admin-input" />
+            </div>
+          </div>
+          <div class="admin-modal-footer">
+            <button type="button" class="btn-admin btn-admin-secondary" onclick="closeCityModal()">Cancel</button>
+            <button type="submit" class="btn-admin btn-admin-primary">Save City Hub</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="admin-toast">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff5c00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <span id="admin-toast-text">Changes saved successfully</span>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module">
+      import { siteConfig, saveSiteConfigOverride, resetSiteConfigOverride } from '/config.js';
+
+      // Deep Clone currentConfig
+      let currentConfig = JSON.parse(JSON.stringify(siteConfig));
+      let currentInquiries = [];
+
+      // Security Passcode (stored in localStorage)
+      function getPasscode() {
+        return localStorage.getItem('nr_admin_passcode') || '8130';
+      }
+
+      // Authentication Handler
+      window.verifyPin = function() {
+        const input = document.getElementById('pin-input-field');
+        const errorEl = document.getElementById('pin-error-msg');
+        if (input.value === getPasscode()) {
+          sessionStorage.setItem('nr_admin_auth', 'true');
+          document.getElementById('auth-gate-modal').style.display = 'none';
+          document.getElementById('admin-shell').style.display = 'flex';
+          initDashboard();
+        } else {
+          errorEl.style.display = 'block';
+          input.value = '';
+          input.focus();
+        }
+      };
+
+      window.lockDashboard = function() {
+        sessionStorage.removeItem('nr_admin_auth');
+        window.location.reload();
+      };
+
+      // Toast notification helper
+      window.showAdminToast = function(msg) {
+        const toast = document.getElementById('admin-toast');
+        const text = document.getElementById('admin-toast-text');
+        if (toast && text) {
+          text.textContent = msg;
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 3200);
+        }
+      };
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      const VALID_TABS = [
+        'overview', 'inventory', 'packages', 'services', 'events', 
+        'faqs', 'homepage', 'about', 'gallery', 'cities', 'inquiries', 'settings'
+      ];
+
+      // Tab Switcher with Complete Persistence (URL Hash + LocalStorage)
+      window.switchTab = function(tabName, updateUrl = true) {
+        if (!VALID_TABS.includes(tabName)) {
+          tabName = 'overview';
+        }
+
+        document.querySelectorAll('.admin-nav-item').forEach(el => {
+          el.classList.toggle('active', el.getAttribute('data-tab') === tabName);
+        });
+        document.querySelectorAll('.tab-section').forEach(el => {
+          el.classList.toggle('active', el.id === `tab-${tabName}`);
+        });
+
+        const titles = {
+          overview: 'Dashboard Overview',
+          inventory: 'Equipment Fleet Manager',
+          packages: 'Starter Rental Packages',
+          services: 'Core AV Production Services',
+          events: 'Event Types & Solutions',
+          faqs: 'Frequently Asked Questions (FAQ)',
+          homepage: 'Hero, Marquee & 4-Step Rental Protocol',
+          about: 'About Us, Founder Story & Commitments',
+          gallery: 'Setup Photo Gallery (12 Setups)',
+          cities: 'City Hubs & Coverage',
+          inquiries: 'Event Quote Inquiries (CRM Leads)',
+          settings: 'Settings & Backups'
+        };
+        const titleEl = document.getElementById('page-title-display');
+        if (titleEl) titleEl.textContent = titles[tabName] || 'Dashboard';
+
+        // Persist tab selection in localStorage so refresh never loses position
+        try {
+          localStorage.setItem('nr_admin_active_tab', tabName);
+        } catch (e) {}
+
+        // Keep URL hash synchronized (e.g. admin.html#services)
+        if (updateUrl) {
+          try {
+            if (window.history && window.history.replaceState) {
+              window.history.replaceState(null, '', '#' + tabName);
+            } else {
+              window.location.hash = '#' + tabName;
+            }
+          } catch (e) {}
+        }
+      };
+
+      // Restore active tab from URL hash first, or fallback to saved localStorage tab
+      window.restoreActiveTab = function() {
+        const hash = (window.location.hash || '').replace('#', '').trim().toLowerCase();
+        if (hash && VALID_TABS.includes(hash)) {
+          window.switchTab(hash, false);
+          return;
+        }
+        let savedTab = null;
+        try {
+          savedTab = localStorage.getItem('nr_admin_active_tab');
+        } catch (e) {}
+        if (savedTab && VALID_TABS.includes(savedTab)) {
+          window.switchTab(savedTab, true);
+          return;
+        }
+        window.switchTab('overview', false);
+      };
+
+      // Listen for browser Back / Forward buttons and manual hash edits
+      window.addEventListener('hashchange', () => {
+        const hash = (window.location.hash || '').replace('#', '').trim().toLowerCase();
+        if (hash && VALID_TABS.includes(hash)) {
+          window.switchTab(hash, false);
+        }
+      });
+
+      document.querySelectorAll('.admin-nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const tab = item.getAttribute('data-tab');
+          if (tab) window.switchTab(tab);
+        });
+      });
+
+      // Initialize Dashboard Data
+      function initDashboard() {
+        // Load Inquiries
+        try {
+          const stored = localStorage.getItem('nr_event_inquiries');
+          if (stored) {
+            currentInquiries = JSON.parse(stored);
+          } else {
+            // Seed 2 realistic inquiries
+            currentInquiries = [
+              {
+                id: 'inq_101',
+                name: 'Ananya Reddy',
+                phone: '+91 98490 12345',
+                email: 'ananya.reddy@hydevents.in',
+                city: 'Hyderabad',
+                eventType: 'Corporate Summit',
+                eventDate: '2026-10-18',
+                venue: 'Novotel Hitec City',
+                audience: '350 attendees',
+                notes: 'Need line array sound, wireless podium mic, and digital mixer.',
+                equipment: ['Yamaha TF5 32-Channel Mixer', 'LD Systems Column Line Array', 'Rack-Mounted Shure Wireless Kit'],
+                status: 'New',
+                timestamp: new Date(Date.now() - 3600000 * 2).toISOString()
+              },
+              {
+                id: 'inq_102',
+                name: 'Karthik Menon',
+                phone: '+91 98801 67890',
+                email: 'karthik@menonweddings.com',
+                city: 'Bangalore',
+                eventType: 'Wedding Reception',
+                eventDate: '2026-11-05',
+                venue: 'Palace Grounds, Bangalore',
+                audience: '600 guests',
+                notes: 'Live band backline with electronic drums and keyboard.',
+                equipment: ['Alesis Electronic Drum Kit & Throne', 'Yamaha PSR-I500 & Stand', 'Stage Bass Amplifier Combo'],
+                status: 'Contacted',
+                timestamp: new Date(Date.now() - 3600000 * 26).toISOString()
+              }
+            ];
+            localStorage.setItem('nr_event_inquiries', JSON.stringify(currentInquiries));
+          }
+        } catch (e) {
+          currentInquiries = [];
+        }
+
+        renderOverview();
+        renderInventoryTable();
+        renderPackagesTable();
+        renderServicesTable();
+        renderEventsTable();
+        renderFaqsTable();
+        renderHomepageEditor();
+        renderProtocolTable();
+        renderAboutEditor();
+        renderCommitmentsTable();
+        renderGalleryTable();
+        renderCitiesTable();
+        renderInquiriesTable();
+        populateSettingsForm();
+
+        // Restore active tab so page refresh maintains exact tab view
+        window.restoreActiveTab();
+      }
+
+      // Render Overview
+      function renderOverview() {
+        document.getElementById('kpi-fleet-count').textContent = (currentConfig.catalogue || []).length;
+        document.getElementById('sidebar-inventory-count').textContent = (currentConfig.catalogue || []).length;
+        document.getElementById('kpi-packages-count').textContent = (currentConfig.packages || []).length;
+        document.getElementById('sidebar-packages-count').textContent = (currentConfig.packages || []).length;
+        document.getElementById('kpi-services-count').textContent = (currentConfig.services || []).length;
+        document.getElementById('sidebar-services-count').textContent = (currentConfig.services || []).length;
+        document.getElementById('kpi-events-count').textContent = (currentConfig.eventTypes || []).length;
+        document.getElementById('sidebar-events-count').textContent = (currentConfig.eventTypes || []).length;
+        document.getElementById('kpi-faqs-count').textContent = (currentConfig.faqs || []).length;
+        document.getElementById('sidebar-faqs-count').textContent = (currentConfig.faqs || []).length;
+        document.getElementById('kpi-gallery-count').textContent = (currentConfig.gallery || []).length;
+        document.getElementById('sidebar-gallery-count').textContent = (currentConfig.gallery || []).length;
+        document.getElementById('kpi-inquiries-count').textContent = currentInquiries.length;
+        
+        const newInqCount = currentInquiries.filter(i => i.status === 'New').length;
+        const badge = document.getElementById('sidebar-inquiries-badge');
+        if (badge) {
+          badge.textContent = newInqCount;
+          badge.style.display = newInqCount > 0 ? 'inline-block' : 'none';
+        }
+
+        const tbody = document.getElementById('overview-inquiries-tbody');
+        if (!tbody) return;
+        const recent = currentInquiries.slice(0, 4);
+        if (recent.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">No recent inquiries recorded.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = recent.map(inq => `
+          <tr>
+            <td><strong>${escapeHtml(inq.name)}</strong><br><small style="color: var(--text-muted);">${escapeHtml(inq.phone)}</small></td>
+            <td>${escapeHtml(inq.city)}</td>
+            <td>${escapeHtml(inq.eventType)}</td>
+            <td><code style="font-family: var(--font-mono); font-size: 0.8rem;">${escapeHtml(inq.eventDate)}</code></td>
+            <td><small>${(inq.equipment || []).slice(0, 2).map(escapeHtml).join(', ')}${(inq.equipment || []).length > 2 ? '...' : ''}</small></td>
+            <td><span class="status-pill ${inq.status.toLowerCase()}">${escapeHtml(inq.status)}</span></td>
+            <td>
+              <a href="https://wa.me/${inq.phone.replace(/[^0-9]/g, '')}" target="_blank" class="btn-admin btn-admin-secondary btn-admin-sm" style="color: #10b981;">WhatsApp ↗</a>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      // ==========================================
+      // 1. INVENTORY OPERATIONS
+      // ==========================================
+      window.renderInventoryTable = function() {
+        const tbody = document.getElementById('inventory-tbody');
+        if (!tbody) return;
+
+        const search = (document.getElementById('inventory-search')?.value || '').toLowerCase();
+        const catFilter = document.getElementById('inventory-cat-filter')?.value || 'ALL';
+
+        const filtered = (currentConfig.catalogue || []).filter(item => {
+          const matchSearch = item.name.toLowerCase().includes(search) || (item.category || '').toLowerCase().includes(search) || (item.summary || '').toLowerCase().includes(search);
+          const matchCat = catFilter === 'ALL' || (item.category || '').toLowerCase() === catFilter.toLowerCase();
+          return matchSearch && matchCat;
+        });
+
+        if (filtered.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2rem;">No equipment matching criteria.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = filtered.map(item => `
+          <tr>
+            <td>
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <div style="width: 50px; height: 38px; border-radius: 4px; overflow: hidden; background: var(--admin-bg-subtle); border: 1px solid var(--admin-border); flex-shrink: 0;">
+                  <img src="${item.photo || '/assets/photos/yamaha-tf5-mixer.jpg'}" alt="${escapeHtml(item.name)}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='/assets/photos/yamaha-tf5-mixer.jpg'" />
+                </div>
+                <div>
+                  <strong style="color: var(--admin-text-title);">${escapeHtml(item.name)}</strong>
+                  <div style="font-size: 0.76rem; color: var(--admin-text-muted); font-family: var(--font-mono);">${escapeHtml(item.id)}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="status-pill" style="background: var(--admin-bg-subtle); color: var(--admin-text-title); border: 1px solid var(--admin-border); font-weight: 700;">${escapeHtml(item.category)}</span>
+              <div style="font-size: 0.75rem; color: var(--admin-text-muted); margin-top: 0.2rem;">${escapeHtml(item.type)}</div>
+            </td>
+            <td>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.3rem;">
+                ${(item.specs || []).slice(0, 3).map(s => `<span style="font-family: var(--font-mono); font-size: 0.7rem; background: var(--admin-bg-subtle); color: var(--admin-text-body); padding: 0.15rem 0.4rem; border-radius: 3px; border: 1px solid var(--admin-border);">${escapeHtml(s)}</span>`).join('')}
+              </div>
+            </td>
+            <td>
+              ${item.hasRealPhoto 
+                ? '<span style="color: #10b981; font-size: 0.76rem; display: flex; align-items: center; gap: 0.3rem;">✓ Real Fleet Photo</span>' 
+                : '<span style="color: #94a3b8; font-size: 0.76rem;">Illustration / Vector</span>'}
+            </td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <a href="/product-details.html?id=${item.id}" target="_blank" class="btn-admin btn-admin-secondary btn-admin-sm" title="View product page">Live ↗</a>
+                <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="editEquipmentItem('${item.id}')">Edit</button>
+                <button type="button" class="btn-admin btn-admin-danger btn-admin-sm" onclick="deleteEquipmentItem('${item.id}')">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      };
+
+      window.filterInventoryTable = function() {
+        renderInventoryTable();
+      };
+
+      // Multi-image management for equipment
+      let currentModalPhotos = [];
+
+      function compressImageFile(file, maxWidth = 1200, maxHeight = 1200, quality = 0.82) {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+              let w = img.width;
+              let h = img.height;
+              if (w > maxWidth || h > maxHeight) {
+                if (w > h) {
+                  h = Math.round((h * maxWidth) / w);
+                  w = maxWidth;
+                } else {
+                  w = Math.round((w * maxHeight) / h);
+                  h = maxHeight;
+                }
+              }
+              const canvas = document.createElement('canvas');
+              canvas.width = w;
+              canvas.height = h;
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(img, 0, 0, w, h);
+              resolve(canvas.toDataURL('image/jpeg', quality));
+            };
+            img.onerror = () => resolve(e.target.result);
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      function renderModalPhotoPreviews() {
+        const grid = document.getElementById('eq-photos-preview-grid');
+        if (!grid) return;
+        if (currentModalPhotos.length === 0) {
+          grid.innerHTML = '<div style="font-size: 0.8rem; color: var(--admin-text-muted); grid-column: 1 / -1; padding: 0.25rem 0;">No photographs uploaded yet.</div>';
+          document.getElementById('eq-photo').value = '';
+          return;
+        }
+
+        document.getElementById('eq-photo').value = currentModalPhotos[0];
+
+        grid.innerHTML = currentModalPhotos.map((src, idx) => `
+          <div style="position: relative; border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 4/3; border: 1px solid var(--admin-border); background: #111; box-shadow: 0 2px 6px rgba(0,0,0,0.25);">
+            <img src="${src}" alt="Equipment photo ${idx + 1}" style="width: 100%; height: 100%; object-fit: cover;" />
+            ${idx === 0 ? '<span style="position: absolute; bottom: 3px; left: 3px; background: var(--admin-accent); color: #fff; font-size: 0.62rem; padding: 1px 5px; border-radius: 3px; font-weight: 700; text-transform: uppercase;">Cover</span>' : ''}
+            <button type="button" onclick="removeModalPhoto(${idx})" title="Remove photo" style="position: absolute; top: 3px; right: 3px; background: rgba(0,0,0,0.75); color: #fff; border: 0; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700;">✕</button>
+          </div>
+        `).join('');
+      }
+
+      window.handleEquipmentPhotoUpload = async function(event) {
+        const files = Array.from(event.target.files || []);
+        if (files.length === 0) return;
+
+        showAdminToast(`Uploading ${files.length} photo${files.length > 1 ? 's' : ''}...`);
+
+        for (const file of files) {
+          try {
+            const compressed = await compressImageFile(file);
+            currentModalPhotos.push(compressed);
+          } catch (err) {
+            console.error('Error compressing image:', err);
+          }
+        }
+
+        document.getElementById('eq-has-photo').checked = currentModalPhotos.length > 0;
+        renderModalPhotoPreviews();
+        event.target.value = '';
+      };
+
+      window.removeModalPhoto = function(idx) {
+        currentModalPhotos.splice(idx, 1);
+        document.getElementById('eq-has-photo').checked = currentModalPhotos.length > 0;
+        renderModalPhotoPreviews();
+      };
+
+      window.openEquipmentModal = function() {
+        document.getElementById('equipment-modal-title').textContent = 'Add New Equipment';
+        document.getElementById('eq-edit-index').value = '-1';
+        document.getElementById('eq-id').value = '';
+        document.getElementById('eq-name').value = '';
+        document.getElementById('eq-category').value = 'Sound';
+        document.getElementById('eq-type').value = 'Sound';
+        document.getElementById('eq-photo').value = '';
+        currentModalPhotos = [];
+        renderModalPhotoPreviews();
+        document.getElementById('eq-summary').value = '';
+        document.getElementById('eq-specs').value = '';
+        document.getElementById('eq-ideal').value = '';
+        document.getElementById('eq-has-photo').checked = false;
+        document.getElementById('equipment-modal').style.display = 'flex';
+        requestAnimationFrame(() => autoExpandTextarea(document.getElementById('eq-summary')));
+      };
+
+      window.editEquipmentItem = function(id) {
+        const item = currentConfig.catalogue.find(p => p.id === id);
+        if (!item) return;
+
+        document.getElementById('equipment-modal-title').textContent = `Edit Equipment: ${item.name}`;
+        document.getElementById('eq-edit-index').value = id;
+        document.getElementById('eq-id').value = item.id;
+        document.getElementById('eq-name').value = item.name;
+        document.getElementById('eq-category').value = item.category;
+        document.getElementById('eq-type').value = item.type;
+        
+        currentModalPhotos = (item.photos && item.photos.length > 0) ? [...item.photos] : (item.photo ? [item.photo] : []);
+        renderModalPhotoPreviews();
+
+        document.getElementById('eq-summary').value = item.summary || '';
+        document.getElementById('eq-specs').value = (item.specs || []).join(', ');
+        document.getElementById('eq-ideal').value = item.idealFor || '';
+        document.getElementById('eq-has-photo').checked = currentModalPhotos.length > 0;
+        document.getElementById('equipment-modal').style.display = 'flex';
+        requestAnimationFrame(() => autoExpandTextarea(document.getElementById('eq-summary')));
+      };
+
+      window.closeEquipmentModal = function() {
+        document.getElementById('equipment-modal').style.display = 'none';
+      };
+
+      window.saveEquipmentItem = function() {
+        const editId = document.getElementById('eq-edit-index').value;
+        const newId = document.getElementById('eq-id').value.trim() || 'gear-' + Date.now();
+        const name = document.getElementById('eq-name').value.trim();
+        const category = document.getElementById('eq-category').value;
+        const type = document.getElementById('eq-type').value.trim();
+        const photo = currentModalPhotos.length > 0 ? currentModalPhotos[0] : '';
+        const photos = currentModalPhotos;
+        const summary = document.getElementById('eq-summary').value.trim();
+        const specs = document.getElementById('eq-specs').value.split(',').map(s => s.trim()).filter(Boolean);
+        const idealFor = document.getElementById('eq-ideal').value.trim();
+        const hasRealPhoto = currentModalPhotos.length > 0;
+
+        const newItem = {
+          id: newId,
+          name,
+          category,
+          type,
+          photo,
+          photos,
+          hasRealPhoto,
+          summary,
+          specs,
+          idealFor
+        };
+
+        if (editId !== '-1') {
+          const idx = currentConfig.catalogue.findIndex(p => p.id === editId);
+          if (idx !== -1) currentConfig.catalogue[idx] = newItem;
+        } else {
+          currentConfig.catalogue.unshift(newItem);
+        }
+
+        saveSiteConfigOverride(currentConfig);
+        closeEquipmentModal();
+        renderInventoryTable();
+        renderOverview();
+        showAdminToast(`Equipment "${name}" saved and live!`);
+      };
+
+      window.deleteEquipmentItem = function(id) {
+        if (!confirm(`Are you sure you want to delete this equipment item?`)) return;
+        currentConfig.catalogue = currentConfig.catalogue.filter(p => p.id !== id);
+        saveSiteConfigOverride(currentConfig);
+        renderInventoryTable();
+        renderOverview();
+        showAdminToast(`Item removed from fleet.`);
+      };
+
+      // ==========================================
+      // 2. PACKAGES OPERATIONS
+      // ==========================================
+      window.renderPackagesTable = function() {
+        const tbody = document.getElementById('packages-tbody');
+        if (!tbody) return;
+        tbody.innerHTML = (currentConfig.packages || []).map((pkg, idx) => `
+          <tr>
+            <td>
+              <strong>${escapeHtml(pkg.name)}</strong>
+              <div style="font-size: 0.8rem; color: var(--accent-hot); margin-top: 0.2rem;">${escapeHtml(pkg.audienceGuideline || '')}</div>
+              <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0.4rem 0 0;">${escapeHtml(pkg.summary || '')}</p>
+            </td>
+            <td>
+              <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.82rem; color: var(--text-secondary);">
+                ${(pkg.includedEquipment || []).map(i => `<li>${escapeHtml(i)}</li>`).join('')}
+              </ul>
+            </td>
+            <td><small style="color: var(--text-muted);">${escapeHtml(pkg.idealFor || '')}</small></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="editPackageItem(${idx})">Edit</button>
+                <button type="button" class="btn-admin btn-admin-danger btn-admin-sm" onclick="deletePackageItem(${idx})">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      };
+
+      window.updatePackagePhotoPreview = function(url) {
+        const previewWrap = document.getElementById('pkg-photo-preview');
+        const img = document.getElementById('pkg-preview-img');
+        if (!previewWrap || !img) return;
+        if (url && url.trim()) {
+          img.src = url.trim();
+          previewWrap.style.display = 'block';
+        } else {
+          previewWrap.style.display = 'none';
+        }
+      };
+
+      window.handlePackagePhotoUpload = async function(event) {
+        const file = event.target.files && event.target.files[0];
+        if (!file) return;
+        showAdminToast('Compressing package photo...');
+        try {
+          const compressed = await compressImageFile(file, 1200, 1200, 0.82);
+          document.getElementById('pkg-photo').value = compressed;
+          window.updatePackagePhotoPreview(compressed);
+          showAdminToast('Package photo uploaded!');
+        } catch (e) {
+          console.error(e);
+        }
+        event.target.value = '';
+      };
+
+      window.openPackageModal = function() {
+        document.getElementById('package-modal-title').textContent = 'Add Rental Package';
+        document.getElementById('pkg-edit-index').value = '-1';
+        document.getElementById('pkg-id').value = 'pkg-' + Date.now();
+        document.getElementById('pkg-name').value = '';
+        document.getElementById('pkg-photo').value = '';
+        window.updatePackagePhotoPreview('');
+        document.getElementById('pkg-audience').value = '';
+        document.getElementById('pkg-summary').value = '';
+        document.getElementById('pkg-items').value = '';
+        document.getElementById('pkg-ideal').value = '';
+        document.getElementById('package-modal').style.display = 'flex';
+      };
+
+      window.editPackageItem = function(idx) {
+        const pkg = currentConfig.packages[idx];
+        if (!pkg) return;
+        document.getElementById('package-modal-title').textContent = `Edit Package: ${pkg.name}`;
+        document.getElementById('pkg-edit-index').value = idx;
+        document.getElementById('pkg-id').value = pkg.id;
+        document.getElementById('pkg-name').value = pkg.name;
+        document.getElementById('pkg-photo').value = pkg.photo || '';
+        window.updatePackagePhotoPreview(pkg.photo || '');
+        document.getElementById('pkg-audience').value = pkg.audienceGuideline || '';
+        document.getElementById('pkg-summary').value = pkg.summary || '';
+        document.getElementById('pkg-items').value = (pkg.includedEquipment || []).join('\n');
+        document.getElementById('pkg-ideal').value = pkg.idealFor || '';
+        document.getElementById('package-modal').style.display = 'flex';
+      };
+
+      window.closePackageModal = function() {
+        document.getElementById('package-modal').style.display = 'none';
+      };
+
+      window.savePackageItem = function() {
+        const idx = parseInt(document.getElementById('pkg-edit-index').value, 10);
+        const pkg = {
+          id: document.getElementById('pkg-id').value.trim(),
+          name: document.getElementById('pkg-name').value.trim(),
+          photo: document.getElementById('pkg-photo').value.trim(),
+          audienceGuideline: document.getElementById('pkg-audience').value.trim(),
+          summary: document.getElementById('pkg-summary').value.trim(),
+          includedEquipment: document.getElementById('pkg-items').value.split('\n').map(s => s.trim()).filter(Boolean),
+          idealFor: document.getElementById('pkg-ideal').value.trim()
+        };
+
+        if (idx >= 0 && idx < currentConfig.packages.length) {
+          currentConfig.packages[idx] = pkg;
+        } else {
+          currentConfig.packages.push(pkg);
+        }
+
+        saveSiteConfigOverride(currentConfig);
+        closePackageModal();
+        renderPackagesTable();
+        renderOverview();
+        showAdminToast(`Package "${pkg.name}" updated!`);
+      };
+
+      window.deletePackageItem = function(idx) {
+        if (!confirm('Delete this package?')) return;
+        currentConfig.packages.splice(idx, 1);
+        saveSiteConfigOverride(currentConfig);
+        renderPackagesTable();
+        renderOverview();
+        showAdminToast('Package deleted.');
+      };
+
+      // ==========================================
+      // 3. CORE SERVICES OPERATIONS
+      // ==========================================
+      window.renderServicesTable = function() {
+        const tbody = document.getElementById('services-tbody');
+        if (!tbody) return;
+        tbody.innerHTML = (currentConfig.services || []).map((srv, idx) => `
+          <tr>
+            <td>
+              <strong>${escapeHtml(srv.title)}</strong>
+              <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">${escapeHtml(srv.id)}</div>
+            </td>
+            <td><small style="color: var(--accent-hot);">${escapeHtml(srv.shortDesc)}</small></td>
+            <td><p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0;">${escapeHtml(srv.fullDesc)}</p></td>
+            <td>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.25rem;">
+                ${(srv.equipmentHighlights || []).map(h => `<span style="font-family: var(--font-mono); font-size: 0.68rem; background: var(--admin-bg-subtle); color: var(--admin-text-body); padding: 0.15rem 0.4rem; border-radius: 3px; border: 1px solid var(--admin-border);">${escapeHtml(h)}</span>`).join('')}
+              </div>
+            </td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="editServiceItem(${idx})">Edit</button>
+                <button type="button" class="btn-admin btn-admin-danger btn-admin-sm" onclick="deleteServiceItem(${idx})">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      };
+
+      window.updateServicePhotoPreview = function(url) {
+        const previewWrap = document.getElementById('srv-photo-preview');
+        const img = document.getElementById('srv-preview-img');
+        if (!previewWrap || !img) return;
+        if (url && url.trim()) {
+          img.src = url.trim();
+          previewWrap.style.display = 'block';
+        } else {
+          previewWrap.style.display = 'none';
+        }
+      };
+
+      window.handleServicePhotoUpload = async function(event) {
+        const file = event.target.files && event.target.files[0];
+        if (!file) return;
+        showAdminToast('Compressing service photo...');
+        try {
+          const compressed = await compressImageFile(file, 1200, 1200, 0.82);
+          document.getElementById('srv-photo').value = compressed;
+          window.updateServicePhotoPreview(compressed);
+          showAdminToast('Service photo uploaded!');
+        } catch (e) {
+          console.error(e);
+        }
+        event.target.value = '';
+      };
+
+      window.openServiceModal = function() {
+        document.getElementById('service-modal-title').textContent = 'Add Core Service';
+        document.getElementById('srv-edit-index').value = '-1';
+        document.getElementById('srv-id').value = 'service-' + Date.now();
+        document.getElementById('srv-title').value = '';
+        document.getElementById('srv-short').value = '';
+        document.getElementById('srv-photo').value = '';
+        window.updateServicePhotoPreview('');
+        document.getElementById('srv-full').value = '';
+        document.getElementById('srv-highlights').value = '';
+        document.getElementById('service-modal').style.display = 'flex';
+      };
+
+      window.editServiceItem = function(idx) {
+        const srv = currentConfig.services[idx];
+        if (!srv) return;
+        document.getElementById('service-modal-title').textContent = `Edit Service: ${srv.title}`;
+        document.getElementById('srv-edit-index').value = idx;
+        document.getElementById('srv-id').value = srv.id;
+        document.getElementById('srv-title').value = srv.title;
+        document.getElementById('srv-short').value = srv.shortDesc;
+        document.getElementById('srv-photo').value = srv.photo || '';
+        window.updateServicePhotoPreview(srv.photo || '');
+        document.getElementById('srv-full').value = srv.fullDesc;
+        document.getElementById('srv-highlights').value = (srv.equipmentHighlights || []).join(', ');
+        document.getElementById('service-modal').style.display = 'flex';
+      };
+
+      window.closeServiceModal = function() {
+        document.getElementById('service-modal').style.display = 'none';
+      };
+
+      window.saveServiceItem = function() {
+        const idx = parseInt(document.getElementById('srv-edit-index').value, 10);
+        const item = {
+          id: document.getElementById('srv-id').value.trim(),
+          title: document.getElementById('srv-title').value.trim(),
+          shortDesc: document.getElementById('srv-short').value.trim(),
+          photo: document.getElementById('srv-photo').value.trim(),
+          fullDesc: document.getElementById('srv-full').value.trim(),
+          equipmentHighlights: document.getElementById('srv-highlights').value.split(',').map(s => s.trim()).filter(Boolean)
+        };
+
+        if (idx >= 0 && idx < currentConfig.services.length) {
+          currentConfig.services[idx] = item;
+        } else {
+          currentConfig.services.push(item);
+        }
+
+        saveSiteConfigOverride(currentConfig);
+        closeServiceModal();
+        renderServicesTable();
+        renderOverview();
+        showAdminToast(`Service "${item.title}" saved!`);
+      };
+
+      window.deleteServiceItem = function(idx) {
+        if (!confirm('Delete this service?')) return;
+        currentConfig.services.splice(idx, 1);
+        saveSiteConfigOverride(currentConfig);
+        renderServicesTable();
+        renderOverview();
+        showAdminToast('Service removed.');
+      };
+
+      // ==========================================
+      // 4. EVENT SOLUTIONS OPERATIONS
+      // ==========================================
+      window.renderEventsTable = function() {
+        const tbody = document.getElementById('events-tbody');
+        if (!tbody) return;
+        tbody.innerHTML = (currentConfig.eventTypes || []).map((evt, idx) => `
+          <tr>
+            <td>
+              <strong>${escapeHtml(evt.title)}</strong>
+              <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">${escapeHtml(evt.id)}</div>
+            </td>
+            <td><small style="color: var(--accent-hot);">${escapeHtml(evt.tagline)}</small></td>
+            <td><p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0;">${escapeHtml(evt.typicalSetup)}</p></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="editEventItem(${idx})">Edit</button>
+                <button type="button" class="btn-admin btn-admin-danger btn-admin-sm" onclick="deleteEventItem(${idx})">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      };
+
+      window.updateEventPhotoPreview = function(url) {
+        const previewWrap = document.getElementById('evt-photo-preview');
+        const img = document.getElementById('evt-preview-img');
+        if (!previewWrap || !img) return;
+        if (url && url.trim()) {
+          img.src = url.trim();
+          previewWrap.style.display = 'block';
+        } else {
+          previewWrap.style.display = 'none';
+        }
+      };
+
+      window.handleEventPhotoUpload = async function(event) {
+        const file = event.target.files && event.target.files[0];
+        if (!file) return;
+        showAdminToast('Compressing event photo...');
+        try {
+          const compressed = await compressImageFile(file, 1200, 1200, 0.82);
+          document.getElementById('evt-photo').value = compressed;
+          window.updateEventPhotoPreview(compressed);
+          showAdminToast('Event photo uploaded!');
+        } catch (e) {
+          console.error(e);
+        }
+        event.target.value = '';
+      };
+
+      window.openEventModal = function() {
+        document.getElementById('event-modal-title').textContent = 'Add Event Solution';
+        document.getElementById('evt-edit-index').value = '-1';
+        document.getElementById('evt-id').value = 'event-' + Date.now();
+        document.getElementById('evt-title').value = '';
+        document.getElementById('evt-tagline').value = '';
+        document.getElementById('evt-photo').value = '';
+        window.updateEventPhotoPreview('');
+        document.getElementById('evt-setup').value = '';
+        document.getElementById('event-modal').style.display = 'flex';
+      };
+
+      window.editEventItem = function(idx) {
+        const evt = currentConfig.eventTypes[idx];
+        if (!evt) return;
+        document.getElementById('event-modal-title').textContent = `Edit Event Solution: ${evt.title}`;
+        document.getElementById('evt-edit-index').value = idx;
+        document.getElementById('evt-id').value = evt.id;
+        document.getElementById('evt-title').value = evt.title;
+        document.getElementById('evt-tagline').value = evt.tagline;
+        document.getElementById('evt-photo').value = evt.photo || evt.banner || '';
+        window.updateEventPhotoPreview(evt.photo || evt.banner || '');
+        document.getElementById('evt-setup').value = evt.typicalSetup;
+        document.getElementById('event-modal').style.display = 'flex';
+      };
+
+      window.closeEventModal = function() {
+        document.getElementById('event-modal').style.display = 'none';
+      };
+
+      window.saveEventItem = function() {
+        const idx = parseInt(document.getElementById('evt-edit-index').value, 10);
+        const item = {
+          id: document.getElementById('evt-id').value.trim(),
+          title: document.getElementById('evt-title').value.trim(),
+          tagline: document.getElementById('evt-tagline').value.trim(),
+          photo: document.getElementById('evt-photo').value.trim(),
+          typicalSetup: document.getElementById('evt-setup').value.trim()
+        };
+
+        if (idx >= 0 && idx < currentConfig.eventTypes.length) {
+          currentConfig.eventTypes[idx] = item;
+        } else {
+          currentConfig.eventTypes.push(item);
+        }
+
+        saveSiteConfigOverride(currentConfig);
+        closeEventModal();
+        renderEventsTable();
+        renderOverview();
+        showAdminToast(`Event solution "${item.title}" saved!`);
+      };
+
+      window.deleteEventItem = function(idx) {
+        if (!confirm('Delete this event solution?')) return;
+        currentConfig.eventTypes.splice(idx, 1);
+        saveSiteConfigOverride(currentConfig);
+        renderEventsTable();
+        renderOverview();
+        showAdminToast('Event solution removed.');
+      };
+
+      // ==========================================
+      // 5. FAQ OPERATIONS
+      // ==========================================
+      window.renderFaqsTable = function() {
+        const tbody = document.getElementById('faqs-tbody');
+        if (!tbody) return;
+        tbody.innerHTML = (currentConfig.faqs || []).map((faq, idx) => `
+          <tr>
+            <td><strong>${escapeHtml(faq.question)}</strong></td>
+            <td><p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0; line-height: 1.45;">${escapeHtml(faq.answer)}</p></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="editFaqItem(${idx})">Edit</button>
+                <button type="button" class="btn-admin btn-admin-danger btn-admin-sm" onclick="deleteFaqItem(${idx})">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      };
+
+      window.openFaqModal = function() {
+        document.getElementById('faq-modal-title').textContent = 'Add FAQ Question';
+        document.getElementById('faq-edit-index').value = '-1';
+        document.getElementById('faq-question').value = '';
+        document.getElementById('faq-answer').value = '';
+        document.getElementById('faq-modal').style.display = 'flex';
+      };
+
+      window.editFaqItem = function(idx) {
+        const faq = currentConfig.faqs[idx];
+        if (!faq) return;
+        document.getElementById('faq-modal-title').textContent = 'Edit FAQ Question';
+        document.getElementById('faq-edit-index').value = idx;
+        document.getElementById('faq-question').value = faq.question;
+        document.getElementById('faq-answer').value = faq.answer;
+        document.getElementById('faq-modal').style.display = 'flex';
+      };
+
+      window.closeFaqModal = function() {
+        document.getElementById('faq-modal').style.display = 'none';
+      };
+
+      window.saveFaqItem = function() {
+        const idx = parseInt(document.getElementById('faq-edit-index').value, 10);
+        const item = {
+          question: document.getElementById('faq-question').value.trim(),
+          answer: document.getElementById('faq-answer').value.trim()
+        };
+
+        if (idx >= 0 && idx < currentConfig.faqs.length) {
+          currentConfig.faqs[idx] = item;
+        } else {
+          currentConfig.faqs.push(item);
+        }
+
+        saveSiteConfigOverride(currentConfig);
+        closeFaqModal();
+        renderFaqsTable();
+        renderOverview();
+        showAdminToast('FAQ Question updated!');
+      };
+
+      window.deleteFaqItem = function(idx) {
+        if (!confirm('Delete this FAQ question?')) return;
+        currentConfig.faqs.splice(idx, 1);
+        saveSiteConfigOverride(currentConfig);
+        renderFaqsTable();
+        renderOverview();
+        showAdminToast('FAQ removed.');
+      };
+
+      // ==========================================
+      // 6. HOMEPAGE & PROTOCOL OPERATIONS
+      // ==========================================
+      window.renderHomepageEditor = function() {
+        const hero = currentConfig.hero || {};
+        document.getElementById('hero-badge').value = hero.badge || '● SOUND REINFORCEMENT & VISUAL STAGING';
+        document.getElementById('hero-coverage').value = hero.coverageLabel || 'Serving City Centres: Hyderabad, Bangalore, Mumbai';
+        document.getElementById('hero-headline').value = hero.headline || 'Stage & studio gear, calibrated for your live event.';
+        document.getElementById('hero-lead').value = hero.lead || 'NR Audio Visual rents genuine concert-grade sound consoles, wireless microphone systems, band backline, and visual production equipment across Hyderabad, Bangalore, and Mumbai.';
+        document.getElementById('hero-gear-name').value = hero.featuredGearName || 'Yamaha TF5 Digital Console';
+        document.getElementById('hero-gear-spec').value = hero.featuredGearSpec || '32 Channels · Motorized Faders · Flight Case';
+
+        // Marquee
+        document.getElementById('marquee-items-input').value = (currentConfig.marquee || []).join(', ');
+      };
+
+      window.saveHeroSettings = function() {
+        currentConfig.hero = currentConfig.hero || {};
+        currentConfig.hero.badge = document.getElementById('hero-badge').value.trim();
+        currentConfig.hero.coverageLabel = document.getElementById('hero-coverage').value.trim();
+        currentConfig.hero.headline = document.getElementById('hero-headline').value.trim();
+        currentConfig.hero.lead = document.getElementById('hero-lead').value.trim();
+        currentConfig.hero.featuredGearName = document.getElementById('hero-gear-name').value.trim();
+        currentConfig.hero.featuredGearSpec = document.getElementById('hero-gear-spec').value.trim();
+
+        saveSiteConfigOverride(currentConfig);
+        showAdminToast('Homepage Hero Banner copy saved!');
+      };
+
+      window.saveMarqueeSettings = function() {
+        const input = document.getElementById('marquee-items-input').value;
+        currentConfig.marquee = input.split(',').map(s => s.trim()).filter(Boolean);
+        saveSiteConfigOverride(currentConfig);
+        showAdminToast('Marquee ribbon updated!');
+      };
+
+      window.renderProtocolTable = function() {
+        const tbody = document.getElementById('protocol-tbody');
+        if (!tbody) return;
+        tbody.innerHTML = (currentConfig.protocol || []).map((step, idx) => `
+          <tr>
+            <td><span class="status-pill confirmed">${escapeHtml(step.step)}</span></td>
+            <td><strong>${escapeHtml(step.title)}</strong></td>
+            <td><p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0;">${escapeHtml(step.desc)}</p></td>
+            <td>
+              <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="editProtocolItem(${idx})">Edit</button>
+            </td>
+          </tr>
+        `).join('');
+      };
+
+      window.editProtocolItem = function(idx) {
+        const step = currentConfig.protocol[idx];
+        if (!step) return;
+        document.getElementById('protocol-modal-title').textContent = `Edit Protocol Step ${step.step}`;
+        document.getElementById('proto-edit-index').value = idx;
+        document.getElementById('proto-step').value = step.step;
+        document.getElementById('proto-title').value = step.title;
+        document.getElementById('proto-desc').value = step.desc;
+        document.getElementById('protocol-modal').style.display = 'flex';
+      };
+
+      window.closeProtocolModal = function() {
+        document.getElementById('protocol-modal').style.display = 'none';
+      };
+
+      window.saveProtocolItem = function() {
+        const idx = parseInt(document.getElementById('proto-edit-index').value, 10);
+        if (idx >= 0 && idx < currentConfig.protocol.length) {
+          currentConfig.protocol[idx] = {
+            step: document.getElementById('proto-step').value.trim(),
+            title: document.getElementById('proto-title').value.trim(),
+            desc: document.getElementById('proto-desc').value.trim()
+          };
+          saveSiteConfigOverride(currentConfig);
+          closeProtocolModal();
+          renderProtocolTable();
+          showAdminToast('Rental protocol step updated!');
+        }
+      };
+
+      // ==========================================
+      // 7. ABOUT & FOUNDER STORY OPERATIONS
+      // ==========================================
+      window.renderAboutEditor = function() {
+        const about = currentConfig.about || {};
+        document.getElementById('about-founder-name').value = about.founderName || 'Ramavath';
+        document.getElementById('about-founder-title').value = about.founderTitle || 'Founder & Lead Audio Engineer';
+        document.getElementById('about-year').value = about.yearEstablished || '2018';
+        document.getElementById('about-tagline').value = about.tagline || '';
+        document.getElementById('about-mission-headline').value = about.missionHeadline || 'Our Mission: Uncompromised Live Fidelity';
+        document.getElementById('about-mission-story').value = about.missionStory || '';
+      };
+
+      window.saveAboutSettings = function() {
+        currentConfig.about = currentConfig.about || {};
+        currentConfig.about.founderName = document.getElementById('about-founder-name').value.trim();
+        currentConfig.about.founderTitle = document.getElementById('about-founder-title').value.trim();
+        currentConfig.about.yearEstablished = document.getElementById('about-year').value.trim();
+        currentConfig.about.tagline = document.getElementById('about-tagline').value.trim();
+        currentConfig.about.missionHeadline = document.getElementById('about-mission-headline').value.trim();
+        currentConfig.about.missionStory = document.getElementById('about-mission-story').value.trim();
+
+        saveSiteConfigOverride(currentConfig);
+        showAdminToast('About Us & Founder Story updated!');
+      };
+
+      window.renderCommitmentsTable = function() {
+        const tbody = document.getElementById('commitments-tbody');
+        if (!tbody) return;
+        const commitments = (currentConfig.about && currentConfig.about.commitments) || [];
+        tbody.innerHTML = commitments.map((cmt, idx) => `
+          <tr>
+            <td><strong>✓ ${escapeHtml(cmt.title)}</strong></td>
+            <td><p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0;">${escapeHtml(cmt.desc)}</p></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="editCommitmentItem(${idx})">Edit</button>
+                <button type="button" class="btn-admin btn-admin-danger btn-admin-sm" onclick="deleteCommitmentItem(${idx})">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      };
+
+      window.openCommitmentModal = function() {
+        document.getElementById('commitment-modal-title').textContent = 'Add Client Commitment';
+        document.getElementById('cmt-edit-index').value = '-1';
+        document.getElementById('cmt-title').value = '';
+        document.getElementById('cmt-desc').value = '';
+        document.getElementById('commitment-modal').style.display = 'flex';
+      };
+
+      window.editCommitmentItem = function(idx) {
+        const commitments = (currentConfig.about && currentConfig.about.commitments) || [];
+        const cmt = commitments[idx];
+        if (!cmt) return;
+        document.getElementById('commitment-modal-title').textContent = `Edit Commitment: ${cmt.title}`;
+        document.getElementById('cmt-edit-index').value = idx;
+        document.getElementById('cmt-title').value = cmt.title;
+        document.getElementById('cmt-desc').value = cmt.desc;
+        document.getElementById('commitment-modal').style.display = 'flex';
+      };
+
+      window.closeCommitmentModal = function() {
+        document.getElementById('commitment-modal').style.display = 'none';
+      };
+
+      window.saveCommitmentItem = function() {
+        currentConfig.about = currentConfig.about || {};
+        currentConfig.about.commitments = currentConfig.about.commitments || [];
+        const idx = parseInt(document.getElementById('cmt-edit-index').value, 10);
+        const item = {
+          id: 'cmt-' + Date.now(),
+          title: document.getElementById('cmt-title').value.trim(),
+          desc: document.getElementById('cmt-desc').value.trim()
+        };
+
+        if (idx >= 0 && idx < currentConfig.about.commitments.length) {
+          currentConfig.about.commitments[idx] = item;
+        } else {
+          currentConfig.about.commitments.push(item);
+        }
+
+        saveSiteConfigOverride(currentConfig);
+        closeCommitmentModal();
+        renderCommitmentsTable();
+        showAdminToast('Client commitment saved!');
+      };
+
+      window.deleteCommitmentItem = function(idx) {
+        if (!confirm('Remove this commitment?')) return;
+        currentConfig.about.commitments.splice(idx, 1);
+        saveSiteConfigOverride(currentConfig);
+        renderCommitmentsTable();
+        showAdminToast('Commitment removed.');
+      };
+
+      // ==========================================
+      // 8. GALLERY OPERATIONS (ALL 12 REAL SETUPS)
+      // ==========================================
+      window.renderGalleryTable = function() {
+        const tbody = document.getElementById('gallery-tbody');
+        if (!tbody) return;
+        const gallery = currentConfig.gallery || [];
+        tbody.innerHTML = gallery.map((item, idx) => `
+          <tr>
+            <td>
+              <div style="width: 80px; height: 50px; border-radius: 4px; overflow: hidden; background: #000;">
+                <img src="${item.photo}" alt="${escapeHtml(item.title)}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='/assets/banners/wedding-stage-banner.jpg'" />
+              </div>
+            </td>
+            <td>
+              <strong>${escapeHtml(item.title)}</strong>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">${escapeHtml(item.subtitle || '')}</div>
+            </td>
+            <td><span class="status-pill confirmed">${escapeHtml(item.category)}</span></td>
+            <td><small style="color: var(--text-muted);">${escapeHtml(item.venue || item.meta || '')}</small></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 0.4rem;">
+                <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="editGalleryItem(${idx})">Edit</button>
+                <button type="button" class="btn-admin btn-admin-danger btn-admin-sm" onclick="deleteGalleryItem(${idx})">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      };
+
+      window.updateGalleryPhotoPreview = function(url) {
+        const previewWrap = document.getElementById('gal-photo-preview');
+        const img = document.getElementById('gal-preview-img');
+        if (!previewWrap || !img) return;
+        if (url && url.trim()) {
+          img.src = url.trim();
+          previewWrap.style.display = 'block';
+        } else {
+          previewWrap.style.display = 'none';
+        }
+      };
+
+      window.handleGalleryPhotoUpload = async function(event) {
+        const file = event.target.files && event.target.files[0];
+        if (!file) return;
+        showAdminToast('Compressing photo...');
+        try {
+          const compressed = await compressImageFile(file, 1400, 1400, 0.82);
+          document.getElementById('gal-photo').value = compressed;
+          window.updateGalleryPhotoPreview(compressed);
+          showAdminToast('Photo uploaded!');
+        } catch (e) {
+          console.error(e);
+        }
+        event.target.value = '';
+      };
+
+      window.handleGalCategoryChange = function(selectEl) {
+        const customInput = document.getElementById('gal-category-custom');
+        if (!customInput) return;
+        if (selectEl.value === '__custom__') {
+          customInput.style.display = 'block';
+          customInput.focus();
+        } else {
+          customInput.style.display = 'none';
+        }
+      };
+
+      window.handleGalCityChange = function(selectEl) {
+        const customInput = document.getElementById('gal-city-custom');
+        const datalist = document.getElementById('gal-venue-suggestions');
+        if (customInput) {
+          if (selectEl.value === '__custom__') {
+            customInput.style.display = 'block';
+            customInput.focus();
+          } else {
+            customInput.style.display = 'none';
+          }
+        }
+
+        // Update datalist venue suggestions dynamically based on city
+        if (datalist) {
+          const suggestions = {
+            'Hyderabad': [
+              'Hyderabad International Convention Centre (HICC)',
+              'Novotel Hitec City',
+              'HITEX Exhibition Center',
+              'Taj Krishna, Banjara Hills',
+              'JRC Conventions & Trade Fairs'
+            ],
+            'Bangalore': [
+              'Palace Grounds, Bangalore',
+              'Bangalore International Exhibition Centre (BIEC)',
+              'The Leela Palace',
+              'Sheraton Grand Bangalore'
+            ],
+            'Mumbai': [
+              'Jio World Convention Centre, BKC',
+              'Bombay Exhibition Centre (NESCO)',
+              'Grand Hyatt Mumbai',
+              'Taj Mahal Palace, Colaba'
+            ]
+          };
+
+          const list = suggestions[selectEl.value] || [
+            'City Convention Hall',
+            'Grand Ballroom Banquet',
+            'Outdoor Concert Arena',
+            'Corporate Auditorium'
+          ];
+          datalist.innerHTML = list.map(v => `<option value="${v}">`).join('');
+        }
+      };
+
+      window.openGalleryModal = function() {
+        document.getElementById('gallery-modal-title').textContent = 'Add Setup Photo';
+        document.getElementById('gal-edit-index').value = '-1';
+        document.getElementById('gal-photo').value = '/assets/banners/wedding-stage-banner.jpg';
+        window.updateGalleryPhotoPreview('/assets/banners/wedding-stage-banner.jpg');
+        document.getElementById('gal-title').value = '';
+        document.getElementById('gal-subtitle').value = '';
+
+        const catSelect = document.getElementById('gal-category');
+        if (catSelect) catSelect.value = 'Weddings';
+        const catCustom = document.getElementById('gal-category-custom');
+        if (catCustom) {
+          catCustom.value = '';
+          catCustom.style.display = 'none';
+        }
+
+        const citySelect = document.getElementById('gal-city');
+        if (citySelect) {
+          citySelect.value = 'Hyderabad';
+          window.handleGalCityChange(citySelect);
+        }
+        const cityCustom = document.getElementById('gal-city-custom');
+        if (cityCustom) {
+          cityCustom.value = '';
+          cityCustom.style.display = 'none';
+        }
+
+        document.getElementById('gal-venue').value = 'Hyderabad International Convention Centre (HICC)';
+        document.getElementById('gal-meta').value = '';
+        document.getElementById('gallery-modal').style.display = 'flex';
+      };
+
+      window.editGalleryItem = function(idx) {
+        const item = (currentConfig.gallery || [])[idx];
+        if (!item) return;
+        document.getElementById('gallery-modal-title').textContent = `Edit Setup: ${item.title}`;
+        document.getElementById('gal-edit-index').value = idx;
+        document.getElementById('gal-photo').value = item.photo;
+        window.updateGalleryPhotoPreview(item.photo);
+        document.getElementById('gal-title').value = item.title;
+        document.getElementById('gal-subtitle').value = item.subtitle || '';
+
+        // Category Selection
+        const catSelect = document.getElementById('gal-category');
+        const catCustom = document.getElementById('gal-category-custom');
+        let matchedCat = false;
+        if (catSelect) {
+          for (let opt of catSelect.options) {
+            if (opt.value && item.category && opt.value.toLowerCase() === item.category.toLowerCase()) {
+              catSelect.value = opt.value;
+              matchedCat = true;
+              break;
+            }
+          }
+          if (!matchedCat && item.category) {
+            catSelect.value = '__custom__';
+            if (catCustom) {
+              catCustom.value = item.category;
+              catCustom.style.display = 'block';
+            }
+          } else if (catCustom) {
+            catCustom.value = '';
+            catCustom.style.display = 'none';
+          }
+        }
+
+        // City Selection
+        const citySelect = document.getElementById('gal-city');
+        const cityCustom = document.getElementById('gal-city-custom');
+        const itemCity = item.city || '';
+        let matchedCity = false;
+        if (citySelect) {
+          for (let opt of citySelect.options) {
+            if (opt.value && itemCity && opt.value.toLowerCase() === itemCity.toLowerCase()) {
+              citySelect.value = opt.value;
+              matchedCity = true;
+              break;
+            }
+          }
+          if (!matchedCity) {
+            const vText = ((item.venue || '') + ' ' + (item.meta || '')).toLowerCase();
+            if (vText.includes('hyderabad')) citySelect.value = 'Hyderabad';
+            else if (vText.includes('bangalore') || vText.includes('bengaluru')) citySelect.value = 'Bangalore';
+            else if (vText.includes('mumbai') || vText.includes('bkc')) citySelect.value = 'Mumbai';
+            else if (vText.includes('chennai')) citySelect.value = 'Chennai';
+            else if (vText.includes('goa')) citySelect.value = 'Goa';
+            else if (vText.includes('pune')) citySelect.value = 'Pune';
+            else if (vText.includes('delhi')) citySelect.value = 'Delhi NCR';
+            else if (itemCity) {
+              citySelect.value = '__custom__';
+              if (cityCustom) {
+                cityCustom.value = itemCity;
+                cityCustom.style.display = 'block';
+              }
+            } else {
+              citySelect.value = 'Hyderabad';
+            }
+          }
+          window.handleGalCityChange(citySelect);
+        }
+
+        document.getElementById('gal-venue').value = item.venue || '';
+        document.getElementById('gal-meta').value = item.meta || '';
+        document.getElementById('gallery-modal').style.display = 'flex';
+      };
+
+      window.closeGalleryModal = function() {
+        document.getElementById('gallery-modal').style.display = 'none';
+      };
+
+      window.saveGalleryItem = function() {
+        currentConfig.gallery = currentConfig.gallery || [];
+        const idx = parseInt(document.getElementById('gal-edit-index').value, 10);
+
+        const catSelect = document.getElementById('gal-category');
+        const catCustom = document.getElementById('gal-category-custom');
+        let category = catSelect ? catSelect.value : 'Weddings';
+        if (category === '__custom__' && catCustom && catCustom.value.trim()) {
+          category = catCustom.value.trim();
+        }
+
+        const citySelect = document.getElementById('gal-city');
+        const cityCustom = document.getElementById('gal-city-custom');
+        let city = citySelect ? citySelect.value : 'Hyderabad';
+        if (city === '__custom__' && cityCustom && cityCustom.value.trim()) {
+          city = cityCustom.value.trim();
+        }
+
+        const venue = document.getElementById('gal-venue').value.trim();
+
+        const item = {
+          id: 'gal-' + (idx >= 0 ? (idx + 1) : Date.now()),
+          photo: document.getElementById('gal-photo').value.trim(),
+          title: document.getElementById('gal-title').value.trim(),
+          subtitle: document.getElementById('gal-subtitle').value.trim(),
+          category,
+          city,
+          venue,
+          meta: document.getElementById('gal-meta').value.trim()
+        };
+
+        if (idx >= 0 && idx < currentConfig.gallery.length) {
+          currentConfig.gallery[idx] = item;
+        } else {
+          currentConfig.gallery.push(item);
+        }
+
+        saveSiteConfigOverride(currentConfig);
+        closeGalleryModal();
+        renderGalleryTable();
+        renderOverview();
+        showAdminToast('Gallery setup photo saved!');
+      };
+
+      window.deleteGalleryItem = function(idx) {
+        if (!confirm('Remove this photo from gallery?')) return;
+        currentConfig.gallery.splice(idx, 1);
+        saveSiteConfigOverride(currentConfig);
+        renderGalleryTable();
+        renderOverview();
+        showAdminToast('Photo removed.');
+      };
+
+      // ==========================================
+      // 9. CITY HUBS OPERATIONS
+      // ==========================================
+      window.renderCitiesTable = function() {
+        const tbody = document.getElementById('cities-tbody');
+        if (!tbody) return;
+        const keys = Object.keys(currentConfig.cities || {});
+        tbody.innerHTML = keys.map(key => {
+          const c = currentConfig.cities[key];
+          return `
+            <tr>
+              <td>
+                <strong>${escapeHtml(c.name)}</strong>
+                <div style="font-size: 0.76rem; color: var(--text-muted);">${escapeHtml(c.state)}</div>
+              </td>
+              <td>
+                <div><strong>${escapeHtml(c.hubLabel || '')}</strong></div>
+                <small style="color: var(--text-muted);">${escapeHtml(c.address || '')}</small>
+              </td>
+              <td>
+                <div style="font-size: 0.82rem; color: var(--accent-hot);">${escapeHtml(c.phone || '')}</div>
+                <small style="color: var(--text-muted);">${escapeHtml(c.email || '')}</small>
+              </td>
+              <td>
+                <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">${escapeHtml(c.coverageNote || '')}</p>
+              </td>
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                  <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm" onclick="editCityItem('${key}')">Edit Details</button>
+                  <a href="/${key}.html" target="_blank" class="btn-admin btn-admin-secondary btn-admin-sm">Live ↗</a>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      };
+
+      window.editCityItem = function(cityKey) {
+        const c = currentConfig.cities[cityKey];
+        if (!c) return;
+        document.getElementById('city-modal-title').textContent = `Edit City Hub: ${c.name}`;
+        document.getElementById('city-edit-key').value = cityKey;
+        document.getElementById('city-name').value = c.name || '';
+        document.getElementById('city-state').value = c.state || '';
+        document.getElementById('city-hub-label').value = c.hubLabel || '';
+        document.getElementById('city-address').value = c.address || '';
+        document.getElementById('city-phone').value = c.phone || '';
+        document.getElementById('city-email').value = c.email || '';
+        document.getElementById('city-coverage').value = c.coverageNote || '';
+        document.getElementById('city-venues').value = c.typicalVenues || '';
+        document.getElementById('city-map').value = c.mapEmbedUrl || '';
+        document.getElementById('city-modal').style.display = 'flex';
+      };
+
+      window.closeCityModal = function() {
+        document.getElementById('city-modal').style.display = 'none';
+      };
+
+      window.saveCityModal = function() {
+        const key = document.getElementById('city-edit-key').value;
+        if (currentConfig.cities[key]) {
+          currentConfig.cities[key].name = document.getElementById('city-name').value.trim();
+          currentConfig.cities[key].state = document.getElementById('city-state').value.trim();
+          currentConfig.cities[key].hubLabel = document.getElementById('city-hub-label').value.trim();
+          currentConfig.cities[key].address = document.getElementById('city-address').value.trim();
+          currentConfig.cities[key].phone = document.getElementById('city-phone').value.trim();
+          currentConfig.cities[key].email = document.getElementById('city-email').value.trim();
+          currentConfig.cities[key].coverageNote = document.getElementById('city-coverage').value.trim();
+          currentConfig.cities[key].typicalVenues = document.getElementById('city-venues').value.trim();
+          currentConfig.cities[key].mapEmbedUrl = document.getElementById('city-map').value.trim();
+
+          saveSiteConfigOverride(currentConfig);
+          closeCityModal();
+          renderCitiesTable();
+          showAdminToast(`Updated ${currentConfig.cities[key].name} hub details!`);
+        }
+      };
+
+      // ==========================================
+      // 10. INQUIRIES CRM OPERATIONS
+      // ==========================================
+      window.renderInquiriesTable = function() {
+        const tbody = document.getElementById('inquiries-tbody');
+        if (!tbody) return;
+        const filter = document.getElementById('inquiries-status-filter')?.value || 'ALL';
+
+        const filtered = currentInquiries.filter(i => filter === 'ALL' || i.status === filter);
+        if (filtered.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">No inquiries recorded.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = filtered.map(inq => `
+          <tr>
+            <td><small style="color: var(--text-muted); font-family: var(--font-mono);">${new Date(inq.timestamp).toLocaleDateString()} ${new Date(inq.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</small></td>
+            <td>
+              <strong>${escapeHtml(inq.name)}</strong>
+              <div><a href="tel:${inq.phone.replace(/[^0-9+]/g, '')}" style="color: var(--accent-hot); text-decoration: none;">${escapeHtml(inq.phone)}</a></div>
+              <small style="color: var(--text-muted);">${escapeHtml(inq.email)}</small>
+            </td>
+            <td>
+              <strong>${escapeHtml(inq.city)}</strong>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">${escapeHtml(inq.venue || 'TBD')}</div>
+            </td>
+            <td>
+              <div>${escapeHtml(inq.eventType)}</div>
+              <code style="font-family: var(--font-mono); font-size: 0.78rem;">${escapeHtml(inq.eventDate)}</code>
+            </td>
+            <td>
+              <div style="max-width: 220px; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.4;">
+                ${(inq.equipment || []).map(e => `• ${escapeHtml(e)}`).join('<br>')}
+                ${inq.notes && inq.notes !== 'None' ? `<div style="color: var(--text-muted); font-style: italic; margin-top: 0.2rem;">Notes: ${escapeHtml(inq.notes)}</div>` : ''}
+              </div>
+            </td>
+            <td>
+              <select class="admin-select" style="padding: 0.3rem 0.5rem; font-size: 0.78rem; width: 110px;" onchange="updateInquiryStatus('${inq.id}', this.value)">
+                <option value="New" ${inq.status === 'New' ? 'selected' : ''}>New</option>
+                <option value="Contacted" ${inq.status === 'Contacted' ? 'selected' : ''}>Contacted</option>
+                <option value="Confirmed" ${inq.status === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
+                <option value="Closed" ${inq.status === 'Closed' ? 'selected' : ''}>Closed</option>
+              </select>
+            </td>
+            <td>
+              <div style="display: flex; gap: 0.4rem;">
+                <a href="https://wa.me/${inq.phone.replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(inq.name)},%20this%20is%20Ramavath%20from%20NR%20Audio%20Visual%20regarding%20your%20quote%20request." target="_blank" class="btn-admin btn-admin-secondary btn-admin-sm" style="color: #10b981;" title="WhatsApp Client">Chat ↗</a>
+                <button type="button" class="btn-admin btn-admin-danger btn-admin-sm" onclick="deleteInquiry('${inq.id}')">✕</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      };
+
+      window.updateInquiryStatus = function(id, status) {
+        const inq = currentInquiries.find(i => i.id === id);
+        if (inq) {
+          inq.status = status;
+          localStorage.setItem('nr_event_inquiries', JSON.stringify(currentInquiries));
+          renderOverview();
+          showAdminToast(`Lead status updated to ${status}`);
+        }
+      };
+
+      window.deleteInquiry = function(id) {
+        currentInquiries = currentInquiries.filter(i => i.id !== id);
+        localStorage.setItem('nr_event_inquiries', JSON.stringify(currentInquiries));
+        renderInquiriesTable();
+        renderOverview();
+        showAdminToast('Lead deleted.');
+      };
+
+      window.clearAllInquiries = function() {
+        if (!confirm('Clear all quote inquiries from the CRM?')) return;
+        currentInquiries = [];
+        localStorage.setItem('nr_event_inquiries', JSON.stringify([]));
+        renderInquiriesTable();
+        renderOverview();
+        showAdminToast('Inquiries cleared.');
+      };
+
+      window.addMockInquiry = function() {
+        const cities = ['Hyderabad', 'Bangalore', 'Mumbai'];
+        const types = ['Wedding Banquet', 'Corporate Conference', 'Live Worship Gathering', 'Product Launch'];
+        const city = cities[Math.floor(Math.random() * cities.length)];
+        const eventType = types[Math.floor(Math.random() * types.length)];
+        const mock = {
+          id: 'inq_' + Date.now(),
+          name: 'Pooja Agarwal',
+          phone: '+91 99001 22334',
+          email: 'pooja.agarwal@example.com',
+          city,
+          eventType,
+          eventDate: new Date(Date.now() + 86400000 * 14).toISOString().split('T')[0],
+          venue: `${city} Grand Ballroom`,
+          audience: '200 to 500 guests',
+          notes: 'Full sound check required by 4 PM on event date.',
+          equipment: ['Yamaha TF5 32-Channel Mixer', 'Rack-Mounted Shure Wireless Kit'],
+          status: 'New',
+          timestamp: new Date().toISOString()
+        };
+        currentInquiries.unshift(mock);
+        localStorage.setItem('nr_event_inquiries', JSON.stringify(currentInquiries));
+        renderInquiriesTable();
+        renderOverview();
+        showAdminToast('New test inquiry created!');
+      };
+
+      // ==========================================
+      // 11. GLOBAL SETTINGS OPERATIONS
+      // ==========================================
+      function populateSettingsForm() {
+        document.getElementById('set-brand-name').value = currentConfig.brandName || '';
+        document.getElementById('set-domain').value = currentConfig.domain || '';
+        document.getElementById('set-founder').value = currentConfig.about?.founderName || '';
+        document.getElementById('set-title').value = currentConfig.about?.founderTitle || '';
+        document.getElementById('set-phone').value = currentConfig.contact?.phone || '';
+        document.getElementById('set-phone-clean').value = currentConfig.contact?.phoneClean?.replace('+', '') || '';
+        document.getElementById('set-email').value = currentConfig.contact?.email || '';
+        document.getElementById('set-hours').value = currentConfig.contact?.hours || '';
+        document.getElementById('set-tagline').value = currentConfig.tagline || '';
+        document.getElementById('set-subtagline').value = currentConfig.subTagline || '';
+
+        // Social
+        document.getElementById('set-social-ig').value = currentConfig.social?.instagram || '';
+        document.getElementById('set-social-fb').value = currentConfig.social?.facebook || '';
+        document.getElementById('set-social-yt').value = currentConfig.social?.youtube || '';
+      }
+
+      window.saveBusinessSettings = function() {
+        currentConfig.brandName = document.getElementById('set-brand-name').value.trim();
+        currentConfig.domain = document.getElementById('set-domain').value.trim();
+        currentConfig.about = currentConfig.about || {};
+        currentConfig.about.founderName = document.getElementById('set-founder').value.trim();
+        currentConfig.about.founderTitle = document.getElementById('set-title').value.trim();
+
+        currentConfig.contact = currentConfig.contact || {};
+        currentConfig.contact.phone = document.getElementById('set-phone').value.trim();
+        currentConfig.contact.phoneClean = document.getElementById('set-phone-clean').value.trim();
+        currentConfig.contact.whatsappUrl = `https://wa.me/${currentConfig.contact.phoneClean.replace('+', '')}`;
+        currentConfig.contact.email = document.getElementById('set-email').value.trim();
+        currentConfig.contact.hours = document.getElementById('set-hours').value.trim();
+
+        currentConfig.tagline = document.getElementById('set-tagline').value.trim();
+        currentConfig.subTagline = document.getElementById('set-subtagline').value.trim();
+
+        currentConfig.social = currentConfig.social || {};
+        currentConfig.social.instagram = document.getElementById('set-social-ig').value.trim();
+        currentConfig.social.facebook = document.getElementById('set-social-fb').value.trim();
+        currentConfig.social.youtube = document.getElementById('set-social-yt').value.trim();
+
+        saveSiteConfigOverride(currentConfig);
+        showAdminToast('Business profile and WhatsApp settings updated globally!');
+      };
+
+      window.updateAdminPasscode = function() {
+        const cur = document.getElementById('cur-passcode').value;
+        const next = document.getElementById('new-passcode').value;
+        if (cur !== getPasscode()) {
+          alert('Current passcode is incorrect.');
+          return;
+        }
+        if (!next || next.length < 4) {
+          alert('Passcode must be at least 4 digits.');
+          return;
+        }
+        localStorage.setItem('nr_admin_passcode', next);
+        document.getElementById('cur-passcode').value = '';
+        document.getElementById('new-passcode').value = '';
+        showAdminToast('Security PIN successfully updated!');
+      };
+
+      // ==========================================
+      // 12. EXPORT / IMPORT / RESET JSON
+      // ==========================================
+      window.exportDataJson = function() {
+        const exportObj = {
+          version: '2.0',
+          exportedAt: new Date().toISOString(),
+          config: currentConfig,
+          inquiries: currentInquiries
+        };
+        const str = JSON.stringify(exportObj, null, 2);
+        const blob = new Blob([str], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `nr-audiovisual-complete-backup-${new Date().toISOString().split('T')[0]}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showAdminToast('Complete site backup downloaded!');
+      };
+
+      window.triggerImportJson = function() {
+        document.getElementById('json-file-input').click();
+      };
+
+      window.handleFileImport = function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          try {
+            const data = JSON.parse(e.target.result);
+            if (data.config) {
+              currentConfig = data.config;
+              saveSiteConfigOverride(currentConfig);
+            }
+            if (data.inquiries) {
+              currentInquiries = data.inquiries;
+              localStorage.setItem('nr_event_inquiries', JSON.stringify(currentInquiries));
+            }
+            initDashboard();
+            showAdminToast('All website data restored successfully!');
+          } catch (err) {
+            alert('Invalid JSON backup file.');
+          }
+        };
+        reader.readAsText(file);
+      };
+
+      window.confirmResetDefaults = function() {
+        if (!confirm('Warning: This will clear all local overrides and reset the website configuration back to original config.js defaults. Proceed?')) return;
+        resetSiteConfigOverride();
+        localStorage.removeItem('nr_event_inquiries');
+        localStorage.removeItem('nr_gallery_items');
+        window.location.reload();
+      };
+
+      // ==========================================
+      // 13. THEME TOGGLING (WHITE / HALF-WHITE / DARK)
+      // ==========================================
+      window.applyAdminTheme = function(theme) {
+        const icon = document.getElementById('theme-toggle-icon');
+        const text = document.getElementById('theme-toggle-text');
+        if (theme === 'dark') {
+          document.documentElement.setAttribute('data-admin-theme', 'dark');
+          try { localStorage.setItem('nr_admin_theme', 'dark'); } catch (e) {}
+          if (icon) icon.textContent = '☀️';
+          if (text) text.textContent = 'Half-White';
+        } else {
+          document.documentElement.removeAttribute('data-admin-theme');
+          try { localStorage.setItem('nr_admin_theme', 'light'); } catch (e) {}
+          if (icon) icon.textContent = '🌙';
+          if (text) text.textContent = 'Dark Mode';
+        }
+      };
+
+      window.toggleAdminTheme = function() {
+        const isDark = document.documentElement.getAttribute('data-admin-theme') === 'dark';
+        window.applyAdminTheme(isDark ? 'light' : 'dark');
+        showAdminToast(isDark ? 'Switched to Half-White theme' : 'Switched to Dark theme');
+      };
+
+      // Auto-expanding textarea logic: expands box height dynamically, prevents internal scrollbar
+      function autoExpandTextarea(el) {
+        if (!el || el.tagName !== 'TEXTAREA') return;
+        el.style.height = 'auto';
+        el.style.height = (el.scrollHeight + 4) + 'px';
+      }
+
+      document.addEventListener('input', (e) => {
+        if (e.target && e.target.classList && e.target.classList.contains('admin-textarea')) {
+          autoExpandTextarea(e.target);
+        }
+      });
+
+      // Observe all modals: lock background scroll, expand textareas, and enable clean modal scrolling
+      const modalObserver = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+            const target = mutation.target;
+            const anyOpen = Array.from(document.querySelectorAll('.admin-modal-overlay')).some(m => m.style.display === 'flex');
+            document.body.style.overflow = anyOpen ? 'hidden' : '';
+
+            if (target.classList && target.classList.contains('admin-modal-overlay') && target.style.display === 'flex') {
+              requestAnimationFrame(() => {
+                target.querySelectorAll('.admin-textarea').forEach(ta => autoExpandTextarea(ta));
+              });
+            }
+          }
+        });
+      });
+
+      document.querySelectorAll('.admin-modal-overlay').forEach(modal => {
+        modalObserver.observe(modal, { attributes: true });
+        
+        // Click outside the modal card to close
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+          }
+        });
+      });
+
+      // Press Escape to dismiss open modal
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          document.querySelectorAll('.admin-modal-overlay').forEach(modal => {
+            if (modal.style.display === 'flex') {
+              modal.style.display = 'none';
+              document.body.style.overflow = '';
+            }
+          });
+        }
+      });
+
+      // Check existing session
+      function bootAdminSession() {
+        const savedTheme = localStorage.getItem('nr_admin_theme');
+        window.applyAdminTheme(savedTheme === 'dark' ? 'dark' : 'light');
+
+        if (sessionStorage.getItem('nr_admin_auth') === 'true') {
+          document.getElementById('auth-gate-modal').style.display = 'none';
+          document.getElementById('admin-shell').style.display = 'flex';
+          initDashboard();
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bootAdminSession);
+      } else {
+        bootAdminSession();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1017 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Equipment Details & Technical Rider | NR Audio Visual</title>
+    <meta name="description" content="Detailed technical specifications, rider information, and rental booking for professional AV equipment across Hyderabad, Bangalore, and Mumbai." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script>
+      try {
+        const t = localStorage.getItem('nr_theme_preference');
+        if (t === 'dark' || (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (e) {}
+    </script>
+    <style>
+      .product-detail-hero {
+        padding-top: clamp(2rem, 4vw, 3.5rem);
+        padding-bottom: clamp(2.5rem, 5vw, 4rem);
+      }
+      .product-breadcrumb {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+      }
+      .product-breadcrumb a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .product-breadcrumb a:hover {
+        color: var(--accent-hot);
+      }
+      .product-breadcrumb-sep {
+        opacity: 0.5;
+      }
+      .product-breadcrumb-current {
+        color: var(--accent-hot);
+        font-weight: 600;
+      }
+
+      .product-stage-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        align-items: start;
+      }
+      @media (min-width: 992px) {
+        .product-stage-grid {
+          grid-template-columns: 1.15fr 1fr;
+          gap: 3.5rem;
+        }
+      }
+
+      .product-media-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-medium);
+        border-radius: var(--radius-xl);
+        overflow: hidden;
+        position: relative;
+        box-shadow: var(--shadow-elevated);
+      }
+      .product-image-container {
+        position: relative;
+        aspect-ratio: 4 / 3;
+        background: var(--bg-surface);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .product-image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+      }
+      .product-image-container:hover img {
+        transform: scale(1.03);
+      }
+      .product-media-badge {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        background: rgba(15, 18, 24, 0.85);
+        backdrop-filter: blur(8px);
+        color: #fff;
+        padding: 0.35rem 0.75rem;
+        border-radius: 9999px;
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        border: 1px solid rgba(255,255,255,0.18);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        z-index: 2;
+      }
+      .product-media-badge-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #10b981;
+        box-shadow: 0 0 8px #10b981;
+      }
+
+      .product-info-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+      .product-category-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        color: var(--accent-hot);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .product-title {
+        font-size: clamp(1.85rem, 3.2vw, 2.6rem);
+        line-height: 1.2;
+        letter-spacing: -0.025em;
+        margin: 0;
+      }
+      .product-lead-summary {
+        font-size: 1.12rem;
+        line-height: 1.6;
+        color: var(--text-secondary);
+        margin: 0;
+      }
+
+      .product-key-highlights {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 0.5rem 0;
+      }
+      .product-spec-pill {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-medium);
+        color: var(--text-primary);
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        padding: 0.4rem 0.85rem;
+        border-radius: var(--radius-sm);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .product-availability-banner {
+        background: rgba(16, 185, 129, 0.08);
+        border: 1px solid rgba(16, 185, 129, 0.25);
+        border-radius: var(--radius-md);
+        padding: 0.85rem 1.15rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+      }
+      .product-availability-icon {
+        color: #10b981;
+        flex-shrink: 0;
+      }
+
+      .product-actions-box {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-lg);
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        box-shadow: var(--shadow-subtle);
+      }
+      .product-actions-btns {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.85rem;
+      }
+      .product-actions-btns .btn-primary,
+      .product-actions-btns .btn-secondary,
+      .product-actions-btns .btn-whatsapp-card {
+        padding: 0.85rem 1.4rem;
+        font-size: 0.95rem;
+      }
+
+      .product-details-tabs-section {
+        margin-top: 3.5rem;
+        border-top: 1px solid var(--border-subtle);
+        padding-top: 3rem;
+      }
+      .specs-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+        margin-top: 1rem;
+      }
+      .specs-table tr {
+        border-bottom: 1px solid var(--border-subtle);
+      }
+      .specs-table th {
+        width: 32%;
+        text-align: left;
+        padding: 0.85rem 1rem 0.85rem 0;
+        font-family: var(--font-mono);
+        color: var(--text-muted);
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+        vertical-align: top;
+      }
+      .specs-table td {
+        padding: 0.85rem 0;
+        color: var(--text-primary);
+        line-height: 1.5;
+        vertical-align: top;
+      }
+
+      .details-subgrid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-top: 1.5rem;
+      }
+      @media (min-width: 768px) {
+        .details-subgrid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .details-feature-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-lg);
+        padding: 1.5rem;
+      }
+      .details-feature-title {
+        font-family: var(--font-mono);
+        font-size: 0.88rem;
+        color: var(--accent-hot);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .details-feature-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.65rem;
+        font-size: 0.92rem;
+        color: var(--text-secondary);
+      }
+      .details-feature-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      .details-feature-list li svg {
+        flex-shrink: 0;
+        margin-top: 0.2rem;
+        color: var(--accent-hot);
+      }
+
+      .related-section {
+        margin-top: 4rem;
+        border-top: 1px solid var(--border-subtle);
+        padding-top: 3rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sticky Header -->
+    <header class="site-header">
+      <div class="site-container header-inner">
+        <a href="/" class="brand-logo" aria-label="NR Audio Visual Home">
+          <svg class="brand-monogram" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="48" height="48" rx="8" fill="var(--bg-surface)" stroke="var(--border-strong)" stroke-width="1.5"/>
+            <path d="M12 34V14L22 34V14" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M26 34V14H33C35.2 14 37 15.8 37 18C37 20.2 35.2 22 33 22H26M32 22L37 34" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="24" cy="24" r="19" stroke="var(--accent-hot)" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+            <path d="M39 20V28M42 22V26M6 22V26M9 20V28" stroke="var(--accent-hot)" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>NR Audio Visual</span>
+        </a>
+
+        <nav class="desktop-nav" aria-label="Main Navigation">
+          <a href="/services.html" class="nav-link">Services</a>
+          <a href="/products.html" class="nav-link active">Equipment</a>
+          <a href="/events.html" class="nav-link">Events</a>
+          <a href="/packages.html" class="nav-link">Packages</a>
+          <a href="/locations.html" class="nav-link">Locations</a>
+          <a href="/gallery.html" class="nav-link">Gallery</a>
+          <a href="/about.html" class="nav-link">About</a>
+        </nav>
+
+        <div class="header-actions">
+          <button class="theme-toggle-btn" type="button" aria-label="Toggle visual theme">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          </button>
+          <button class="quote-drawer-btn quote-drawer-trigger" type="button" aria-label="View your quote items">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <span>Quote</span>
+            <span class="quote-badge-count" style="display: none;">0</span>
+          </button>
+          <a href="/contact.html" class="btn-primary">Request a Quote</a>
+          <button class="mobile-menu-btn" id="mobile-nav-toggle" type="button" aria-label="Open navigation menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Nav Drawer -->
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer" aria-hidden="true">
+      <div class="mobile-nav-header">
+        <div class="brand-logo"><span>NR Audio Visual</span></div>
+        <button class="btn-secondary" id="close-mobile-nav" style="padding: 0.4rem 0.8rem;" aria-label="Close menu">Close ✕</button>
+      </div>
+      <nav class="mobile-nav-links">
+        <a href="/" class="mobile-nav-link">Home <span>→</span></a>
+        <a href="/services.html" class="mobile-nav-link">Services <span>→</span></a>
+        <a href="/products.html" class="mobile-nav-link">Equipment Catalogue <span>→</span></a>
+        <a href="/events.html" class="mobile-nav-link">Event Types <span>→</span></a>
+        <a href="/packages.html" class="mobile-nav-link">Starter Packages <span>→</span></a>
+        <a href="/locations.html" class="mobile-nav-link">Cities & Hubs <span>→</span></a>
+        <a href="/gallery.html" class="mobile-nav-link">Photo Gallery <span>→</span></a>
+        <a href="/about.html" class="mobile-nav-link">About Us <span>→</span></a>
+        <a href="/faq.html" class="mobile-nav-link">FAQ <span>→</span></a>
+        <a href="/contact.html" class="mobile-nav-link">Request a Quote <span>→</span></a>
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="product-detail-hero">
+      <div class="site-container">
+        
+        <!-- Breadcrumb Navigation -->
+        <nav class="product-breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span class="product-breadcrumb-sep">/</span>
+          <a href="/products.html">Equipment Catalogue</a>
+          <span class="product-breadcrumb-sep">/</span>
+          <span class="product-breadcrumb-current" id="breadcrumb-product-name">Loading Equipment...</span>
+        </nav>
+
+        <!-- Product Hero Showcase Grid -->
+        <div class="product-stage-grid">
+          
+          <!-- Left Column: Product Visual Media -->
+          <div class="product-media-card">
+            <div class="product-media-badge">
+              <span class="product-media-badge-dot"></span>
+              <span id="product-badge-text">Active Fleet · Tested Rider Gear</span>
+            </div>
+            <div class="product-image-container" id="product-image-wrap">
+              <img id="product-hero-img" src="/assets/photos/yamaha-tf5-mixer.jpg" alt="Equipment photograph" loading="eager" />
+            </div>
+            <div id="product-thumbnails-strip" style="display: none; padding: 0.75rem 1rem; gap: 0.5rem; background: var(--bg-surface); border-top: 1px solid var(--border-subtle); overflow-x: auto; scrollbar-width: thin;"></div>
+          </div>
+
+          <!-- Right Column: Specs, Summary & Actions -->
+          <div class="product-info-panel">
+            <div class="product-category-tag" id="product-category-tag">
+              <span>●</span>
+              <span id="product-category-name">SOUND · DIGITAL CONSOLE</span>
+            </div>
+
+            <h1 class="product-title" id="product-title-heading">Yamaha TF5 32-Channel Mixer</h1>
+            
+            <p class="product-lead-summary" id="product-lead-summary">
+              32-channel digital live mixing console in custom flight case with motorized faders, multi-track recording capability, and comprehensive DSP effects.
+            </p>
+
+            <!-- Key Feature Chips -->
+            <div class="product-key-highlights" id="product-specs-chips">
+              <span class="product-spec-pill"><span style="color: var(--accent-hot);">✓</span><span>32 Analog Inputs</span></span>
+              <span class="product-spec-pill"><span style="color: var(--accent-hot);">✓</span><span>Motorized Faders</span></span>
+              <span class="product-spec-pill"><span style="color: var(--accent-hot);">✓</span><span>TouchFlow Operation</span></span>
+              <span class="product-spec-pill"><span style="color: var(--accent-hot);">✓</span><span>Rugged Road Flight Case</span></span>
+            </div>
+
+            <!-- Availability in 3 Hub Cities -->
+            <div class="product-availability-banner">
+              <svg class="product-availability-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              <div>
+                <strong>In Stock & Dispatch Ready</strong> across Hyderabad, Bangalore, and Mumbai hubs. Tested and cleaned before every hire.
+              </div>
+            </div>
+
+            <!-- Booking Actions Box -->
+            <div class="product-actions-box">
+              <div class="product-actions-btns">
+                <button type="button" class="btn-primary" id="product-add-quote-btn" data-add-to-quote data-id="yamaha-tf5" data-name="Yamaha TF5 32-Channel Digital Mixing Console" data-category="Mixers">
+                  + Add to Event Quote
+                </button>
+                <a href="https://wa.me/919133133003?text=Hi%20Ramavath%2C%20I%20am%20interested%20in%20renting%20the%20Yamaha%20TF5%2032-Channel%20Digital%20Mixing%20Console" id="product-whatsapp-btn" class="btn-whatsapp-card" target="_blank" rel="noopener" aria-label="WhatsApp Ramavath about this equipment">
+                  <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.23 8.23 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.63c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.49-.4-.42-.56-.43h-.47c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.72 4.31 3.81.6.26 1.07.42 1.44.54.61.19 1.16.17 1.6.1.49-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.23-.17-.48-.3"/></svg>
+                  <span>WhatsApp Ramavath</span>
+                </a>
+                <a href="tel:+919133133003" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <span>Call Now</span>
+                </a>
+              </div>
+              <div style="font-size: 0.82rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.5rem;">
+                <span>✓ Optional on-site sound engineer available</span>
+                <span>•</span>
+                <span>✓ Cables, stands & power distribution included</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Technical Specifications & Deployment Info -->
+        <section class="product-details-tabs-section">
+          <div class="section-kicker">
+            <span class="kicker-number">01</span>
+            <span>TECHNICAL SPECIFICATIONS & RIDER DATA</span>
+          </div>
+          <h2 class="section-title">Hardware capabilities & connectivity.</h2>
+
+          <div class="details-subgrid">
+            
+            <!-- Left: Specs Table -->
+            <div class="details-feature-card">
+              <div class="details-feature-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                <span>Equipment Specifications</span>
+              </div>
+              <table class="specs-table" id="product-specs-table">
+                <tr><th>Inputs</th><td>32 XLR/TRS mic/line inputs + stereo RCA</td></tr>
+                <tr><th>Motorized Faders</th><td>33 motorized faders (32 channel + 1 master)</td></tr>
+                <tr><th>Outputs</th><td>16 XLR outputs + Stereo Master L/R</td></tr>
+                <tr><th>DSP Processing</th><td>Parametric EQ, dynamics & Rev-X effects</td></tr>
+              </table>
+            </div>
+
+            <!-- Right: What's Included -->
+            <div class="details-feature-card">
+              <div class="details-feature-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                <span>Included in Rental Deployment</span>
+              </div>
+              <ul class="details-feature-list" id="product-included-list">
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>1x Yamaha TF5 Digital Mixing Console</span></li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>1x Custom road flight case</span></li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Audio & power connection cables</span></li>
+              </ul>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Related Equipment Recommendations -->
+        <section class="related-section">
+          <div class="section-kicker">
+            <span class="kicker-number">02</span>
+            <span>FREQUENTLY PAIRED GEAR</span>
+          </div>
+          <h2 class="section-title">Commonly hired together for full stage riders.</h2>
+          
+          <div class="gear-grid" id="related-gear-container" style="margin-top: 2rem;">
+            <article class="gear-card" onclick="window.location.href='/product-details.html?id=shure-wireless-rack'" style="cursor: pointer;">
+              <div class="gear-media-wrapper">
+                <img src="/assets/photos/shure-wireless-rack.jpg" alt="Rack-Mounted Shure Wireless Receivers & Handheld Mics" class="gear-media-img" loading="lazy" />
+              </div>
+              <div class="gear-card-body">
+                <div class="gear-card-meta">Wireless Mics · Sound</div>
+                <h3 class="gear-card-title">Rack-Mounted Shure Wireless Receivers & Handheld Mics</h3>
+                <p class="gear-card-summary">Multi-channel rack-mounted Shure wireless microphone receiver system paired with clear, interference-free handheld wireless transmitters.</p>
+                <div class="gear-spec-chips">
+                  <span class="gear-spec-chip">Rack-Mounted Chassis</span>
+                  <span class="gear-spec-chip">Handheld Transmitters Included</span>
+                  <span class="gear-spec-chip">Clean UHF Transmission</span>
+                </div>
+                <div class="gear-card-actions" onclick="event.stopPropagation();">
+                  <button type="button" class="btn-rider" data-add-to-quote data-id="shure-wireless-rack" data-name="Rack-Mounted Shure Wireless Receivers & Handheld Mics" data-category="Wireless Mics">+ Add to Quote</button>
+                  <a href="/product-details.html?id=shure-wireless-rack" class="btn-secondary" style="font-size: 0.8rem; padding: 0.45rem 0.85rem;">View Specs →</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="gear-card" onclick="window.location.href='/product-details.html?id=ld-systems-column'" style="cursor: pointer;">
+              <div class="gear-media-wrapper">
+                <img src="/assets/photos/ld-systems-column-array.jpg" alt="LD Systems Column Line-Array PA Speaker System" class="gear-media-img" loading="lazy" />
+              </div>
+              <div class="gear-card-body">
+                <div class="gear-card-meta">Sound · Sound</div>
+                <h3 class="gear-card-title">LD Systems Column Line-Array PA Speaker System</h3>
+                <p class="gear-card-summary">High-clarity portable vertical column line-array loudspeaker system paired with powered subwoofer base on pole mount for even, wide acoustic dispersion.</p>
+                <div class="gear-spec-chips">
+                  <span class="gear-spec-chip">Vertical Column Array</span>
+                  <span class="gear-spec-chip">Powered Subwoofer Base</span>
+                  <span class="gear-spec-chip">Wide Horizontal Dispersion</span>
+                </div>
+                <div class="gear-card-actions" onclick="event.stopPropagation();">
+                  <button type="button" class="btn-rider" data-add-to-quote data-id="ld-systems-column" data-name="LD Systems Column Line-Array PA Speaker System" data-category="Sound">+ Add to Quote</button>
+                  <a href="/product-details.html?id=ld-systems-column" class="btn-secondary" style="font-size: 0.8rem; padding: 0.45rem 0.85rem;">View Specs →</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="gear-card" onclick="window.location.href='/product-details.html?id=yamaha-psr-i500'" style="cursor: pointer;">
+              <div class="gear-media-wrapper">
+                <img src="/assets/photos/yamaha-psr-i500-keyboard.jpg" alt="Yamaha PSR-I500 Keyboard & Metal Stand" class="gear-media-img" loading="lazy" />
+              </div>
+              <div class="gear-card-body">
+                <div class="gear-card-meta">Backline · Backline</div>
+                <h3 class="gear-card-title">Yamaha PSR-I500 Keyboard & Metal Stand</h3>
+                <p class="gear-card-summary">Yamaha PSR-I500 portable arranger keyboard complete with sturdy double-braced metal stand, Indian instrument voices, styles, and pitch bend wheel.</p>
+                <div class="gear-spec-chips">
+                  <span class="gear-spec-chip">61 Touch-Response Keys</span>
+                  <span class="gear-spec-chip">Dedicated Indian Voices & Styles</span>
+                  <span class="gear-spec-chip">Heavy-Duty Metal Stand</span>
+                </div>
+                <div class="gear-card-actions" onclick="event.stopPropagation();">
+                  <button type="button" class="btn-rider" data-add-to-quote data-id="yamaha-psr-i500" data-name="Yamaha PSR-I500 Keyboard & Metal Stand" data-category="Backline">+ Add to Quote</button>
+                  <a href="/product-details.html?id=yamaha-psr-i500" class="btn-secondary" style="font-size: 0.8rem; padding: 0.45rem 0.85rem;">View Specs →</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- Global Quote Drawer Aside Modal -->
+    <aside class="quote-drawer" id="quote-drawer" aria-label="Selected equipment quote drawer" role="dialog" aria-modal="true">
+      <div class="quote-drawer-header">
+        <div>
+          <div class="brand-monogram-inline"><span>NR AV</span></div>
+          <p>EQUIPMENT SPECIFICATION LIST</p>
+        </div>
+        <button type="button" class="btn-secondary" id="close-quote-drawer" style="padding: 0.35rem 0.75rem;" aria-label="Close quote drawer">✕ Close</button>
+      </div>
+      <div class="quote-drawer-body">
+        <p class="quote-drawer-intro">
+          Items added to your rider list. Submit this specification or ping on WhatsApp for an immediate itemized quote.
+        </p>
+        <div id="quote-drawer-items" class="quote-drawer-items-wrap">
+          <div class="quote-drawer-empty">
+            <p>Your quote list is currently empty.</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.4rem;">Browse equipment and click "+ Add to Quote".</p>
+          </div>
+        </div>
+        <div class="quote-drawer-actions">
+          <button type="button" class="btn-primary" id="drawer-whatsapp-btn" style="width: 100%; justify-content: center;">Send Specification on WhatsApp →</button>
+          <a href="/contact.html" class="btn-secondary" style="width: 100%; text-align: center; justify-content: center;">Submit Formal Rider Form</a>
+          <button type="button" id="clear-quote-btn" style="background: none; border: 0; color: var(--text-muted); font-size: 0.8rem; text-decoration: underline; cursor: pointer; align-self: center; margin-top: 0.4rem;">Clear all items</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Global Footer -->
+    <footer class="site-footer">
+      <div class="site-container">
+        <div class="footer-grid">
+          <div>
+            <div class="brand-logo" style="margin-bottom: 1rem;">
+              <span>NR Audio Visual</span>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; max-width: 32ch;">
+              Professional audio-visual equipment rental founded by <strong>Ramavath</strong>. Providing concert-grade sound, live backline, wireless mic systems, and visual displays across Hyderabad, Bangalore, and Mumbai.
+            </p>
+            <p style="font-size: 0.85rem; margin-top: 1rem; color: var(--text-secondary);">
+              Phone / WhatsApp: <a href="https://wa.me/919133133003" style="color: var(--accent-hot); font-weight: 700;">+91 91331 33003</a><br>
+              Email: <a href="mailto:ramavathn813@gmail.com" style="color: var(--accent-hot);">ramavathn813@gmail.com</a>
+            </p>
+          </div>
+          <div>
+            <div class="footer-col-title">Navigation</div>
+            <ul class="footer-links">
+              <li><a href="/services.html">Services</a></li>
+              <li><a href="/products.html">Equipment Catalogue</a></li>
+              <li><a href="/events.html">Event Types</a></li>
+              <li><a href="/packages.html">Packages</a></li>
+              <li><a href="/gallery.html">Photo Gallery</a></li>
+              <li><a href="/about.html">About NR AV</a></li>
+              <li><a href="/faq.html">FAQ</a></li>
+              <li><a href="/contact.html">Request a Quote</a></li>
+            </ul>
+          </div>
+          <div>
+            <div class="footer-col-title">City Hubs</div>
+            <div class="footer-city-item">
+              <a href="/hyderabad.html"><strong>Hyderabad City Centre</strong></a>
+              <small>Begumpet & Hitec City delivery</small>
+            </div>
+            <div class="footer-city-item">
+              <a href="/bangalore.html"><strong>Bangalore City Centre</strong></a>
+              <small>Whitefield & Central Bangalore</small>
+            </div>
+            <div class="footer-city-item">
+              <a href="/mumbai.html"><strong>Mumbai City Centre</strong></a>
+              <small>Bandra & BKC delivery hub</small>
+            </div>
+          </div>
+          <div>
+            <div class="footer-col-title">Legal & Contact</div>
+            <ul class="footer-links">
+              <li><a href="/privacy.html">Privacy Policy</a></li>
+              <li><a href="/terms.html">Rental Terms</a></li>
+              <li><a href="/locations.html">Coverage Areas</a></li>
+              <li><a href="/admin.html" style="color: var(--accent-hot); font-weight: 600;">🔒 Admin Portal</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div>© <span id="prod-year">2026</span> NR Audio Visual. Domain: nraudiovisual.in</div>
+          <div style="font-family: var(--font-mono); font-size: 0.75rem;">Stage & Studio Sound · Hyderabad · Bangalore · Mumbai</div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Global Floating Contact Speed Dial -->
+    <div class="floating-contact-widget" id="floating-contact-widget" aria-label="Quick contact menu">
+      <div class="fab-speed-dial-group" id="fab-speed-dial-group" role="menu" aria-label="Quick contact options">
+        <a href="mailto:ramavathn813@gmail.com" class="fab-circle-btn fab-email" role="menuitem" aria-label="Email ramavathn813@gmail.com" title="Email" data-tooltip="Email">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </a>
+        <a href="tel:+919133133003" class="fab-circle-btn fab-call" role="menuitem" aria-label="Call +91 91331 33003" title="Call" data-tooltip="Call">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+        </a>
+        <a href="https://wa.me/919133133003" class="fab-circle-btn fab-whatsapp" role="menuitem" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp NR Audio Visual" title="WhatsApp" data-tooltip="WhatsApp">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.23 8.23 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.63c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.49-.4-.42-.56-.43h-.47c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.72 4.31 3.81.6.26 1.07.42 1.44.54.61.19 1.16.17 1.6.1.49-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.23-.17-.48-.3"/>
+          </svg>
+        </a>
+      </div>
+      <button type="button" class="fab-main-trigger" id="fab-main-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="fab-speed-dial-group" aria-label="Toggle contact options" title="Quick contact">
+        <span class="fab-trigger-icon fab-icon-open" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+          </svg>
+        </span>
+        <span class="fab-trigger-icon fab-icon-close" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </span>
+      </button>
+    </div>
+
+    <!-- App Module -->
+    <script type="module" src="/app.js"></script>
+
+    <!-- Page Specific Script for Dynamic Equipment Details Rendering -->
+    <script type="module">
+      import { NR_CONFIG } from '/config.js';
+
+      // Enhanced specifications database for all equipment
+      const DETAILED_SPECS = {
+        'yamaha-tf5': {
+          table: [
+            ['Inputs', '32 XLR/TRS mic/line inputs + stereo RCA'],
+            ['Motorized Faders', '33 motorized faders (32 channel + 1 master)'],
+            ['Outputs', '16 XLR outputs + Stereo Master L/R'],
+            ['DSP Processing', 'Parametric EQ, dynamics & Rev-X effects']
+          ],
+          included: [
+            '1x Yamaha TF5 Digital Mixing Console',
+            '1x Custom road flight case',
+            'Audio & power connection cables'
+          ]
+        },
+        'shure-wireless-rack': {
+          table: [
+            ['Channels', 'Multi-channel clean UHF band'],
+            ['Transmitters', '2x Shure handheld wireless microphones'],
+            ['Range', 'Up to 100 meters (300 ft) clean range'],
+            ['Outputs', 'Balanced XLR line outputs per channel']
+          ],
+          included: [
+            '1x Flight-case rack with Shure receivers',
+            '2x Handheld wireless microphones',
+            'Antennas, batteries & XLR cables'
+          ]
+        },
+        'ld-systems-column': {
+          table: [
+            ['Array System', 'Vertical column array with 16x 3" drivers'],
+            ['Subwoofer', 'Powered bass-reflex subwoofer base'],
+            ['Dispersion', '120° wide horizontal coverage'],
+            ['Power', '1,000W RMS / 2,000W Peak Class-D']
+          ],
+          included: [
+            '1x Powered subwoofer base unit',
+            '1x Vertical column array with padded slip cover',
+            'Distance pole & connection cables'
+          ]
+        },
+        'yamaha-psr-i500': {
+          table: [
+            ['Keyboard', '61 touch-sensitive keys'],
+            ['Voices & Styles', '801 voices (dedicated Indian instruments & styles)'],
+            ['Outputs', 'Stereo 1/4" headphone/aux line out'],
+            ['Stand', 'Heavy-duty double-braced metal X-stand']
+          ],
+          included: [
+            '1x Yamaha PSR-I500 arranger keyboard',
+            '1x Double-X braced metal stand',
+            'Power adapter & sustain pedal'
+          ]
+        },
+        'alesis-drum-kit': {
+          table: [
+            ['Drum Pads', 'Quiet mesh snare, tom pads & kick tower'],
+            ['Cymbals', 'Dual-zone crash with choke, ride & hi-hat'],
+            ['Sound Module', '385+ drum sounds, 40 kits & metronome'],
+            ['Throne', 'Padded adjustable drum throne stool']
+          ],
+          included: [
+            '1x Complete mesh electronic drum kit & frame',
+            '1x Sound module with kick pedal',
+            '1x Padded drum throne & drumsticks'
+          ]
+        },
+        'camcorder-tripod': {
+          table: [
+            ['Camera', '4K / Full HD broadcast camera with stabilization'],
+            ['Zoom Optics', '20x optical zoom lens'],
+            ['Video Outputs', 'Clean uncompressed HDMI & 3G-SDI'],
+            ['Tripod', 'Heavy-duty fluid-head video tripod']
+          ],
+          included: [
+            '1x Broadcast camcorder with lens hood',
+            '1x Fluid-head video tripod',
+            'Batteries, charger & HDMI/SDI cables'
+          ]
+        },
+        'bass-amp': {
+          table: [
+            ['Power Rating', '300W - 500W RMS stage output'],
+            ['Speaker Driver', '15" low-frequency bass driver + HF horn'],
+            ['Tone Shaping', '4-band active EQ & contour control'],
+            ['Direct Out', 'Balanced XLR DI line out to mixer']
+          ],
+          included: [
+            '1x Stage Bass Amplifier Combo',
+            'AC power cable & 1/4" instrument cable'
+          ]
+        },
+        'small-combo-amp': {
+          table: [
+            ['Power Rating', '50W - 100W clean stage output'],
+            ['Driver', 'Full-range instrument loudspeaker'],
+            ['Channels', 'Dual input channels with 3-band EQ & reverb'],
+            ['Outputs', '1/4" line out & headphone out']
+          ],
+          included: [
+            '1x Compact Stage Combo Amplifier',
+            'AC power cable & instrument patch cable'
+          ]
+        },
+        'stage-lighting': {
+          table: [
+            ['Fixtures', 'RGBW LED stage washes & profile spotlights'],
+            ['Control', 'Standard DMX-512 input/thru & auto modes'],
+            ['Color Temp', 'Warm tungsten (3200K) to crisp daylight (5600K)'],
+            ['Mounting', 'Floor stand yokes & truss rigging clamps']
+          ],
+          included: [
+            'Selected stage lighting fixtures',
+            'Floor yokes & truss mounting clamps',
+            'PowerCON links & DMX data cables'
+          ]
+        },
+        'projectors-screens': {
+          table: [
+            ['Brightness', '5,000 to 10,000 ANSI Lumens digital projection'],
+            ['Resolution', 'Full HD (1920x1080) / WUXGA HDMI ready'],
+            ['Screen Frame', 'Fast-fold modular aluminum truss frame'],
+            ['Fabrics', 'Front & rear projection fabrics included']
+          ],
+          included: [
+            '1x High-Lumen presentation projector',
+            '1x Fast-fold aluminum screen with upright legs',
+            'Front/rear fabrics & high-speed HDMI cables'
+          ]
+        },
+        'led-video-walls': {
+          table: [
+            ['Pixel Pitch', 'P2.6 / P3.9 fine high-refresh LED tiles'],
+            ['Visibility', 'Ultra-bright contrast for ambient room lighting'],
+            ['Configuration', 'Modular stage sizing (flat or curved)'],
+            ['Processing', 'Multi-input HD video sending processor']
+          ],
+          included: [
+            'Modular LED video panels to configured stage size',
+            '1x Master video switcher / sending processor',
+            'Ground stacking bases & power/data cabling'
+          ]
+        }
+      };
+
+      function initProductPage() {
+        // Load latest configuration including admin overrides
+        let currentCatalogue = NR_CONFIG.catalogue;
+        try {
+          const override = localStorage.getItem('nr_site_data_override') || localStorage.getItem('nr_site_config_override');
+          if (override) {
+            const parsed = JSON.parse(override);
+            if (parsed.catalogue && parsed.catalogue.length > 0) {
+              currentCatalogue = parsed.catalogue;
+            }
+          }
+        } catch (e) {}
+
+        const urlParams = new URLSearchParams(window.location.search);
+        let productId = urlParams.get('id');
+
+        // Default to yamaha-tf5 if none or invalid
+        if (!productId || !currentCatalogue.some(p => p.id === productId)) {
+          productId = 'yamaha-tf5';
+        }
+
+        const product = currentCatalogue.find(p => p.id === productId);
+        if (!product) return;
+
+        // Update Document Title & Meta
+        document.title = `${product.name} Rental | NR Audio Visual`;
+        document.querySelector('meta[name="description"]')?.setAttribute('content', `${product.name} hire in Hyderabad, Bangalore & Mumbai. ${product.summary}`);
+
+        // Update Breadcrumb & Headings
+        const breadcrumbEl = document.getElementById('breadcrumb-product-name');
+        if (breadcrumbEl) breadcrumbEl.textContent = product.name;
+
+        const headingEl = document.getElementById('product-title-heading');
+        if (headingEl) headingEl.textContent = product.name;
+
+        const leadEl = document.getElementById('product-lead-summary');
+        if (leadEl) leadEl.textContent = product.summary;
+
+        const catTagEl = document.getElementById('product-category-name');
+        if (catTagEl) catTagEl.textContent = `${product.category} · ${product.type}`.toUpperCase();
+
+        // Update Photo & Multiple Thumbnails Gallery
+        const heroImg = document.getElementById('product-hero-img');
+        const thumbsContainer = document.getElementById('product-thumbnails-strip');
+        const allPhotos = (product.photos && product.photos.length > 0) ? product.photos : (product.photo ? [product.photo] : []);
+
+        if (heroImg) {
+          heroImg.src = allPhotos[0] || '/assets/photos/yamaha-tf5-mixer.jpg';
+          heroImg.alt = product.name;
+        }
+
+        if (thumbsContainer) {
+          if (allPhotos.length > 1) {
+            thumbsContainer.style.display = 'flex';
+            thumbsContainer.innerHTML = allPhotos.map((src, i) => `
+              <button type="button" class="prod-thumb-btn ${i === 0 ? 'active' : ''}" data-idx="${i}" aria-label="View photo ${i + 1}" style="flex-shrink: 0; width: 68px; height: 50px; border-radius: 6px; overflow: hidden; border: 2px solid ${i === 0 ? 'var(--accent-hot)' : 'var(--border-subtle)'}; background: #000; padding: 0; cursor: pointer; transition: all 0.2s;">
+                <img src="${src}" alt="${product.name} photo ${i + 1}" style="width: 100%; height: 100%; object-fit: cover;" />
+              </button>
+            `).join('');
+
+            thumbsContainer.querySelectorAll('.prod-thumb-btn').forEach(btn => {
+              btn.addEventListener('click', () => {
+                const idx = parseInt(btn.getAttribute('data-idx'), 10);
+                if (heroImg && allPhotos[idx]) {
+                  heroImg.src = allPhotos[idx];
+                }
+                thumbsContainer.querySelectorAll('.prod-thumb-btn').forEach(b => {
+                  b.style.borderColor = 'var(--border-subtle)';
+                  b.classList.remove('active');
+                });
+                btn.style.borderColor = 'var(--accent-hot)';
+                btn.classList.add('active');
+              });
+            });
+          } else {
+            thumbsContainer.style.display = 'none';
+            thumbsContainer.innerHTML = '';
+          }
+        }
+
+        // Update Spec Chips
+        const chipsContainer = document.getElementById('product-specs-chips');
+        if (chipsContainer) {
+          chipsContainer.innerHTML = (product.specs || []).map(spec => `
+            <span class="product-spec-pill">
+              <span style="color: var(--accent-hot);">✓</span>
+              <span>${spec}</span>
+            </span>
+          `).join('');
+        }
+
+        // Update Add to Quote Button
+        const addQuoteBtn = document.getElementById('product-add-quote-btn');
+        if (addQuoteBtn) {
+          addQuoteBtn.setAttribute('data-id', product.id);
+          addQuoteBtn.setAttribute('data-name', product.name);
+          addQuoteBtn.setAttribute('data-category', product.category);
+        }
+
+        // Update WhatsApp Link
+        const whatsappBtn = document.getElementById('product-whatsapp-btn');
+        if (whatsappBtn) {
+          const msg = `Hi Ramavath, I am interested in renting the ${product.name} for an event in Hyderabad / Bangalore / Mumbai. Please share quotation and availability.`;
+          whatsappBtn.href = `https://wa.me/919133133003?text=${encodeURIComponent(msg)}`;
+        }
+
+        // Update Technical Specs Table
+        const specsTable = document.getElementById('product-specs-table');
+        const specDetails = DETAILED_SPECS[product.id] || {
+          table: (product.specs || []).map(s => ['Specification', s]),
+          included: ['1x ' + product.name, 'Essential AC power and audio interconnect cabling', 'Transit protection case or cover']
+        };
+
+        if (specsTable) {
+          specsTable.innerHTML = specDetails.table.map(([label, val]) => `
+            <tr>
+              <th>${label}</th>
+              <td>${val}</td>
+            </tr>
+          `).join('');
+        }
+
+        // Update Included Items
+        const incList = document.getElementById('product-included-list');
+        if (incList) {
+          incList.innerHTML = specDetails.included.map(item => `
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>${item}</span>
+            </li>
+          `).join('');
+        }
+
+        // Update Ideal For
+        const idealEl = document.getElementById('product-ideal-for');
+        if (idealEl) {
+          idealEl.textContent = product.idealFor || 'Live stage concerts, corporate summits, weddings, and worship gatherings across Telangana, Karnataka, and Maharashtra.';
+        }
+
+        // Render Related Products (exclude current)
+        const relatedContainer = document.getElementById('related-gear-container');
+        if (relatedContainer) {
+          const related = currentCatalogue
+            .filter(p => p.id !== product.id && p.hasRealPhoto)
+            .slice(0, 3);
+
+          relatedContainer.innerHTML = related.map(rel => `
+            <article class="gear-card" onclick="window.location.href='/product-details.html?id=${rel.id}'" style="cursor: pointer;">
+              <div class="gear-media-wrapper">
+                <img src="${rel.photo}" alt="${rel.name}" class="gear-media-img" loading="lazy" />
+              </div>
+              <div class="gear-card-body">
+                <div class="gear-card-meta">${rel.category} · ${rel.type}</div>
+                <h3 class="gear-card-title">${rel.name}</h3>
+                <p class="gear-card-summary">${rel.summary}</p>
+                <div class="gear-spec-chips">
+                  ${(rel.specs || []).slice(0, 3).map(s => `<span class="gear-spec-chip">${s}</span>`).join('')}
+                </div>
+                <div class="gear-card-actions" onclick="event.stopPropagation();">
+                  <button type="button" class="btn-rider" data-add-to-quote data-id="${rel.id}" data-name="${rel.name}" data-category="${rel.category}">+ Add to Quote</button>
+                  <a href="/product-details.html?id=${rel.id}" class="btn-secondary" style="font-size: 0.8rem; padding: 0.45rem 0.85rem;">View Specs →</a>
+                </div>
+              </div>
+            </article>
+          `).join('');
+        }
+      }
+
+      // Immediate boot & resilient fallback
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initProductPage);
+      } else {
+        initProductPage();
+      }
+
+      // Live multi-tab sync when admin updates gear
+      if (typeof window !== 'undefined') {
+        window.addEventListener('storage', (e) => {
+          if (e.key === 'nr_site_data_override' || e.key === 'nr_site_config_override') {
+            initProductPage();
+          }
+        });
+        window.addEventListener('nr-config-updated', () => {
+          initProductPage();
+        });
+      }
+      
+      const yrEl = document.getElementById('prod-year');
+      if (yrEl) yrEl.textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
