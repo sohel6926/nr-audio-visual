@@ -1047,6 +1047,16 @@ function syncHomeFeaturedGear() {
 
 function syncHeroAndProtocol() {
   if (siteConfig.hero) {
+    const badge = document.getElementById('hero-badge-text') || document.querySelector('.hero-editorial-badge span') || document.querySelector('.hero-editorial-badge');
+    if (badge && siteConfig.hero.badge) {
+      badge.textContent = siteConfig.hero.badge;
+    }
+
+    const coverage = document.getElementById('hero-coverage-label') || document.querySelector('.hero-coverage-row span:first-child');
+    if (coverage && siteConfig.hero.coverageLabel) {
+      coverage.textContent = siteConfig.hero.coverageLabel;
+    }
+
     const headline = document.getElementById('hero-headline-text');
     if (headline && siteConfig.hero.headline) headline.textContent = siteConfig.hero.headline;
 
@@ -1058,6 +1068,53 @@ function syncHeroAndProtocol() {
 
     const gearSpec = document.getElementById('hero-gear-spec');
     if (gearSpec && siteConfig.hero.featuredGearSpec) gearSpec.textContent = siteConfig.hero.featuredGearSpec;
+  }
+
+  // 4-Step Rental Protocol
+  if (siteConfig.protocol && siteConfig.protocol.length > 0) {
+    const protoContainer = document.getElementById('protocol-cards-container') || document.querySelector('.process-grid');
+    if (protoContainer) {
+      protoContainer.innerHTML = siteConfig.protocol.map(step => `
+        <div class="process-card">
+          <div class="process-step-num">${escapeHtml(step.step || '01')}</div>
+          <h3 class="process-title">${escapeHtml(step.title || '')}</h3>
+          <p class="process-desc">${escapeHtml(step.desc || '')}</p>
+        </div>
+      `).join('');
+    }
+  }
+
+  // Event Types Marquee Ribbon
+  if (siteConfig.marquee && siteConfig.marquee.length > 0) {
+    const marqueeTrack = document.getElementById('marquee-track-container') || document.querySelector('.marquee-track');
+    if (marqueeTrack) {
+      const itemsHtml = siteConfig.marquee.map(item => `
+        <div class="marquee-item"><span>${escapeHtml(item)}</span><span class="marquee-dot"></span></div>
+      `).join('');
+      marqueeTrack.innerHTML = itemsHtml + itemsHtml;
+    }
+  }
+}
+
+function syncAbout() {
+  if (siteConfig.about) {
+    const missionH = document.getElementById('about-mission-headline');
+    if (missionH && siteConfig.about.missionHeadline) {
+      missionH.textContent = siteConfig.about.missionHeadline;
+    }
+
+    const missionS = document.getElementById('about-mission-story');
+    if (missionS && siteConfig.about.missionStory) {
+      const paragraphs = siteConfig.about.missionStory.split(/\n\n+/).filter(Boolean);
+      missionS.innerHTML = paragraphs.map(p => `<p style="margin-bottom: 1.25rem; font-size: 1.05rem; line-height: 1.65;">${escapeHtml(p)}</p>`).join('');
+    }
+
+    const cmtList = document.getElementById('about-commitments-list');
+    if (cmtList && siteConfig.about.commitments && siteConfig.about.commitments.length > 0) {
+      cmtList.innerHTML = siteConfig.about.commitments.map(cmt => `
+        <li>✓ <strong>${escapeHtml(cmt.title)}:</strong> ${escapeHtml(cmt.desc)}</li>
+      `).join('');
+    }
   }
 }
 
@@ -1386,12 +1443,27 @@ export function initScrollReveal() {
   }, 1200);
 }
 
+function deepMerge(target, source) {
+  if (!source || typeof source !== 'object') return target;
+  for (const key of Object.keys(source)) {
+    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+      if (!target[key] || typeof target[key] !== 'object' || Array.isArray(target[key])) {
+        target[key] = {};
+      }
+      deepMerge(target[key], source[key]);
+    } else {
+      target[key] = source[key];
+    }
+  }
+  return target;
+}
+
 export function refreshAllDynamicContent() {
   try {
     const override = localStorage.getItem('nr_site_data_override') || localStorage.getItem('nr_site_config_override');
     if (override) {
       const parsed = JSON.parse(override);
-      Object.assign(siteConfig, parsed);
+      deepMerge(siteConfig, parsed);
     }
   } catch (e) {}
 
@@ -1401,6 +1473,7 @@ export function refreshAllDynamicContent() {
   syncPackages();
   syncEvents();
   syncServices();
+  syncAbout();
   syncBrandAndContact();
   initAccordions();
   initCatalogueFilters();

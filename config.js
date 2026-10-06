@@ -594,13 +594,28 @@ export const siteConfig = {
   ],
 };
 
+function deepMerge(target, source) {
+  if (!source || typeof source !== 'object') return target;
+  for (const key of Object.keys(source)) {
+    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+      if (!target[key] || typeof target[key] !== 'object' || Array.isArray(target[key])) {
+        target[key] = {};
+      }
+      deepMerge(target[key], source[key]);
+    } else {
+      target[key] = source[key];
+    }
+  }
+  return target;
+}
+
 // Auto-load Admin overrides from localStorage if present
 if (typeof window !== 'undefined' && window.localStorage) {
   try {
     const override = localStorage.getItem('nr_site_data_override') || localStorage.getItem('nr_site_config_override');
     if (override) {
       const parsed = JSON.parse(override);
-      Object.assign(siteConfig, parsed);
+      deepMerge(siteConfig, parsed);
     }
   } catch (e) {
     console.warn('NR Audio Visual: Could not load local site override', e);
@@ -612,7 +627,7 @@ export function saveSiteConfigOverride(updatedConfig) {
     const serialized = JSON.stringify(updatedConfig);
     localStorage.setItem('nr_site_data_override', serialized);
     localStorage.setItem('nr_site_config_override', serialized);
-    Object.assign(siteConfig, updatedConfig);
+    deepMerge(siteConfig, updatedConfig);
     try {
       window.dispatchEvent(new CustomEvent('nr-config-updated', { detail: updatedConfig }));
     } catch (e) {}
