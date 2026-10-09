@@ -1550,12 +1550,102 @@ img {
     margin: 0 !important;
   }
 
+  /* Reduced Card Sizing on Mobile */
+  .gear-slider-container .gear-media-wrapper {
+    aspect-ratio: 16 / 10;
+    max-height: 200px;
+  }
+
+  .gear-slider-container .gear-card-body {
+    padding: 1rem 1.15rem 1.15rem;
+    gap: 0;
+  }
+
+  .gear-slider-container .gear-card-meta {
+    font-size: 0.72rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .gear-slider-container .gear-card-title {
+    font-size: 1.08rem;
+    line-height: 1.25;
+    margin-bottom: 0.35rem;
+  }
+
+  .gear-slider-container .gear-card-summary {
+    font-size: 0.84rem;
+    line-height: 1.45;
+    margin-bottom: 0.65rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .gear-slider-container .gear-spec-chips {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    gap: 0.35rem;
+  }
+
+  .gear-slider-container .gear-spec-chip {
+    font-size: 0.72rem;
+    padding: 0.18rem 0.45rem;
+  }
+
+  .gear-slider-container .gear-card-actions {
+    padding-top: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .gear-slider-container .btn-rider,
+  .gear-slider-container .btn-whatsapp-card {
+    padding: 0.55rem 0.85rem;
+    font-size: 0.8rem;
+  }
+
+  .gear-slider-container .gear-detail-link {
+    font-size: 0.78rem;
+  }
+
+  /* Manual Slider Navigation Controls */
+  .gear-slider-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  .gear-nav-arrow {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  }
+
+  .gear-nav-arrow:hover,
+  .gear-nav-arrow:active {
+    background: var(--accent-hot);
+    color: #ffffff;
+    border-color: var(--accent-hot);
+    transform: scale(1.08);
+  }
+
   .gear-slider-dots {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.6rem;
-    margin-top: 1.5rem;
+    gap: 0.5rem;
+    margin-top: 0;
   }
 
   .gear-slider-dot {
@@ -1570,14 +1660,53 @@ img {
   }
 
   .gear-slider-dot.active {
-    width: 28px;
+    width: 26px;
     background: var(--accent-hot);
     box-shadow: 0 0 10px rgba(212, 62, 31, 0.45);
+  }
+
+  /* Floating Arrows on image area */
+  .gear-floating-arrow {
+    position: absolute;
+    top: 95px;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(15, 18, 24, 0.82);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  .gear-floating-prev {
+    left: 8px;
+  }
+
+  .gear-floating-next {
+    right: 8px;
+  }
+
+  .gear-floating-arrow:hover,
+  .gear-floating-arrow:active {
+    background: var(--accent-hot);
+    border-color: var(--accent-hot);
+    transform: translateY(-50%) scale(1.1);
   }
 }
 
 @media (min-width: 640px) {
-  .gear-slider-dots {
+  .gear-slider-controls,
+  .gear-slider-dots,
+  .gear-floating-arrow {
     display: none !important;
   }
 }
@@ -1884,18 +2013,28 @@ img {
   flex-direction: column;
 }
 
+.process-step-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+}
+
 .process-step-num {
   font-family: var(--font-mono);
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--accent-hot);
-  margin-bottom: 0.75rem;
-  opacity: 0.9;
+  margin-bottom: 0;
+  opacity: 0.95;
+  line-height: 1;
+  flex-shrink: 0;
 }
 
 .process-title {
   font-size: 1.15rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
+  line-height: 1.25;
 }
 
 .process-desc {

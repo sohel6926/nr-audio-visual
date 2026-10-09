@@ -1072,18 +1072,71 @@ function initFeaturedGearSlider() {
   const cards = container.querySelectorAll('.gear-card');
   if (cards.length <= 1) return;
 
+  let controls = document.getElementById('featured-gear-controls');
+  if (!controls) {
+    controls = document.createElement('div');
+    controls.id = 'featured-gear-controls';
+    controls.className = 'gear-slider-controls';
+    container.parentNode.appendChild(controls);
+  }
+
   let dotsContainer = document.getElementById('featured-gear-dots');
   if (!dotsContainer) {
     dotsContainer = document.createElement('div');
     dotsContainer.id = 'featured-gear-dots';
     dotsContainer.className = 'gear-slider-dots';
     dotsContainer.setAttribute('aria-label', 'Featured equipment slide indicators');
-    container.parentNode.appendChild(dotsContainer);
+    controls.appendChild(dotsContainer);
   }
 
   dotsContainer.innerHTML = Array.from(cards).map((_, idx) => `
     <button type="button" class="gear-slider-dot ${idx === 0 ? 'active' : ''}" data-slide="${idx}" aria-label="Go to Slide ${idx + 1}"></button>
   `).join('');
+
+  let prevBtn = document.getElementById('gear-nav-prev');
+  if (!prevBtn) {
+    prevBtn = document.createElement('button');
+    prevBtn.type = 'button';
+    prevBtn.id = 'gear-nav-prev';
+    prevBtn.className = 'gear-nav-arrow gear-nav-prev';
+    prevBtn.setAttribute('aria-label', 'Previous equipment slide');
+    prevBtn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
+    controls.insertBefore(prevBtn, dotsContainer);
+  }
+
+  let nextBtn = document.getElementById('gear-nav-next');
+  if (!nextBtn) {
+    nextBtn = document.createElement('button');
+    nextBtn.type = 'button';
+    nextBtn.id = 'gear-nav-next';
+    nextBtn.className = 'gear-nav-arrow gear-nav-next';
+    nextBtn.setAttribute('aria-label', 'Next equipment slide');
+    nextBtn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>';
+    controls.appendChild(nextBtn);
+  }
+
+  // Floating side arrows on slider container
+  const sliderContainer = document.getElementById('featured-gear-slider-container') || container.parentNode;
+  let floatPrev = document.getElementById('gear-float-prev');
+  let floatNext = document.getElementById('gear-float-next');
+  if (sliderContainer && !floatPrev) {
+    floatPrev = document.createElement('button');
+    floatPrev.type = 'button';
+    floatPrev.id = 'gear-float-prev';
+    floatPrev.className = 'gear-floating-arrow gear-floating-prev';
+    floatPrev.setAttribute('aria-label', 'Previous equipment slide');
+    floatPrev.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
+    sliderContainer.insertBefore(floatPrev, container);
+  }
+  if (sliderContainer && !floatNext) {
+    floatNext = document.createElement('button');
+    floatNext.type = 'button';
+    floatNext.id = 'gear-float-next';
+    floatNext.className = 'gear-floating-arrow gear-floating-next';
+    floatNext.setAttribute('aria-label', 'Next equipment slide');
+    floatNext.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>';
+    sliderContainer.insertBefore(floatNext, container);
+  }
 
   const dots = dotsContainer.querySelectorAll('.gear-slider-dot');
   let currentIndex = 0;
@@ -1127,8 +1180,31 @@ function initFeaturedGearSlider() {
     setTimeout(() => {
       isPaused = false;
       startAutoSlide();
-    }, 5000);
+    }, 6000);
   }
+
+  // Arrow button click listeners
+  [prevBtn, floatPrev].forEach(btn => {
+    if (btn) {
+      btn.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        goToSlide(currentIndex - 1);
+        pauseBriefly();
+      };
+    }
+  });
+
+  [nextBtn, floatNext].forEach(btn => {
+    if (btn) {
+      btn.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        goToSlide(currentIndex + 1);
+        pauseBriefly();
+      };
+    }
+  });
 
   dots.forEach((dot, idx) => {
     dot.addEventListener('click', (e) => {
@@ -1208,8 +1284,10 @@ function syncHeroAndProtocol() {
     if (protoContainer) {
       protoContainer.innerHTML = siteConfig.protocol.map(step => `
         <div class="process-card">
-          <div class="process-step-num">${escapeHtml(step.step || '01')}</div>
-          <h3 class="process-title">${escapeHtml(step.title || '')}</h3>
+          <div class="process-step-header">
+            <span class="process-step-num">${escapeHtml(step.step || '01')}</span>
+            <h3 class="process-title">${escapeHtml(step.title || '')}</h3>
+          </div>
           <p class="process-desc">${escapeHtml(step.desc || '')}</p>
         </div>
       `).join('');
