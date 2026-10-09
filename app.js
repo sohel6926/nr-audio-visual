@@ -1258,7 +1258,7 @@ function syncServices() {
           </div>
         </div>
         <div style="${isReversed ? 'order: 1;' : ''} background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); overflow: hidden; padding: 1.5rem; text-align: center;">
-          <img src="${photo}" alt="${escapeHtml(srv.title)}" style="border-radius: var(--radius-lg); aspect-ratio: 4/3; object-fit: cover; width: 100%;" loading="lazy" />
+          <img src="${photo}" alt="${escapeHtml(srv.title)}" style="border-radius: var(--radius-lg); aspect-ratio: 4/3; object-fit: cover; width: 100%;" loading="eager" decoding="async" onerror="this.onerror=null; this.src='/assets/banners/wedding-stage-banner.jpg';" />
           <div style="margin-top: 1rem; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
             ${escapeHtml(srv.title)} · Professional Hire & Staging Fleet
           </div>
