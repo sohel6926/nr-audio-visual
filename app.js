@@ -961,6 +961,26 @@ function escapeHtml(str) {
    12. Dynamic Content Synchronization (Connected to Admin Panel)
    ========================================================================== */
 
+function getCataloguePhoto(item) {
+  const defaultPhotoMap = {
+    'stage-lighting': '/assets/photos/lighting-rig.jpg',
+    'projectors-screens': '/assets/photos/projector-screen.jpg',
+    'led-video-walls': '/assets/photos/led-video-wall.jpg',
+    'led-screen': '/assets/photos/led-screen.jpg',
+    'flower-decoration': '/assets/photos/flower-decoration.jpg',
+    'marriage-events': '/assets/photos/marriage-events.jpg',
+    'yamaha-tf5': '/assets/photos/yamaha-tf5-mixer.jpg',
+    'shure-wireless-rack': '/assets/photos/shure-wireless-rack.jpg',
+    'ld-systems-column': '/assets/photos/ld-systems-column-array.jpg',
+    'yamaha-psr-i500': '/assets/photos/yamaha-psr-i500-keyboard.jpg',
+    'alesis-drum-kit': '/assets/photos/alesis-drum-kit.jpg',
+    'bass-amp': '/assets/photos/bass-amp.jpg',
+    'small-combo-amp': '/assets/photos/bass-amp.jpg',
+    'camcorder-tripod': '/assets/photos/camcorder-tripod.jpg',
+  };
+  return item.photo || (item.photos && item.photos[0]) || defaultPhotoMap[item.id] || '/assets/photos/yamaha-tf5-mixer.jpg';
+}
+
 function syncCatalogue() {
   const container = document.getElementById('catalogue-cards-container');
   if (!container || !siteConfig.catalogue) return;
@@ -970,9 +990,8 @@ function syncCatalogue() {
   container.innerHTML = siteConfig.catalogue.map(item => {
     const specsHtml = (item.specs || []).map(s => `<span class="gear-spec-chip">${escapeHtml(s)}</span>`).join('');
     const waText = encodeURIComponent(`Hi Ramavath, I am interested in renting the ${item.name}`);
-    const mediaHtml = item.photo
-      ? `<img src="${item.photo}" alt="${escapeHtml(item.name)}" class="gear-media-img" loading="lazy" />`
-      : `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--accent-hot);"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>`;
+    const photoSrc = getCataloguePhoto(item);
+    const mediaHtml = `<img src="${photoSrc}" alt="${escapeHtml(item.name)}" class="gear-media-img" loading="lazy" onerror="this.onerror=null; this.src='/assets/photos/yamaha-tf5-mixer.jpg';" />`;
 
     return `
       <article class="gear-card" data-category="${escapeHtml(item.category || '')}" data-type="${escapeHtml(item.type || item.category || '')}" onclick="window.location.href='/product-details.html?id=${encodeURIComponent(item.id)}'" style="cursor: pointer;">
@@ -1015,9 +1034,8 @@ function syncHomeFeaturedGear() {
   container.innerHTML = featuredItems.map(item => {
     const specsHtml = (item.specs || []).slice(0, 3).map(s => `<span class="gear-spec-chip">${escapeHtml(s)}</span>`).join('');
     const waText = encodeURIComponent(`Hi Ramavath, I am interested in renting the ${item.name}`);
-    const mediaHtml = item.photo
-      ? `<img src="${item.photo}" alt="${escapeHtml(item.name)}" class="gear-media-img" loading="lazy" />`
-      : `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--accent-hot);"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>`;
+    const photoSrc = getCataloguePhoto(item);
+    const mediaHtml = `<img src="${photoSrc}" alt="${escapeHtml(item.name)}" class="gear-media-img" loading="lazy" onerror="this.onerror=null; this.src='/assets/photos/yamaha-tf5-mixer.jpg';" />`;
 
     return `
       <article class="gear-card" onclick="window.location.href='/product-details.html?id=${encodeURIComponent(item.id)}'" style="cursor: pointer;">

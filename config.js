@@ -277,9 +277,9 @@ export const siteConfig = {
       name: "Stage & Event Lighting Fixtures",
       category: "Lighting",
       type: "Lighting",
-      photo: null,
-      hasRealPhoto: false,
-      illustrationType: "stage-lights",
+      photo: "/assets/photos/lighting-rig.jpg",
+      photos: ["/assets/photos/lighting-rig.jpg"],
+      hasRealPhoto: true,
       summary: "Professional stage wash fixtures, profile spotlights, and ambient event illumination rigs to highlight performers, speakers, and venue architecture.",
       specs: ["High-CRI Stage Wash", "DMX Controllable", "Floor Uplight & Truss Mount", "Adjustable Color Temperatures"],
       idealFor: "Evening wedding stages, concert lighting, corporate presentation stages, awards nights",
@@ -289,22 +289,23 @@ export const siteConfig = {
       name: "High-Lumen Projectors & Fast-Fold Screens",
       category: "Projection",
       type: "Video",
-      photo: null,
-      hasRealPhoto: false,
-      illustrationType: "projector-screen",
+      photo: "/assets/photos/projector-screen.jpg",
+      photos: ["/assets/photos/projector-screen.jpg", "/assets/banners/corporate-summit-banner.jpg"],
+      hasRealPhoto: true,
       summary: "Crisp high-lumen digital projectors paired with front or rear fast-fold projection screens for large conference rooms, banquets, and auditoriums.",
       specs: ["High-Lumen Output", "Front & Rear Projection Fabrics", "Fast-Fold Metal Truss Frame", "HDMI / Video Switcher Ready"],
       idealFor: "Keynote slides, corporate town halls, wedding memory videos, AGM presentations",
     },
     {
       id: "led-video-walls",
-      name: "High-Resolution Modular LED Screen & Video Walls",
+      name: "High-Resolution Modular LED Video Walls",
       category: "LED Walls",
       type: "Video",
-      photo: "/assets/photos/led-screen.jpg",
+      photo: "/assets/photos/led-video-wall.jpg",
+      photos: ["/assets/photos/led-video-wall.jpg", "/assets/photos/led-screen.jpg"],
       hasRealPhoto: true,
-      summary: "Seamless modular LED video tile walls tailored to custom stage dimensions, delivering ultra-crisp visuals even under bright ambient stage lighting.",
-      specs: ["P2.6 / P3.9 Fine Pixel Pitch", "Seamless Modular Tiles", "High Ambient Brightness", "Dedicated 4K Video Processor"],
+      summary: "Seamless modular LED video tile walls tailored to custom stage dimensions, delivering sharp visuals even under bright ambient stage lighting.",
+      specs: ["Fine Pixel Pitch", "Seamless Modular Tiles", "High Ambient Brightness", "Dedicated Video Processor"],
       idealFor: "Grand wedding backdrops, product unveilings, international conferences, festival stages",
     },
     {
@@ -671,6 +672,38 @@ if (typeof window !== 'undefined' && window.localStorage) {
     }
   } catch (e) {
     console.warn('NR Audio Visual: Could not load local site override', e);
+  }
+
+  // Guarantee every catalogue product has a valid real photo
+  const defaultCataloguePhotos = {
+    'stage-lighting': '/assets/photos/lighting-rig.jpg',
+    'projectors-screens': '/assets/photos/projector-screen.jpg',
+    'led-video-walls': '/assets/photos/led-video-wall.jpg',
+    'led-screen': '/assets/photos/led-screen.jpg',
+    'flower-decoration': '/assets/photos/flower-decoration.jpg',
+    'marriage-events': '/assets/photos/marriage-events.jpg',
+    'yamaha-tf5': '/assets/photos/yamaha-tf5-mixer.jpg',
+    'shure-wireless-rack': '/assets/photos/shure-wireless-rack.jpg',
+    'ld-systems-column': '/assets/photos/ld-systems-column-array.jpg',
+    'yamaha-psr-i500': '/assets/photos/yamaha-psr-i500-keyboard.jpg',
+    'alesis-drum-kit': '/assets/photos/alesis-drum-kit.jpg',
+    'bass-amp': '/assets/photos/bass-amp.jpg',
+    'small-combo-amp': '/assets/photos/bass-amp.jpg',
+    'camcorder-tripod': '/assets/photos/camcorder-tripod.jpg',
+  };
+
+  if (siteConfig && Array.isArray(siteConfig.catalogue)) {
+    siteConfig.catalogue.forEach(item => {
+      if (!item.photo || item.photo === 'null' || !item.hasRealPhoto) {
+        if (defaultCataloguePhotos[item.id]) {
+          item.photo = defaultCataloguePhotos[item.id];
+          item.hasRealPhoto = true;
+          if (!item.photos || item.photos.length === 0) {
+            item.photos = [defaultCataloguePhotos[item.id]];
+          }
+        }
+      }
+    });
   }
 }
 
