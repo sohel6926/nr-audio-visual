@@ -1043,6 +1043,120 @@ function syncHomeFeaturedGear() {
       </article>
     `;
   }).join('');
+
+  initFeaturedGearSlider();
+}
+
+function initFeaturedGearSlider() {
+  const container = document.getElementById('home-featured-gear');
+  if (!container) return;
+
+  const cards = container.querySelectorAll('.gear-card');
+  if (cards.length <= 1) return;
+
+  let dotsContainer = document.getElementById('featured-gear-dots');
+  if (!dotsContainer) {
+    dotsContainer = document.createElement('div');
+    dotsContainer.id = 'featured-gear-dots';
+    dotsContainer.className = 'gear-slider-dots';
+    dotsContainer.setAttribute('aria-label', 'Featured equipment slide indicators');
+    container.parentNode.appendChild(dotsContainer);
+  }
+
+  dotsContainer.innerHTML = Array.from(cards).map((_, idx) => `
+    <button type="button" class="gear-slider-dot ${idx === 0 ? 'active' : ''}" data-slide="${idx}" aria-label="Go to Slide ${idx + 1}"></button>
+  `).join('');
+
+  const dots = dotsContainer.querySelectorAll('.gear-slider-dot');
+  let currentIndex = 0;
+  let autoSlideTimer = null;
+  let isPaused = false;
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  function goToSlide(index) {
+    if (window.innerWidth >= 640) {
+      container.style.transform = '';
+      return;
+    }
+    currentIndex = (index + cards.length) % cards.length;
+    container.style.transform = `translateX(-${currentIndex * 100}%)`;
+    dots.forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === currentIndex);
+    });
+  }
+
+  function startAutoSlide() {
+    stopAutoSlide();
+    if (window.innerWidth >= 640) return;
+    autoSlideTimer = setInterval(() => {
+      if (!isPaused && window.innerWidth < 640) {
+        goToSlide(currentIndex + 1);
+      }
+    }, 3500);
+  }
+
+  function stopAutoSlide() {
+    if (autoSlideTimer) {
+      clearInterval(autoSlideTimer);
+      autoSlideTimer = null;
+    }
+  }
+
+  function pauseBriefly() {
+    isPaused = true;
+    stopAutoSlide();
+    setTimeout(() => {
+      isPaused = false;
+      startAutoSlide();
+    }, 5000);
+  }
+
+  dots.forEach((dot, idx) => {
+    dot.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      goToSlide(idx);
+      pauseBriefly();
+    });
+  });
+
+  // Touch swipe support
+  container.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    isPaused = true;
+  }, { passive: true });
+
+  container.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) {
+        goToSlide(currentIndex + 1);
+      } else {
+        goToSlide(currentIndex - 1);
+      }
+    }
+    pauseBriefly();
+  }, { passive: true });
+
+  container.addEventListener('mouseenter', () => { isPaused = true; });
+  container.addEventListener('mouseleave', () => { isPaused = false; });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 640) {
+      container.style.transform = '';
+      stopAutoSlide();
+    } else {
+      goToSlide(currentIndex);
+      startAutoSlide();
+    }
+  });
+
+  if (window.innerWidth < 640) {
+    goToSlide(0);
+    startAutoSlide();
+  }
 }
 
 function syncHeroAndProtocol() {

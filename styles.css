@@ -1519,6 +1519,69 @@ img {
   gap: 2rem;
 }
 
+/* Mobile Auto-Sliding Featured Equipment Slider */
+.gear-slider-container {
+  position: relative;
+  width: 100%;
+}
+
+@media (max-width: 639px) {
+  .gear-slider-container {
+    overflow: hidden;
+    padding-bottom: 0.5rem;
+    position: relative;
+  }
+
+  .gear-slider-container #home-featured-gear {
+    display: flex !important;
+    grid-template-columns: none !important;
+    width: 100%;
+    gap: 0 !important;
+    transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+    touch-action: pan-y;
+  }
+
+  .gear-slider-container #home-featured-gear .gear-card {
+    flex: 0 0 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+    margin: 0 !important;
+  }
+
+  .gear-slider-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+  }
+
+  .gear-slider-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--border-medium);
+    border: none;
+    padding: 0;
+    transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    cursor: pointer;
+  }
+
+  .gear-slider-dot.active {
+    width: 28px;
+    background: var(--accent-hot);
+    box-shadow: 0 0 10px rgba(212, 62, 31, 0.45);
+  }
+}
+
+@media (min-width: 640px) {
+  .gear-slider-dots {
+    display: none !important;
+  }
+}
+
 @media (min-width: 640px) {
   .gear-grid {
     grid-template-columns: repeat(2, 1fr);
