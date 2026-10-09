@@ -298,7 +298,7 @@ function initLightbox() {
   if (galleryContainer && siteConfig.gallery && siteConfig.gallery.length > 0) {
     galleryContainer.innerHTML = siteConfig.gallery.map(item => `
       <div class="gallery-item" data-lightbox-src="${item.photo}" data-lightbox-title="${escapeHtml(item.title)}" data-lightbox-meta="${escapeHtml(item.subtitle || item.meta || item.venue || item.category)}">
-        <img src="${item.photo}" alt="${escapeHtml(item.title)}" loading="lazy" onerror="this.src='/assets/banners/wedding-stage-banner.jpg'" />
+        <img src="${item.photo}" alt="${escapeHtml(item.title)}" loading="lazy" onerror="this.src='images/wedding-stage-banner.jpg'" />
         <div class="gallery-caption">
           <div class="gallery-title">${escapeHtml(item.title)}</div>
           <div class="gallery-subtitle">${escapeHtml(item.subtitle || `${item.category} · ${item.venue || ''}`)}</div>
@@ -635,7 +635,7 @@ function initCapabilitiesShowcase() {
       kicker: "01 / AUDIO REINFORCEMENT",
       title: "Sound Reinforcement & Line-Array PA",
       desc: "High-definition vertical column speakers and active subwoofers tuned for intelligible speech and punchy musical dynamics without painful feedback or dead zones.",
-      image: "/assets/photos/ld-systems-column-array.jpg",
+      image: "images/ld-systems-column-array.jpg",
       alt: "LD Systems column line array PA speaker on powered subwoofer base",
       badgeLeft: "Live Sound & PA",
       badgeRight: "120° Wide Coverage",
@@ -656,7 +656,7 @@ function initCapabilitiesShowcase() {
       kicker: "02 / WIRELESS RF SYSTEMS",
       title: "Rack-Mounted Shure Wireless Mics",
       desc: "Tour-grade Shure wireless receiver racks paired with rugged handheld vocal microphones. Pre-scanned clean frequencies eliminate signal dropouts across crowded venue floors.",
-      image: "/assets/photos/shure-wireless-rack.jpg",
+      image: "images/shure-wireless-rack.jpg",
       alt: "Rack-mounted Shure wireless receivers with handheld wireless microphones",
       badgeLeft: "UHF Wireless RF",
       badgeRight: "Clean UHF Bands",
@@ -677,7 +677,7 @@ function initCapabilitiesShowcase() {
       kicker: "03 / STAGE BACKLINE",
       title: "Live Band Backline & Instruments",
       desc: "Stage instruments ready for touring players, worship teams, and wedding musicians: touch-sensitive keyboards, all-mesh electronic drums, and high-headroom bass amps.",
-      image: "/assets/banners/band-backline-banner.jpg",
+      image: "images/band-backline-banner.jpg",
       alt: "Alesis electronic drums, Yamaha keyboard, and bass amp backline",
       badgeLeft: "Stage Instruments",
       badgeRight: "Touring Backline",
@@ -698,7 +698,7 @@ function initCapabilitiesShowcase() {
       kicker: "04 / VISUAL PRODUCTION",
       title: "LED Video Walls & Projectors",
       desc: "High-impact visual production tailored to venue sightlines: fine-pitch modular LED video walls, high-lumen digital projectors with fast-fold screens, and fluid-head recording camcorders.",
-      image: "/assets/photos/led-video-wall.jpg",
+      image: "images/led-video-wall.jpg",
       alt: "Vibrant modular LED video wall and video recording setup",
       badgeLeft: "LED & Video IMAG",
       badgeRight: "Modular 4K IMAG",
@@ -963,22 +963,22 @@ function escapeHtml(str) {
 
 function getCataloguePhoto(item) {
   const defaultPhotoMap = {
-    'stage-lighting': '/assets/photos/lighting-rig.jpg',
-    'projectors-screens': '/assets/photos/projector-screen.jpg',
-    'led-video-walls': '/assets/photos/led-video-wall.jpg',
-    'led-screen': '/assets/photos/led-screen.jpg',
-    'flower-decoration': '/assets/photos/flower-decoration.jpg',
-    'marriage-events': '/assets/photos/marriage-events.jpg',
-    'yamaha-tf5': '/assets/photos/yamaha-tf5-mixer.jpg',
-    'shure-wireless-rack': '/assets/photos/shure-wireless-rack.jpg',
-    'ld-systems-column': '/assets/photos/ld-systems-column-array.jpg',
-    'yamaha-psr-i500': '/assets/photos/yamaha-psr-i500-keyboard.jpg',
-    'alesis-drum-kit': '/assets/photos/alesis-drum-kit.jpg',
-    'bass-amp': '/assets/photos/bass-amp.jpg',
-    'small-combo-amp': '/assets/photos/bass-amp.jpg',
-    'camcorder-tripod': '/assets/photos/camcorder-tripod.jpg',
+    'stage-lighting': 'images/lighting-rig.jpg',
+    'projectors-screens': 'images/projector-screen.jpg',
+    'led-video-walls': 'images/led-video-wall.jpg',
+    'led-screen': 'images/led-screen.jpg',
+    'flower-decoration': 'images/flower-decoration.jpg',
+    'marriage-events': 'images/marriage-events.jpg',
+    'yamaha-tf5': 'images/yamaha-tf5-mixer.jpg',
+    'shure-wireless-rack': 'images/shure-wireless-rack.jpg',
+    'ld-systems-column': 'images/ld-systems-column-array.jpg',
+    'yamaha-psr-i500': 'images/yamaha-psr-i500-keyboard.jpg',
+    'alesis-drum-kit': 'images/alesis-drum-kit.jpg',
+    'bass-amp': 'images/bass-amp.jpg',
+    'small-combo-amp': 'images/bass-amp.jpg',
+    'camcorder-tripod': 'images/camcorder-tripod.jpg',
   };
-  return item.photo || (item.photos && item.photos[0]) || defaultPhotoMap[item.id] || '/assets/photos/yamaha-tf5-mixer.jpg';
+  return item.photo || (item.photos && item.photos[0]) || defaultPhotoMap[item.id] || 'images/yamaha-tf5-mixer.jpg';
 }
 
 function syncCatalogue() {
@@ -991,7 +991,7 @@ function syncCatalogue() {
     const specsHtml = (item.specs || []).map(s => `<span class="gear-spec-chip">${escapeHtml(s)}</span>`).join('');
     const waText = encodeURIComponent(`Hi Ramavath, I am interested in renting the ${item.name}`);
     const photoSrc = getCataloguePhoto(item);
-    const mediaHtml = `<img src="${photoSrc}" alt="${escapeHtml(item.name)}" class="gear-media-img" loading="lazy" onerror="this.onerror=null; this.src='/assets/photos/yamaha-tf5-mixer.jpg';" />`;
+    const mediaHtml = `<img src="${photoSrc}" alt="${escapeHtml(item.name)}" class="gear-media-img" loading="lazy" onerror="this.onerror=null; this.src='images/yamaha-tf5-mixer.jpg';" />`;
 
     return `
       <article class="gear-card" data-category="${escapeHtml(item.category || '')}" data-type="${escapeHtml(item.type || item.category || '')}" onclick="window.location.href='/product-details.html?id=${encodeURIComponent(item.id)}'" style="cursor: pointer;">
@@ -1035,7 +1035,7 @@ function syncHomeFeaturedGear() {
     const specsHtml = (item.specs || []).slice(0, 3).map(s => `<span class="gear-spec-chip">${escapeHtml(s)}</span>`).join('');
     const waText = encodeURIComponent(`Hi Ramavath, I am interested in renting the ${item.name}`);
     const photoSrc = getCataloguePhoto(item);
-    const mediaHtml = `<img src="${photoSrc}" alt="${escapeHtml(item.name)}" class="gear-media-img" loading="lazy" onerror="this.onerror=null; this.src='/assets/photos/yamaha-tf5-mixer.jpg';" />`;
+    const mediaHtml = `<img src="${photoSrc}" alt="${escapeHtml(item.name)}" class="gear-media-img" loading="lazy" onerror="this.onerror=null; this.src='images/yamaha-tf5-mixer.jpg';" />`;
 
     return `
       <article class="gear-card" onclick="window.location.href='/product-details.html?id=${encodeURIComponent(item.id)}'" style="cursor: pointer;">
@@ -1257,9 +1257,9 @@ function syncPackages() {
   const phoneClean = (siteConfig.contact?.phoneClean || '919133133003').replace('+', '');
 
   const packagePhotos = [
-    '/assets/photos/ld-systems-column-array.jpg',
-    '/assets/photos/church-worship-av.jpg',
-    '/assets/banners/stage-concert-banner.jpg'
+    'images/ld-systems-column-array.jpg',
+    'images/church-worship-av.jpg',
+    'images/stage-concert-banner.jpg'
   ];
 
   container.innerHTML = siteConfig.packages.map((pkg, idx) => {
@@ -1305,12 +1305,12 @@ function syncEvents() {
   if (!container || !events || events.length === 0) return;
 
   const eventBanners = [
-    '/assets/banners/wedding-stage-banner.jpg',
-    '/assets/photos/church-worship-av.jpg',
-    '/assets/banners/corporate-summit-banner.jpg',
-    '/assets/banners/stage-concert-banner.jpg',
-    '/assets/banners/band-backline-banner.jpg',
-    '/assets/photos/led-video-wall.jpg'
+    'images/wedding-stage-banner.jpg',
+    'images/church-worship-av.jpg',
+    'images/corporate-summit-banner.jpg',
+    'images/stage-concert-banner.jpg',
+    'images/band-backline-banner.jpg',
+    'images/led-video-wall.jpg'
   ];
 
   container.innerHTML = events.map((evt, idx) => {
@@ -1342,16 +1342,16 @@ function syncServices() {
   if (!container || !siteConfig.services || siteConfig.services.length === 0) return;
 
   const servicePhotos = [
-    '/assets/photos/ld-systems-column-array.jpg',
-    '/assets/photos/alesis-drum-kit.jpg',
-    '/assets/photos/shure-wireless-rack.jpg',
-    '/assets/photos/camcorder-tripod.jpg',
-    '/assets/photos/lighting-rig.jpg',
-    '/assets/photos/led-screen.jpg',
-    '/assets/photos/flower-decoration.jpg',
-    '/assets/photos/marriage-events.jpg',
-    '/assets/banners/corporate-summit-banner.jpg',
-    '/assets/banners/av-engineer-banner.jpg'
+    'images/ld-systems-column-array.jpg',
+    'images/alesis-drum-kit.jpg',
+    'images/shure-wireless-rack.jpg',
+    'images/camcorder-tripod.jpg',
+    'images/lighting-rig.jpg',
+    'images/led-screen.jpg',
+    'images/flower-decoration.jpg',
+    'images/marriage-events.jpg',
+    'images/corporate-summit-banner.jpg',
+    'images/av-engineer-banner.jpg'
   ];
 
   const serviceKickers = [
@@ -1390,7 +1390,7 @@ function syncServices() {
           </div>
         </div>
         <div style="${isReversed ? 'order: 1;' : ''} background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); overflow: hidden; padding: 1.5rem; text-align: center;">
-          <img src="${photo}" alt="${escapeHtml(srv.title)}" style="border-radius: var(--radius-lg); aspect-ratio: 4/3; object-fit: cover; width: 100%;" loading="eager" decoding="async" onerror="this.onerror=null; this.src='/assets/banners/wedding-stage-banner.jpg';" />
+          <img src="${photo}" alt="${escapeHtml(srv.title)}" style="border-radius: var(--radius-lg); aspect-ratio: 4/3; object-fit: cover; width: 100%;" loading="eager" decoding="async" onerror="this.onerror=null; this.src='images/wedding-stage-banner.jpg';" />
           <div style="margin-top: 1rem; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
             ${escapeHtml(srv.title)} · Professional Hire & Staging Fleet
           </div>
@@ -1600,8 +1600,13 @@ function deepMerge(target, source) {
 
 export function refreshAllDynamicContent() {
   try {
-    const override = localStorage.getItem('nr_site_data_override') || localStorage.getItem('nr_site_config_override');
+    let override = localStorage.getItem('nr_site_data_override') || localStorage.getItem('nr_site_config_override');
     if (override) {
+      if (override.includes('/assets/photos/') || override.includes('/assets/banners/')) {
+        override = override.replace(/\/assets\/photos\//g, 'images/').replace(/\/assets\/banners\//g, 'images/');
+        localStorage.setItem('nr_site_data_override', override);
+        localStorage.setItem('nr_site_config_override', override);
+      }
       const parsed = JSON.parse(override);
       deepMerge(siteConfig, parsed);
     }

@@ -374,7 +374,7 @@
               <span id="product-badge-text">Active Fleet · Tested Rider Gear</span>
             </div>
             <div class="product-image-container" id="product-image-wrap">
-              <img id="product-hero-img" src="/assets/photos/yamaha-tf5-mixer.jpg" alt="Equipment photograph" loading="eager" />
+              <img id="product-hero-img" src="images/yamaha-tf5-mixer.jpg" alt="Equipment photograph" loading="eager" />
             </div>
             <div id="product-thumbnails-strip" style="display: none; padding: 0.75rem 1rem; gap: 0.5rem; background: var(--bg-surface); border-top: 1px solid var(--border-subtle); overflow-x: auto; scrollbar-width: thin;"></div>
           </div>
@@ -485,7 +485,7 @@
           <div class="gear-grid" id="related-gear-container" style="margin-top: 2rem;">
             <article class="gear-card" onclick="window.location.href='/product-details.html?id=shure-wireless-rack'" style="cursor: pointer;">
               <div class="gear-media-wrapper">
-                <img src="/assets/photos/shure-wireless-rack.jpg" alt="Rack-Mounted Shure Wireless Receivers & Handheld Mics" class="gear-media-img" loading="lazy" />
+                <img src="images/shure-wireless-rack.jpg" alt="Rack-Mounted Shure Wireless Receivers & Handheld Mics" class="gear-media-img" loading="lazy" />
               </div>
               <div class="gear-card-body">
                 <div class="gear-card-meta">Wireless Mics · Sound</div>
@@ -505,7 +505,7 @@
 
             <article class="gear-card" onclick="window.location.href='/product-details.html?id=ld-systems-column'" style="cursor: pointer;">
               <div class="gear-media-wrapper">
-                <img src="/assets/photos/ld-systems-column-array.jpg" alt="LD Systems Column Line-Array PA Speaker System" class="gear-media-img" loading="lazy" />
+                <img src="images/ld-systems-column-array.jpg" alt="LD Systems Column Line-Array PA Speaker System" class="gear-media-img" loading="lazy" />
               </div>
               <div class="gear-card-body">
                 <div class="gear-card-meta">Sound · Sound</div>
@@ -525,7 +525,7 @@
 
             <article class="gear-card" onclick="window.location.href='/product-details.html?id=yamaha-psr-i500'" style="cursor: pointer;">
               <div class="gear-media-wrapper">
-                <img src="/assets/photos/yamaha-psr-i500-keyboard.jpg" alt="Yamaha PSR-I500 Keyboard & Metal Stand" class="gear-media-img" loading="lazy" />
+                <img src="images/yamaha-psr-i500-keyboard.jpg" alt="Yamaha PSR-I500 Keyboard & Metal Stand" class="gear-media-img" loading="lazy" />
               </div>
               <div class="gear-card-body">
                 <div class="gear-card-meta">Backline · Backline</div>
@@ -870,7 +870,7 @@
         const allPhotos = (product.photos && product.photos.length > 0) ? product.photos : (product.photo ? [product.photo] : []);
 
         if (heroImg) {
-          heroImg.src = allPhotos[0] || '/assets/photos/yamaha-tf5-mixer.jpg';
+          heroImg.src = allPhotos[0] || 'images/yamaha-tf5-mixer.jpg';
           heroImg.alt = product.name;
         }
 

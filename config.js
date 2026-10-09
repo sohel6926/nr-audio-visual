@@ -36,7 +36,7 @@ export const siteConfig = {
       title: "Sound Reinforcement & Line-Array PA",
       badge: "120° Dispersion",
       summary: "High-clarity column line arrays & powered subwoofers tuned for intelligible speech and acoustics.",
-      image: "/assets/photos/ld-systems-column-array.jpg",
+      image: "images/ld-systems-column-array.jpg",
       bullets: [
         "120° Dispersion: Uniform acoustic spread across broad seating halls",
         "Powered Sub Base: Low-end foundation for speech and live instruments",
@@ -50,7 +50,7 @@ export const siteConfig = {
       title: "Rack-Mounted Shure Wireless Mics",
       badge: "Clean UHF Bands",
       summary: "Touring road rack wireless systems pre-scanned for dense RF venues to eliminate dropouts.",
-      image: "/assets/photos/shure-wireless-rack.jpg",
+      image: "images/shure-wireless-rack.jpg",
       bullets: [
         "Zero RF Dropouts: Pre-scanned clean UHF frequencies for crowded halls",
         "Flight-Case Rack: Internal antenna distro and balanced XLR outputs",
@@ -64,7 +64,7 @@ export const siteConfig = {
       title: "Live Band Backline & Instruments",
       badge: "Touring Backline",
       summary: "Complete instrument backline for touring bands, worship teams, and wedding session players.",
-      image: "/assets/banners/band-backline-banner.jpg",
+      image: "images/band-backline-banner.jpg",
       bullets: [
         "Yamaha PSR-I500: 61 touch keys, dedicated Indian styles & stand",
         "Alesis Mesh Kit: Realistic drum feel with quiet volume control",
@@ -78,7 +78,7 @@ export const siteConfig = {
       title: "LED Video Walls & Projectors",
       badge: "Modular 4K IMAG",
       summary: "High-resolution visual staging engineered to venue sightlines and high ambient lighting.",
-      image: "/assets/photos/led-video-wall.jpg",
+      image: "images/led-video-wall.jpg",
       bullets: [
         "Modular LED Tiles: Ultra-bright seamless screens for stage backdrops",
         "High-Lumen Projectors: Fast-fold front and rear screens for keynotes",
@@ -189,7 +189,7 @@ export const siteConfig = {
       name: "Yamaha TF5 32-Channel Digital Mixing Console",
       category: "Mixers",
       type: "Sound",
-      photo: "/assets/photos/yamaha-tf5-mixer.jpg",
+      photo: "images/yamaha-tf5-mixer.jpg",
       hasRealPhoto: true,
       summary: "32-channel digital live mixing console in custom flight case with motorized faders, multi-track recording capability, and comprehensive DSP effects.",
       specs: ["32 Analog Inputs", "Motorized Faders", "TouchFlow Operation", "Rugged Road Flight Case"],
@@ -200,7 +200,7 @@ export const siteConfig = {
       name: "Rack-Mounted Shure Wireless Receivers & Handheld Mics",
       category: "Wireless Mics",
       type: "Sound",
-      photo: "/assets/photos/shure-wireless-rack.jpg",
+      photo: "images/shure-wireless-rack.jpg",
       hasRealPhoto: true,
       summary: "Multi-channel rack-mounted Shure wireless microphone receiver system paired with clear, interference-free handheld wireless transmitters.",
       specs: ["Rack-Mounted Chassis", "Handheld Transmitters Included", "Clean UHF Transmission", "Balanced XLR Outputs"],
@@ -211,7 +211,7 @@ export const siteConfig = {
       name: "LD Systems Column Line-Array PA Speaker System",
       category: "Sound",
       type: "Sound",
-      photo: "/assets/photos/ld-systems-column-array.jpg",
+      photo: "images/ld-systems-column-array.jpg",
       hasRealPhoto: true,
       summary: "High-clarity portable vertical column line-array loudspeaker system paired with powered subwoofer base on pole mount for even, wide acoustic dispersion.",
       specs: ["Vertical Column Array", "Powered Subwoofer Base", "Wide Horizontal Dispersion", "Low Visual Profile"],
@@ -222,7 +222,7 @@ export const siteConfig = {
       name: "Yamaha PSR-I500 Keyboard & Metal Stand",
       category: "Backline",
       type: "Backline",
-      photo: "/assets/photos/yamaha-psr-i500-keyboard.jpg",
+      photo: "images/yamaha-psr-i500-keyboard.jpg",
       hasRealPhoto: true,
       summary: "Yamaha PSR-I500 portable arranger keyboard complete with sturdy double-braced metal stand, Indian instrument voices, styles, and pitch bend wheel.",
       specs: ["61 Touch-Response Keys", "Dedicated Indian Voices & Styles", "Heavy-Duty Metal Stand", "Stereo Output"],
@@ -233,7 +233,7 @@ export const siteConfig = {
       name: "Alesis Electronic Drum Kit & Throne",
       category: "Backline",
       type: "Backline",
-      photo: "/assets/photos/alesis-drum-kit.jpg",
+      photo: "images/alesis-drum-kit.jpg",
       hasRealPhoto: true,
       summary: "Full electronic drum kit featuring responsive mesh heads, electronic cymbal pads, kick pedal assembly, robust frame, drum module, and padded throne stool.",
       specs: ["Quiet Mesh Pads", "Dual-Zone Cymbals", "Dedicated Sound Module", "Includes Padded Drum Throne"],
@@ -244,7 +244,7 @@ export const siteConfig = {
       name: "Stage Bass Amplifier Combo",
       category: "Backline",
       type: "Backline",
-      photo: "/assets/photos/bass-amp.jpg",
+      photo: "images/bass-amp.jpg",
       hasRealPhoto: true,
       summary: "High-power stage bass amplifier combo cabinet with EQ controls, punchy low-end response, metal corner guards, and direct XLR out.",
       specs: ["High Headroom Stage Combo", "Multi-Band Active EQ", "Built-In Direct Out (DI)", "Corner Protected Road Enclosure"],
@@ -255,7 +255,7 @@ export const siteConfig = {
       name: "Compact Stage Combo Instrument Amplifier",
       category: "Backline",
       type: "Backline",
-      photo: "/assets/photos/bass-amp.jpg",
+      photo: "images/bass-amp.jpg",
       hasRealPhoto: true,
       summary: "Versatile small-format combo amplifier designed for clean stage monitoring, electric guitar, or secondary acoustic instruments.",
       specs: ["Compact Footprint", "Intuitive Tone Shaping", "Headphone / Line Output", "Portable Road Handle"],
@@ -266,7 +266,7 @@ export const siteConfig = {
       name: "Professional Live Event Video Camcorder & Tripod",
       category: "Video",
       type: "Video",
-      photo: "/assets/photos/camcorder-tripod.jpg",
+      photo: "images/camcorder-tripod.jpg",
       hasRealPhoto: true,
       summary: "Broadcast-quality professional camcorder mounted on a heavy-duty fluid-head video tripod with pan handle, continuous power, and clean video feed outputs.",
       specs: ["Fluid-Head Tripod", "Optical Zoom Lens", "Balanced XLR Audio Inputs", "HDMI / SDI Live Feed Output"],
@@ -277,8 +277,8 @@ export const siteConfig = {
       name: "Stage & Event Lighting Fixtures",
       category: "Lighting",
       type: "Lighting",
-      photo: "/assets/photos/lighting-rig.jpg",
-      photos: ["/assets/photos/lighting-rig.jpg"],
+      photo: "images/lighting-rig.jpg",
+      photos: ["images/lighting-rig.jpg"],
       hasRealPhoto: true,
       summary: "Professional stage wash fixtures, profile spotlights, and ambient event illumination rigs to highlight performers, speakers, and venue architecture.",
       specs: ["High-CRI Stage Wash", "DMX Controllable", "Floor Uplight & Truss Mount", "Adjustable Color Temperatures"],
@@ -289,8 +289,8 @@ export const siteConfig = {
       name: "High-Lumen Projectors & Fast-Fold Screens",
       category: "Projection",
       type: "Video",
-      photo: "/assets/photos/projector-screen.jpg",
-      photos: ["/assets/photos/projector-screen.jpg", "/assets/banners/corporate-summit-banner.jpg"],
+      photo: "images/projector-screen.jpg",
+      photos: ["images/projector-screen.jpg", "images/corporate-summit-banner.jpg"],
       hasRealPhoto: true,
       summary: "Crisp high-lumen digital projectors paired with front or rear fast-fold projection screens for large conference rooms, banquets, and auditoriums.",
       specs: ["High-Lumen Output", "Front & Rear Projection Fabrics", "Fast-Fold Metal Truss Frame", "HDMI / Video Switcher Ready"],
@@ -301,8 +301,8 @@ export const siteConfig = {
       name: "High-Resolution Modular LED Video Walls",
       category: "LED Walls",
       type: "Video",
-      photo: "/assets/photos/led-video-wall.jpg",
-      photos: ["/assets/photos/led-video-wall.jpg", "/assets/photos/led-screen.jpg"],
+      photo: "images/led-video-wall.jpg",
+      photos: ["images/led-video-wall.jpg", "images/led-screen.jpg"],
       hasRealPhoto: true,
       summary: "Seamless modular LED video tile walls tailored to custom stage dimensions, delivering sharp visuals even under bright ambient stage lighting.",
       specs: ["Fine Pixel Pitch", "Seamless Modular Tiles", "High Ambient Brightness", "Dedicated Video Processor"],
@@ -313,7 +313,7 @@ export const siteConfig = {
       name: "Flower Decoration & Grand Stage Floral Styling",
       category: "Decoration",
       type: "Decor",
-      photo: "/assets/photos/flower-decoration.jpg",
+      photo: "images/flower-decoration.jpg",
       hasRealPhoto: true,
       summary: "Fresh exotic and traditional flower decorations for grand wedding stages, reception backdrops, mandap arches, and banquet entrance floral pathways.",
       specs: ["Fresh Cut Exotic Blooms", "Custom Floral Arch Designing", "Mandap & Backdrop Floral Art", "Banquet Table Centerpieces"],
@@ -324,7 +324,7 @@ export const siteConfig = {
       name: "Marriage Events & Complete Wedding AV Production",
       category: "Marriage Events",
       type: "Production",
-      photo: "/assets/photos/marriage-events.jpg",
+      photo: "images/marriage-events.jpg",
       hasRealPhoto: true,
       summary: "All-in-one wedding production package: acoustic sound reinforcement, stage lighting washes, LED backdrop screens, bridal entry FX, and floral coordination.",
       specs: ["Turnkey Wedding Setup", "Sangeet & Reception Sound", "DMX Stage Lighting Wash", "On-Site Event Engineers"],
@@ -422,7 +422,7 @@ export const siteConfig = {
       id: "led-screen",
       title: "LED Screen & Video Walls",
       kicker: "HIGH-RES VISUALS",
-      photo: "/assets/photos/led-screen.jpg",
+      photo: "images/led-screen.jpg",
       shortDesc: "Ultra-bright, seamless high-definition LED video wall displays.",
       fullDesc: "Modular high-resolution P2.6 and P3.9 LED screens engineered for crystal-clear visibility in any ambient lighting. Perfect for live camera IMAG feeds, wedding backdrop animations, corporate presentations, and grand stage visuals.",
       equipmentHighlights: ["P2.6 / P3.9 High-Refresh LED Tiles", "Ground-Stack & Flown Truss Rigging", "4K Video Processors & Scalers", "Live Multi-Input Switching"],
@@ -431,7 +431,7 @@ export const siteConfig = {
       id: "flower-decoration",
       title: "Flower Decoration & Stage Floral Art",
       kicker: "FLORAL & STYLING",
-      photo: "/assets/photos/flower-decoration.jpg",
+      photo: "images/flower-decoration.jpg",
       shortDesc: "Bespoke fresh floral decor, grand stage arches, and banquet styling.",
       fullDesc: "Breathtaking fresh flower decorations curated to elevate wedding stages, mandaps, reception backdrops, and VIP event entrances. We craft custom floral arches, fragrant pathways, and enchanting stage themes with premium blooms.",
       equipmentHighlights: ["Fresh Exotic & Traditional Blooms", "Grand Wedding Stage Floral Arches", "Mandap & Backdrop Floral Designing", "Pathway & Banquet Table Centerpieces"],
@@ -440,7 +440,7 @@ export const siteConfig = {
       id: "marriage-events",
       title: "Marriage Events & Wedding Production",
       kicker: "WEDDING EXPERIENCES",
-      photo: "/assets/photos/marriage-events.jpg",
+      photo: "images/marriage-events.jpg",
       shortDesc: "End-to-end wedding production: sound, lighting, stage decor, and visual setup.",
       fullDesc: "Complete turn-key wedding and marriage event management covering grand stage floral decoration, crystal-clear ceremony acoustic systems, bridal entry special effects, dynamic sangeet lighting, and seamless LED video walls.",
       equipmentHighlights: ["Turnkey Wedding Stage AV Production", "Royal Bride & Groom Entry FX", "Sangeet Concert Audio & Moving Lights", "Full Ceremony Coordination & Standby Crew"],
@@ -449,7 +449,7 @@ export const siteConfig = {
       id: "projection-led",
       title: "Projectors & Fast-Fold Screens",
       kicker: "PROJECTION SYSTEMS",
-      photo: "/assets/banners/corporate-summit-banner.jpg",
+      photo: "images/corporate-summit-banner.jpg",
       shortDesc: "Bright, seamless visuals for slides, video, and grand backdrops.",
       fullDesc: "High-lumen digital projectors paired with front and rear fast-fold screens that maintain vivid contrast for keynote slides, video playback, and presentations in large banquet halls.",
       equipmentHighlights: ["High-lumen digital projectors", "Front & rear fast-fold screens", "Heavy-duty aluminum frame", "Digital video scalers"],
@@ -458,7 +458,7 @@ export const siteConfig = {
       id: "technicians",
       title: "Technician & Operator Support",
       kicker: "LIVE CREW",
-      photo: "/assets/banners/av-engineer-banner.jpg",
+      photo: "images/av-engineer-banner.jpg",
       shortDesc: "Experienced sound engineers and AV technicians on-site.",
       fullDesc: "Available on request: qualified audio engineers to mix your live band, operate microphones during seminars, and oversee signal flows from sound check to curtain fall [CLIENT TO CONFIRM].",
       equipmentHighlights: ["Sound check management", "FOH mixing engineer", "Video switcher technician", "Live troubleshooting standby"],
@@ -538,7 +538,7 @@ export const siteConfig = {
   gallery: [
     {
       id: "gal-1",
-      photo: "/assets/photos/yamaha-tf5-mixer.jpg",
+      photo: "images/yamaha-tf5-mixer.jpg",
       title: "Yamaha TF5 Digital Console",
       subtitle: "Sound · 32 Channels · Motorized Faders · Flight Case",
       category: "Sound",
@@ -547,7 +547,7 @@ export const siteConfig = {
     },
     {
       id: "gal-2",
-      photo: "/assets/photos/shure-wireless-rack.jpg",
+      photo: "images/shure-wireless-rack.jpg",
       title: "Rack-Mounted Shure Wireless Unit",
       subtitle: "Wireless Mics · UHF Transmission · Dual Handhelds",
       category: "Wireless Mics",
@@ -556,7 +556,7 @@ export const siteConfig = {
     },
     {
       id: "gal-3",
-      photo: "/assets/photos/ld-systems-column-array.jpg",
+      photo: "images/ld-systems-column-array.jpg",
       title: "LD Systems Column Array System",
       subtitle: "Sound · Powered Subwoofer · 120° Dispersion",
       category: "Sound",
@@ -565,7 +565,7 @@ export const siteConfig = {
     },
     {
       id: "gal-4",
-      photo: "/assets/photos/alesis-drum-kit.jpg",
+      photo: "images/alesis-drum-kit.jpg",
       title: "Alesis Electronic Drum Kit",
       subtitle: "Backline · Mesh Heads · Sound Module · Throne",
       category: "Backline",
@@ -574,7 +574,7 @@ export const siteConfig = {
     },
     {
       id: "gal-5",
-      photo: "/assets/photos/yamaha-psr-i500-keyboard.jpg",
+      photo: "images/yamaha-psr-i500-keyboard.jpg",
       title: "Yamaha PSR-I500 Keyboard",
       subtitle: "Backline · Indian Instrument Voices · Metal Stand",
       category: "Backline",
@@ -583,7 +583,7 @@ export const siteConfig = {
     },
     {
       id: "gal-6",
-      photo: "/assets/photos/bass-amp.jpg",
+      photo: "images/bass-amp.jpg",
       title: "Stage Bass Amplifier Combo",
       subtitle: "Backline · Active EQ · Direct XLR Out",
       category: "Backline",
@@ -592,7 +592,7 @@ export const siteConfig = {
     },
     {
       id: "gal-7",
-      photo: "/assets/photos/camcorder-tripod.jpg",
+      photo: "images/camcorder-tripod.jpg",
       title: "Live Video Camcorder Rig",
       subtitle: "Video · Fluid-Head Tripod · HDMI/SDI Output",
       category: "Video",
@@ -601,7 +601,7 @@ export const siteConfig = {
     },
     {
       id: "gal-8",
-      photo: "/assets/photos/lighting-rig.jpg",
+      photo: "images/lighting-rig.jpg",
       title: "Stage Lighting Truss Rig",
       subtitle: "Lighting · Moving Heads · Profile Washes · DMX Control",
       category: "Lighting",
@@ -610,7 +610,7 @@ export const siteConfig = {
     },
     {
       id: "gal-9",
-      photo: "/assets/photos/led-video-wall.jpg",
+      photo: "images/led-video-wall.jpg",
       title: "Modular LED Video Wall",
       subtitle: "Visuals · Fine Pitch · High Ambient Brightness",
       category: "LED Walls",
@@ -619,7 +619,7 @@ export const siteConfig = {
     },
     {
       id: "gal-10",
-      photo: "/assets/photos/church-worship-av.jpg",
+      photo: "images/church-worship-av.jpg",
       title: "Worship Hall Sound Tuning",
       subtitle: "Acoustics · Vocal Intelligibility · Monitored Backline",
       category: "Acoustics",
@@ -628,7 +628,7 @@ export const siteConfig = {
     },
     {
       id: "gal-11",
-      photo: "/assets/banners/wedding-stage-banner.jpg",
+      photo: "images/wedding-stage-banner.jpg",
       title: "Wedding Stage Production",
       subtitle: "Weddings · Warm Ambiance · Sangeet Sound Rig",
       category: "Weddings",
@@ -637,7 +637,7 @@ export const siteConfig = {
     },
     {
       id: "gal-12",
-      photo: "/assets/banners/corporate-summit-banner.jpg",
+      photo: "images/corporate-summit-banner.jpg",
       title: "Corporate Summit Keynote",
       subtitle: "Conferences · Podium Mics · Projection Displays",
       category: "Conferences",
@@ -665,8 +665,13 @@ function deepMerge(target, source) {
 // Auto-load Admin overrides from localStorage if present
 if (typeof window !== 'undefined' && window.localStorage) {
   try {
-    const override = localStorage.getItem('nr_site_data_override') || localStorage.getItem('nr_site_config_override');
+    let override = localStorage.getItem('nr_site_data_override') || localStorage.getItem('nr_site_config_override');
     if (override) {
+      if (override.includes('/assets/photos/') || override.includes('/assets/banners/')) {
+        override = override.replace(/\/assets\/photos\//g, 'images/').replace(/\/assets\/banners\//g, 'images/');
+        localStorage.setItem('nr_site_data_override', override);
+        localStorage.setItem('nr_site_config_override', override);
+      }
       const parsed = JSON.parse(override);
       deepMerge(siteConfig, parsed);
     }
@@ -676,20 +681,20 @@ if (typeof window !== 'undefined' && window.localStorage) {
 
   // Guarantee every catalogue product has a valid real photo
   const defaultCataloguePhotos = {
-    'stage-lighting': '/assets/photos/lighting-rig.jpg',
-    'projectors-screens': '/assets/photos/projector-screen.jpg',
-    'led-video-walls': '/assets/photos/led-video-wall.jpg',
-    'led-screen': '/assets/photos/led-screen.jpg',
-    'flower-decoration': '/assets/photos/flower-decoration.jpg',
-    'marriage-events': '/assets/photos/marriage-events.jpg',
-    'yamaha-tf5': '/assets/photos/yamaha-tf5-mixer.jpg',
-    'shure-wireless-rack': '/assets/photos/shure-wireless-rack.jpg',
-    'ld-systems-column': '/assets/photos/ld-systems-column-array.jpg',
-    'yamaha-psr-i500': '/assets/photos/yamaha-psr-i500-keyboard.jpg',
-    'alesis-drum-kit': '/assets/photos/alesis-drum-kit.jpg',
-    'bass-amp': '/assets/photos/bass-amp.jpg',
-    'small-combo-amp': '/assets/photos/bass-amp.jpg',
-    'camcorder-tripod': '/assets/photos/camcorder-tripod.jpg',
+    'stage-lighting': 'images/lighting-rig.jpg',
+    'projectors-screens': 'images/projector-screen.jpg',
+    'led-video-walls': 'images/led-video-wall.jpg',
+    'led-screen': 'images/led-screen.jpg',
+    'flower-decoration': 'images/flower-decoration.jpg',
+    'marriage-events': 'images/marriage-events.jpg',
+    'yamaha-tf5': 'images/yamaha-tf5-mixer.jpg',
+    'shure-wireless-rack': 'images/shure-wireless-rack.jpg',
+    'ld-systems-column': 'images/ld-systems-column-array.jpg',
+    'yamaha-psr-i500': 'images/yamaha-psr-i500-keyboard.jpg',
+    'alesis-drum-kit': 'images/alesis-drum-kit.jpg',
+    'bass-amp': 'images/bass-amp.jpg',
+    'small-combo-amp': 'images/bass-amp.jpg',
+    'camcorder-tripod': 'images/camcorder-tripod.jpg',
   };
 
   if (siteConfig && Array.isArray(siteConfig.catalogue)) {

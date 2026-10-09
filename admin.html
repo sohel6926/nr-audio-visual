@@ -1791,7 +1791,7 @@
             <div class="admin-form-group">
               <label class="admin-form-label">Package Photograph (Upload Image or Enter URL)</label>
               <div style="display: flex; gap: 0.5rem; align-items: center;">
-                <input type="text" id="pkg-photo" class="admin-input" placeholder="/assets/photos/... or upload image" style="flex: 1;" oninput="updatePackagePhotoPreview(this.value)" />
+                <input type="text" id="pkg-photo" class="admin-input" placeholder="images/... or upload image" style="flex: 1;" oninput="updatePackagePhotoPreview(this.value)" />
                 <button type="button" class="btn-admin btn-admin-secondary" onclick="document.getElementById('pkg-photo-file').click()" style="white-space: nowrap; flex-shrink: 0;">📁 Upload Image</button>
                 <input type="file" id="pkg-photo-file" accept="image/*" style="display: none;" onchange="handlePackagePhotoUpload(event)" />
               </div>
@@ -1841,7 +1841,7 @@
             <div class="admin-form-group">
               <label class="admin-form-label">Service Photograph (Upload Image or Enter URL)</label>
               <div style="display: flex; gap: 0.5rem; align-items: center;">
-                <input type="text" id="srv-photo" class="admin-input" placeholder="/assets/photos/... or upload image" style="flex: 1;" oninput="updateServicePhotoPreview(this.value)" />
+                <input type="text" id="srv-photo" class="admin-input" placeholder="images/... or upload image" style="flex: 1;" oninput="updateServicePhotoPreview(this.value)" />
                 <button type="button" class="btn-admin btn-admin-secondary" onclick="document.getElementById('srv-photo-file').click()" style="white-space: nowrap; flex-shrink: 0;">📁 Upload Image</button>
                 <input type="file" id="srv-photo-file" accept="image/*" style="display: none;" onchange="handleServicePhotoUpload(event)" />
               </div>
@@ -1891,7 +1891,7 @@
             <div class="admin-form-group">
               <label class="admin-form-label">Event Banner / Photograph (Upload Image or Enter URL)</label>
               <div style="display: flex; gap: 0.5rem; align-items: center;">
-                <input type="text" id="evt-photo" class="admin-input" placeholder="/assets/banners/... or upload image" style="flex: 1;" oninput="updateEventPhotoPreview(this.value)" />
+                <input type="text" id="evt-photo" class="admin-input" placeholder="images/... or upload image" style="flex: 1;" oninput="updateEventPhotoPreview(this.value)" />
                 <button type="button" class="btn-admin btn-admin-secondary" onclick="document.getElementById('evt-photo-file').click()" style="white-space: nowrap; flex-shrink: 0;">📁 Upload Image</button>
                 <input type="file" id="evt-photo-file" accept="image/*" style="display: none;" onchange="handleEventPhotoUpload(event)" />
               </div>
@@ -2010,7 +2010,7 @@
             <div class="admin-form-group">
               <label class="admin-form-label">Setup Photograph (Upload or Enter URL)</label>
               <div style="display: flex; gap: 0.5rem; align-items: center;">
-                <input type="text" id="gal-photo" class="admin-input" placeholder="/assets/photos/... or upload image" required style="flex: 1;" oninput="updateGalleryPhotoPreview(this.value)" />
+                <input type="text" id="gal-photo" class="admin-input" placeholder="images/... or upload image" required style="flex: 1;" oninput="updateGalleryPhotoPreview(this.value)" />
                 <button type="button" class="btn-admin btn-admin-secondary" onclick="document.getElementById('gal-photo-file').click()" style="white-space: nowrap; flex-shrink: 0;">📁 Upload Image</button>
                 <input type="file" id="gal-photo-file" accept="image/*" style="display: none;" onchange="handleGalleryPhotoUpload(event)" />
               </div>
@@ -2451,7 +2451,7 @@
             <td>
               <div style="display: flex; align-items: center; gap: 0.75rem;">
                 <div style="width: 50px; height: 38px; border-radius: 4px; overflow: hidden; background: var(--admin-bg-subtle); border: 1px solid var(--admin-border); flex-shrink: 0;">
-                  <img src="${item.photo || '/assets/photos/yamaha-tf5-mixer.jpg'}" alt="${escapeHtml(item.name)}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='/assets/photos/yamaha-tf5-mixer.jpg'" />
+                  <img src="${item.photo || 'images/yamaha-tf5-mixer.jpg'}" alt="${escapeHtml(item.name)}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/yamaha-tf5-mixer.jpg'" />
                 </div>
                 <div>
                   <strong style="color: var(--admin-text-title);">${escapeHtml(item.name)}</strong>
@@ -3279,7 +3279,7 @@
           <tr>
             <td>
               <div style="width: 80px; height: 50px; border-radius: 4px; overflow: hidden; background: #000;">
-                <img src="${item.photo}" alt="${escapeHtml(item.title)}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='/assets/banners/wedding-stage-banner.jpg'" />
+                <img src="${item.photo}" alt="${escapeHtml(item.title)}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/wedding-stage-banner.jpg'" />
               </div>
             </td>
             <td>
@@ -3385,8 +3385,8 @@
       window.openGalleryModal = function() {
         document.getElementById('gallery-modal-title').textContent = 'Add Setup Photo';
         document.getElementById('gal-edit-index').value = '-1';
-        document.getElementById('gal-photo').value = '/assets/banners/wedding-stage-banner.jpg';
-        window.updateGalleryPhotoPreview('/assets/banners/wedding-stage-banner.jpg');
+        document.getElementById('gal-photo').value = 'images/wedding-stage-banner.jpg';
+        window.updateGalleryPhotoPreview('images/wedding-stage-banner.jpg');
         document.getElementById('gal-title').value = '';
         document.getElementById('gal-subtitle').value = '';
 
