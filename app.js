@@ -1215,8 +1215,11 @@ function syncServices() {
     '/assets/photos/shure-wireless-rack.jpg',
     '/assets/photos/camcorder-tripod.jpg',
     '/assets/photos/lighting-rig.jpg',
-    '/assets/photos/led-video-wall.jpg',
-    '/assets/photos/yamaha-tf5-mixer.jpg'
+    '/assets/photos/led-screen.jpg',
+    '/assets/photos/flower-decoration.jpg',
+    '/assets/photos/marriage-events.jpg',
+    '/assets/banners/corporate-summit-banner.jpg',
+    '/assets/banners/av-engineer-banner.jpg'
   ];
 
   const serviceKickers = [
@@ -1225,34 +1228,39 @@ function syncServices() {
     'RF CLARITY',
     'VIDEO CAPTURE',
     'STAGE ATMOSPHERE',
-    'MODULAR VIDEO',
-    'AUDIO ENGINEERS'
+    'HIGH-RES VISUALS',
+    'FLORAL & STYLING',
+    'WEDDING EXPERIENCES',
+    'PROJECTION SYSTEMS',
+    'LIVE CREW'
   ];
 
   container.innerHTML = siteConfig.services.map((srv, idx) => {
     const photo = srv.photo || servicePhotos[idx % servicePhotos.length];
-    const kicker = serviceKickers[idx] || 'PRODUCTION';
+    const kicker = srv.kicker || serviceKickers[idx] || 'PRODUCTION';
     const isReversed = idx % 2 !== 0;
+    const num = (idx + 1).toString().padStart(2, '0');
     const highlights = (srv.equipmentHighlights || []).map(h => `<span>${escapeHtml(h)}</span>`).join('');
 
     return `
       <article class="hero-grid" style="align-items: center;">
         <div style="${isReversed ? 'order: 2;' : ''}">
-          <div class="section-kicker"><span class="kicker-number">0${idx + 1}</span><span>${escapeHtml(kicker)}</span></div>
+          <div class="section-kicker"><span class="kicker-number">${num}</span><span>${escapeHtml(kicker)}</span></div>
           <h2 style="font-size: 2rem; margin-bottom: 1rem;">${escapeHtml(srv.title)}</h2>
           <p style="margin-bottom: 1.25rem;">${escapeHtml(srv.fullDesc || srv.shortDesc || '')}</p>
           <div class="bento-gear-tags" style="border: 0; padding: 0; margin-bottom: 1.75rem;">
             ${highlights}
           </div>
           <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+            <button type="button" class="btn-rider" data-add-to-quote data-id="${escapeHtml(srv.id)}" data-name="${escapeHtml(srv.title)}" data-category="${escapeHtml(kicker)}">+ Add to Quote</button>
             <a href="/contact.html" class="btn-primary" style="padding: 0.55rem 1.2rem; font-size: 0.9rem;">Request ${escapeHtml(srv.title)} Quote</a>
-            <a href="/products.html" class="btn-secondary" style="padding: 0.55rem 1.2rem; font-size: 0.9rem;">Browse Equipment Fleet</a>
+            <a href="/products.html" class="btn-secondary" style="padding: 0.55rem 1.2rem; font-size: 0.9rem;">Browse Fleet</a>
           </div>
         </div>
         <div style="${isReversed ? 'order: 1;' : ''} background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); overflow: hidden; padding: 1.5rem; text-align: center;">
           <img src="${photo}" alt="${escapeHtml(srv.title)}" style="border-radius: var(--radius-lg); aspect-ratio: 4/3; object-fit: cover; width: 100%;" loading="lazy" />
           <div style="margin-top: 1rem; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
-            ${escapeHtml(srv.title)} · Professional Hire Fleet
+            ${escapeHtml(srv.title)} · Professional Hire & Staging Fleet
           </div>
         </div>
       </article>
