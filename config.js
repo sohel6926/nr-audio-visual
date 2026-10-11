@@ -537,6 +537,105 @@ export const siteConfig = {
 
   gallery: [
     {
+      id: "gal-lawn-mandap",
+      photo: "images/outdoor-lawn-wedding-mandap.jpg",
+      title: "Grand Lawn Wedding Mandap & Canopy",
+      subtitle: "Weddings · Pleated Fabric Canopy · Wooden Mandap · Floral Chandeliers",
+      category: "Weddings",
+      meta: "Open lawn wedding setup: cascading pleated fabric pavilion, 4-pillar wooden mandap, hanging floral chandeliers & banquet seating",
+      venue: "Open Lawns & Luxury Farmhouses"
+    },
+    {
+      id: "gal-jito-spiritual",
+      photo: "images/jito-spiritual-event-stage.jpg",
+      title: "JITO Navkar Mahamantra Convention Setup",
+      subtitle: "Conferences · 3-Sided Branded Kiosk · Stage Sound PA & Gold Drapes",
+      category: "Conferences",
+      meta: "JITO Chennai Plus 3-sided branded meditation kiosk, ceremonial gold medallion graphic, gold drapes & stage audio monitors",
+      venue: "Community Auditoriums & Convention Centers"
+    },
+    {
+      id: "gal-outdoor-truss",
+      photo: "images/outdoor-circular-truss-lawn.jpg",
+      title: "Circular Truss & Kinetic Lighting Rig",
+      subtitle: "Lighting & Staging · Suspended Circular Truss · Kinetic Spheres · Lawn Gala",
+      category: "Lighting",
+      meta: "Outdoor circular dual-truss structure, hanging kinetic illuminated spheres & ambient spotlights",
+      venue: "Open Banquet Lawns & Outdoor Galas"
+    },
+    {
+      id: "gal-vip-lounge",
+      photo: "images/vip-lounge-floral-stage.jpg",
+      title: "VIP Lounge Floral Stage & Mandap Art",
+      subtitle: "Decoration · Fresh Bougainvillea Floral Tree · Velvet Sofas · Custom Backdrop",
+      category: "Decoration",
+      meta: "Fresh bougainvillea floral tree canopy, botanical art backdrop & plush velvet lounge armchairs",
+      venue: "Wedding Banquets & VIP Receptions"
+    },
+    {
+      id: "gal-hyundai-stage",
+      photo: "images/hyundai-stage-event.jpg",
+      title: "Hyundai 'Back 2 Basic Quality' Stage",
+      subtitle: "Corporate Stage · Hyundai 2025 · Podium AV · LED Display & Uplighting",
+      category: "Corporate",
+      meta: "Turnkey corporate presentation stage, custom branding wall, stage uplights, digital podium & LED screen",
+      venue: "Corporate Auditoriums & Plant Campuses"
+    },
+    {
+      id: "gal-icici-summit",
+      photo: "images/corporate-auditorium-stage.jpg",
+      title: "ICICI Prudential Summit Stage",
+      subtitle: "Corporate Offsite · Grand Ballroom Stage · Live AV & Audio Monitors",
+      category: "Conferences",
+      meta: "Grand ballroom conference staging: custom branded backdrop, stage monitors, moving heads & visual panels",
+      venue: "Five-Star Ballrooms & Convention Centres"
+    },
+    {
+      id: "gal-suzuki-arch",
+      photo: "images/hero-kickstart-arch.jpg",
+      title: "Suzuki Riding Fest Entrance Arch",
+      subtitle: "Brand Activation · Outdoor Truss Gateway · Custom Graphic Cladding",
+      category: "Outdoor Activations",
+      meta: "Heavy-duty outdoor box-truss entrance arch with branded Suzuki wrap, crowd barriers & registration gate",
+      venue: "Outdoor Festivals & Automotive Grounds"
+    },
+    {
+      id: "gal-itec-day",
+      photo: "images/tech-day-exhibition.jpg",
+      title: "ITEC Day Stage & Exhibition Setup",
+      subtitle: "Tech Summit · Geometric Backdrop · Raised Stage & Confidence Displays",
+      category: "Tech Summits",
+      meta: "Elevated auditorium stage with custom geometric backdrop, blue spotlights, audio PA & confidence monitors",
+      venue: "Convention Halls & Corporate Atriums"
+    },
+    {
+      id: "gal-itec-perspective",
+      photo: "images/itec-day-stage-perspective.jpg",
+      title: "ITEC Day Stage & Monitor Rig (Side Perspective)",
+      subtitle: "Tech Summit · Stage Floor Lighting · Carpeted Platform & Audio Racks",
+      category: "Tech Summits",
+      meta: "Full angle view of carpeted stage, step risers, FOH road racks, illuminated backdrop & confidence monitor",
+      venue: "Convention Auditoriums & Corporate Spaces"
+    },
+    {
+      id: "gal-suzuki-branding",
+      photo: "images/suzuki-event-branding.jpg",
+      title: "Suzuki Trackside Event Signage",
+      subtitle: "Outdoor Branding · Suzuki A-Frames · Safety Barrier Staging",
+      category: "Outdoor Branding",
+      meta: "Custom branded A-frame promotional barriers, safety pylons & road show ground staging",
+      venue: "Track Perimeters & Road Shows"
+    },
+    {
+      id: "gal-hyundai-delphi",
+      photo: "images/hyundai-delphi-quality-stage.jpg",
+      title: "Hyundai & Delphi-TVS Campaign Stage",
+      subtitle: "Corporate Stage · Delphi-TVS Technologies · Digital Podium & Lighting",
+      category: "Corporate",
+      meta: "Direct stage view with digital podium, ceremonial lamp, branded backdrop & floor monitors",
+      venue: "Industrial Convention Auditoriums"
+    },
+    {
       id: "gal-1",
       photo: "images/yamaha-tf5-mixer.jpg",
       title: "Yamaha TF5 Digital Console",
@@ -672,8 +771,14 @@ if (typeof window !== 'undefined' && window.localStorage) {
         localStorage.setItem('nr_site_data_override', override);
         localStorage.setItem('nr_site_config_override', override);
       }
+      const baseGallery = Array.isArray(siteConfig.gallery) ? [...siteConfig.gallery] : [];
       const parsed = JSON.parse(override);
       deepMerge(siteConfig, parsed);
+      if (parsed.gallery && Array.isArray(parsed.gallery)) {
+        const parsedIds = new Set(parsed.gallery.map(g => g.id));
+        const missingFromOverride = baseGallery.filter(g => !parsedIds.has(g.id));
+        siteConfig.gallery = [...missingFromOverride, ...siteConfig.gallery];
+      }
     }
   } catch (e) {
     console.warn('NR Audio Visual: Could not load local site override', e);
