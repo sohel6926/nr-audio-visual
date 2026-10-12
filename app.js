@@ -365,25 +365,37 @@ function initQuoteForm() {
     });
   });
 
+  // Check cart items preview on load
+  const cartPreview = document.getElementById('cart-items-preview');
+  const cartCountText = document.getElementById('cart-count-text');
+  if (cartPreview && cartCountText) {
+    if (quoteItems.length > 0) {
+      cartCountText.textContent = `${quoteItems.length} item${quoteItems.length > 1 ? 's' : ''}`;
+      cartPreview.style.display = 'block';
+    } else {
+      cartPreview.style.display = 'none';
+    }
+  }
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const name = form.querySelector('[name="name"]')?.value.trim();
     const phone = form.querySelector('[name="phone"]')?.value.trim();
     const email = form.querySelector('[name="email"]')?.value.trim();
-    const city = form.querySelector('[name="city"]')?.value.trim();
-    const eventType = form.querySelector('[name="eventType"]')?.value.trim();
-    const eventDate = form.querySelector('[name="eventDate"]')?.value.trim();
+    const message = form.querySelector('[name="message"]')?.value.trim() || form.querySelector('[name="notes"]')?.value.trim() || '';
+    const city = form.querySelector('[name="city"]')?.value.trim() || 'Hyderabad';
+    const eventType = form.querySelector('[name="eventType"]')?.value.trim() || 'Audio Visual Equipment Consultation';
+    const eventDate = form.querySelector('[name="eventDate"]')?.value.trim() || 'Upcoming';
     const venue = form.querySelector('[name="venue"]')?.value.trim() || 'To be decided';
     const audience = form.querySelector('[name="audience"]')?.value.trim() || 'Not specified';
-    const notes = form.querySelector('[name="notes"]')?.value.trim() || 'None';
 
     // Collect chosen equipment chips + items in cart
     const selectedChips = Array.from(document.querySelectorAll('.chip-btn.selected')).map(c => c.getAttribute('data-value'));
     const allGear = Array.from(new Set([...selectedChips, ...quoteItems.map(i => i.name)]));
 
-    if (!name || !phone || !city || !eventType || !eventDate) {
-      showToast('Please fill in all required fields (Name, Phone, City, Event Type, Date)');
+    if (!name || !phone) {
+      showToast('Please enter your Name and Phone / WhatsApp number');
       return;
     }
 
@@ -400,7 +412,7 @@ function initQuoteForm() {
         eventDate,
         venue,
         audience,
-        notes,
+        notes: message || 'None',
         equipment: allGear,
         status: 'New',
         timestamp: new Date().toISOString()
@@ -410,37 +422,33 @@ function initQuoteForm() {
       console.warn('Could not save inquiry to local storage', err);
     }
 
-    // Format Rider-style quote message for WhatsApp
-    let msg = `*NEW AV RENTAL QUOTE REQUEST*\n`;
+    // Format Consultation / Rider quote message for WhatsApp
+    let msg = `*NEW AV INQUIRY & CONSULTATION REQUEST*\n`;
     msg += `------------------------------------\n`;
     msg += `*Client Name:* ${name}\n`;
     msg += `*Phone / WhatsApp:* ${phone}\n`;
-    msg += `*Email:* ${email || 'Not provided'}\n`;
-    msg += `*City:* ${city.toUpperCase()} (Served from City Centre)\n`;
-    msg += `*Event Type:* ${eventType}\n`;
-    msg += `*Date of Event:* ${eventDate}\n`;
-    msg += `*Venue Location:* ${venue}\n`;
-    msg += `*Estimated Audience:* ${audience}\n`;
-    msg += `------------------------------------\n`;
-    msg += `*EQUIPMENT RIDER / REQUIREMENTS:*\n`;
+    if (email) msg += `*Email:* ${email}\n`;
+    if (city && city !== 'Hyderabad') msg += `*City:* ${city.toUpperCase()}\n`;
+    if (eventType && eventType !== 'Audio Visual Equipment Consultation') msg += `*Event Type:* ${eventType}\n`;
+    if (eventDate && eventDate !== 'Upcoming') msg += `*Date of Event:* ${eventDate}\n`;
+    if (message) msg += `*Message / Requirements:* ${message}\n`;
     if (allGear.length > 0) {
+      msg += `------------------------------------\n`;
+      msg += `*EQUIPMENT SPECIFICATION / RIDER:*\n`;
       allGear.forEach(item => {
         msg += `• ${item}\n`;
       });
-    } else {
-      msg += `• Full custom setup recommendation requested\n`;
     }
     msg += `------------------------------------\n`;
-    msg += `*Additional Notes:* ${notes}\n`;
-    msg += `------------------------------------\n`;
-    msg += `Sent via nraudiovisual.in quote request`;
+    msg += `*Office:* Post Office, 17-2-625/25, Madannapet, Saidabad, Hyderabad 500059\n`;
+    msg += `Sent via nraudiovisual.in consultation form`;
 
     const encodedMsg = encodeURIComponent(msg);
     const whatsappUrl = `https://wa.me/${siteConfig.contact.phoneClean.replace('+', '')}?text=${encodedMsg}`;
 
-    // Prompt user choice or open WhatsApp directly
+    // Open WhatsApp directly
     window.open(whatsappUrl, '_blank');
-    showToast('Opening WhatsApp with your formatted equipment rider...');
+    showToast('Opening WhatsApp to send your consultation request...');
   });
 
   // Mailto fallback button
@@ -448,19 +456,20 @@ function initQuoteForm() {
   if (mailBtn) {
     mailBtn.addEventListener('click', () => {
       const name = form.querySelector('[name="name"]')?.value.trim() || 'Client';
-      const city = form.querySelector('[name="city"]')?.value.trim() || 'Hyderabad / Bangalore / Mumbai';
-      const date = form.querySelector('[name="eventDate"]')?.value.trim() || 'Upcoming';
-      const notes = form.querySelector('[name="notes"]')?.value.trim() || '';
+      const phone = form.querySelector('[name="phone"]')?.value.trim() || 'Not specified';
+      const email = form.querySelector('[name="email"]')?.value.trim() || 'Not specified';
+      const message = form.querySelector('[name="message"]')?.value.trim() || form.querySelector('[name="notes"]')?.value.trim() || '';
 
-      const quoteItems = getQuoteList().map(i => i.name).join('\n- ');
-      const subject = encodeURIComponent(`AV Rental Quote Request - ${name} (${city}, ${date})`);
+      const gearItems = getQuoteList().map(i => i.name).join('\n- ');
+      const subject = encodeURIComponent(`AV Rental Consultation Request - ${name}`);
       const body = encodeURIComponent(
-        `Hello NR Audio Visual,\n\nI would like to request a quote for equipment rental:\n\n` +
+        `Hello NR Audio Visual,\n\nI would like to request an equipment consultation / quote:\n\n` +
         `Name: ${name}\n` +
-        `City: ${city}\n` +
-        `Event Date: ${date}\n\n` +
-        `Selected Equipment:\n- ${quoteItems || 'Please suggest appropriate package'}\n\n` +
-        `Notes: ${notes}\n\nThank you!`
+        `Phone: ${phone}\n` +
+        `Email: ${email}\n\n` +
+        `Message / Requirements:\n${message || 'Please provide equipment recommendations and quote.'}\n\n` +
+        (gearItems ? `Selected Equipment from Rider:\n- ${gearItems}\n\n` : '') +
+        `Office Location Reference: Post Office, 17-2-625/25, Madannapet, Saidabad, Hyderabad, Telangana 500059\n\nThank you!`
       );
       window.location.href = `mailto:${siteConfig.contact.email}?subject=${subject}&body=${body}`;
     });
@@ -1365,8 +1374,8 @@ function syncPackages() {
             ${equipmentList}
           </ul>
           <div style="display: flex; flex-direction: column; gap: 0.65rem; margin-top: 1.25rem;">
-            <a href="/contact.html" class="btn-primary" style="width: 100%; text-align: center;">Request a Quote for ${escapeHtml(pkg.name)}</a>
-            <a href="https://wa.me/${phoneClean}?text=${waText}" class="btn-whatsapp-card" style="width: 100%; justify-content: center; padding: 0.75rem; font-size: 0.88rem;" target="_blank" rel="noopener" aria-label="WhatsApp Ramavath about ${escapeHtml(pkg.name)}">
+            <a href="/contact.html" class="btn-primary" style="width: 100%; text-align: center; white-space: normal; line-height: 1.35; padding: 0.75rem 1rem;">Request a Quote for ${escapeHtml(pkg.name)}</a>
+            <a href="https://wa.me/${phoneClean}?text=${waText}" class="btn-whatsapp-card" style="width: 100%; justify-content: center; padding: 0.75rem; font-size: 0.88rem; white-space: normal; line-height: 1.35;" target="_blank" rel="noopener" aria-label="WhatsApp Ramavath about ${escapeHtml(pkg.name)}">
               <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.23 8.23 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.63c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.49-.4-.42-.56-.43h-.47c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.72 4.31 3.81.6.26 1.07.42 1.44.54.61.19 1.16.17 1.6.1.49-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.23-.17-.48-.3"/></svg>
               <span>WhatsApp Ramavath for Quick Quote</span>
             </a>

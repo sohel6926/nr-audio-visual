@@ -43,6 +43,7 @@
           <a href="/locations.html" class="nav-link">Locations</a>
           <a href="/gallery.html" class="nav-link">Gallery</a>
           <a href="/about.html" class="nav-link">About</a>
+          <a href="/contact.html" class="nav-link active">Contact Us</a>
         </nav>
 
         <div class="header-actions">
@@ -54,7 +55,7 @@
             <span>Quote</span>
             <span class="quote-badge-count" style="display: none;">0</span>
           </button>
-          <a href="/contact.html" class="btn-primary" style="opacity: 0.8; pointer-events: none;">Request a Quote</a>
+          <a href="#quote-request-form" class="btn-primary">Request a Quote</a>
           <button class="mobile-menu-btn" id="mobile-nav-toggle" type="button" aria-label="Open navigation menu">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
           </button>
@@ -84,224 +85,184 @@
 
     <!-- Main Content -->
     <main>
-      <!-- Page Hero Banner with High-Res Photographic Backdrop -->
-      <section class="page-banner-hero" style="background-image: linear-gradient(135deg, rgba(15, 18, 24, 0.52) 0%, rgba(15, 18, 24, 0.32) 50%, rgba(15, 18, 24, 0.58) 100%), url('images/equipment-staging-banner.jpg');">
-        <div class="site-container page-banner-content">
-          <div class="page-banner-kicker">
-            <span>● 09 / INQUIRY</span>
-            <span>TECHNICAL RIDER SPECIFICATION</span>
-          </div>
-          <h1 class="page-banner-title">
-            Request an Equipment Quote
-          </h1>
-          <p class="page-banner-lead">
-            Fill out your event details below. Submitting generates an official equipment rider and opens a direct chat with our dispatch desk on WhatsApp, with an email fallback.
-          </p>
-          <div class="page-banner-actions">
-            <a href="https://wa.me/919133133003" class="btn-primary" style="padding: 0.85rem 1.8rem;" target="_blank" rel="noopener">Direct WhatsApp Chat</a>
-            <a href="tel:+919133133003" class="btn-secondary" style="padding: 0.85rem 1.6rem; background: rgba(255,255,255,0.12); color: #fff; border-color: rgba(255,255,255,0.25);">Call Operations +91 91331 33003</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Quote Form & Rider Summary Section -->
-      <section class="section-spacing">
+      <!-- Reference Style: Consultation & Contact Section -->
+      <section class="contact-consultation-section">
         <div class="site-container">
-          <div class="hero-grid" style="align-items: flex-start; gap: 3rem;">
+          <div class="contact-consultation-grid">
             
-            <!-- Main Form Card (Rider Sheet Style) -->
-            <div class="rider-form-wrapper">
-              <div class="rider-form-header">
-                <div>
-                  <div class="rider-code">DOC // RIDER-SPEC-REQ</div>
-                  <h2 style="font-size: 1.35rem; margin-top: 0.2rem;">Event Production Intake Form</h2>
+            <!-- Left Column: Details & Office Map -->
+            <div>
+              <h1 class="contact-ref-heading">Get a Free Consultation</h1>
+              <p class="contact-ref-lead">Schedule a call with our audio visual production experts today.</p>
+
+              <div class="contact-info-list">
+                <!-- Call Us -->
+                <div class="contact-info-item">
+                  <div class="contact-info-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                  </div>
+                  <div class="contact-info-text">
+                    <div class="contact-info-title">Call Us</div>
+                    <a href="tel:+919133133003" class="contact-info-link">+91 91331 33003</a>
+                  </div>
                 </div>
-                <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">
-                  DISPATCH: HYD · BLR · BOM
+
+                <!-- Email -->
+                <div class="contact-info-item">
+                  <div class="contact-info-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect width="20" height="16" x="2" y="4" rx="2"/>
+                      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                    </svg>
+                  </div>
+                  <div class="contact-info-text">
+                    <div class="contact-info-title">Email</div>
+                    <a href="mailto:ramavathn813@gmail.com" class="contact-info-link">ramavathn813@gmail.com</a>
+                  </div>
+                </div>
+
+                <!-- Our Office -->
+                <div class="contact-info-item">
+                  <div class="contact-info-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                      <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                  </div>
+                  <div class="contact-info-text">
+                    <div class="contact-info-title">Our Office</div>
+                    <a href="https://maps.app.goo.gl/RydioxUdq9b6WViV7?g_st=aw" target="_blank" rel="noopener noreferrer" class="contact-info-link" style="display: block; line-height: 1.45;">
+                      Ram's projector Rentals with sound speakers mics and camera, Post Office, 17-2-625/25, Madannapet, Saidabad, Hyderabad, Telangana 500059 ↗
+                    </a>
+                  </div>
                 </div>
               </div>
 
-              <!--
-                OPTIONAL STATIC BACKEND HOOK:
-                To submit to Netlify Forms: add `data-netlify="true" name="quote-request"` to <form>
-                To submit to Formspree: set `action="https://formspree.io/f/YOUR_FORM_ID"` and `method="POST"`
-              -->
-              <form id="quote-request-form" class="rider-form-body" novalidate>
-                <div class="form-grid-2">
-                  
-                  <!-- Full Name -->
-                  <div class="form-group">
-                    <label class="form-label" for="form-name">Your Full Name <span class="req">*</span></label>
-                    <input type="text" id="form-name" name="name" class="form-input" placeholder="e.g. Rahul Sharma" required />
-                  </div>
+              <!-- Interactive Google Map Preview with Floating Action Button -->
+              <div class="contact-map-wrapper">
+                <a href="https://maps.app.goo.gl/RydioxUdq9b6WViV7?g_st=aw" target="_blank" rel="noopener noreferrer" class="contact-map-float-btn" aria-label="Open location in Google Maps">
+                  <span>Open in Maps</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                    <polyline points="15 3 21 3 21 9"/>
+                    <line x1="10" y1="14" x2="21" y2="3"/>
+                  </svg>
+                </a>
+                <iframe
+                  title="NR Audio Visual Office Map Location"
+                  class="contact-map-iframe"
+                  src="https://maps.google.com/maps?q=17-2-625/25,+Madannapet,+Saidabad,+Hyderabad,+Telangana+500059&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  loading="lazy"
+                  allowfullscreen=""
+                  referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+              </div>
+            </div>
 
-                  <!-- Phone / WhatsApp -->
-                  <div class="form-group">
-                    <label class="form-label" for="form-phone">Phone / WhatsApp Number <span class="req">*</span></label>
-                    <input type="tel" id="form-phone" name="phone" class="form-input" placeholder="e.g. +91 98765 43210" required />
-                  </div>
+            <!-- Right Column: Elevated Form Card -->
+            <div class="contact-form-card">
+              <div id="cart-items-preview" style="display: none; margin-bottom: 1.25rem; padding: 0.85rem 1rem; background: var(--bg-surface); border-radius: 12px; border: 1px dashed var(--border-medium); font-size: 0.88rem; color: var(--text-secondary);">
+                🛒 <strong id="cart-count-text" style="color: var(--text-primary);">0 items</strong> from your equipment rider will be included with your inquiry.
+              </div>
 
-                  <!-- Email Address -->
-                  <div class="form-group">
-                    <label class="form-label" for="form-email">Email Address</label>
-                    <input type="email" id="form-email" name="email" class="form-input" placeholder="name@organization.com" />
+              <form id="quote-request-form" novalidate>
+                <div class="contact-form-row">
+                  <div class="contact-field" style="margin-bottom: 0;">
+                    <label class="contact-label" for="form-name">Name</label>
+                    <input type="text" id="form-name" name="name" class="contact-input" placeholder="Your Name" required />
                   </div>
-
-                  <!-- City Hub -->
-                  <div class="form-group">
-                    <label class="form-label" for="form-city">Event City Hub <span class="req">*</span></label>
-                    <select id="form-city" name="city" class="form-select" required>
-                      <option value="">Select Metropolitan Hub</option>
-                      <option value="hyderabad">Hyderabad (Serving from City Centre)</option>
-                      <option value="bangalore">Bangalore (Serving from City Centre)</option>
-                      <option value="mumbai">Mumbai (Serving from City Centre)</option>
-                    </select>
-                  </div>
-
-                  <!-- Event Type -->
-                  <div class="form-group">
-                    <label class="form-label" for="form-event-type">Event Type <span class="req">*</span></label>
-                    <select id="form-event-type" name="eventType" class="form-select" required>
-                      <option value="">Select Event Classification</option>
-                      <option value="Wedding & Reception">Wedding & Reception</option>
-                      <option value="Corporate Conference / Summit">Corporate Conference / Summit</option>
-                      <option value="Church & Worship Event">Church & Worship Event</option>
-                      <option value="Live Band Concert">Live Band Concert</option>
-                      <option value="College & Cultural Fest">College & Cultural Fest</option>
-                      <option value="Product Launch / Gala">Product Launch / Gala</option>
-                      <option value="Private / Other Gathering">Private / Other Gathering</option>
-                    </select>
-                  </div>
-
-                  <!-- Event Date -->
-                  <div class="form-group">
-                    <label class="form-label" for="form-date">Event Date <span class="req">*</span></label>
-                    <input type="date" id="form-date" name="eventDate" class="form-input" required />
-                  </div>
-
-                  <!-- Venue Location -->
-                  <div class="form-group">
-                    <label class="form-label" for="form-venue">Venue / Hotel / Lawn Name</label>
-                    <input type="text" id="form-venue" name="venue" class="form-input" placeholder="e.g. Grand Ballroom, Hitec City" />
-                  </div>
-
-                  <!-- Expected Audience Size -->
-                  <div class="form-group">
-                    <label class="form-label" for="form-audience">Expected Audience / Gathering Size</label>
-                    <input type="text" id="form-audience" name="audience" class="form-input" placeholder="e.g. 50 - 150, or 500+" />
+                  <div class="contact-field" style="margin-bottom: 0;">
+                    <label class="contact-label" for="form-phone">Phone</label>
+                    <input type="tel" id="form-phone" name="phone" class="contact-input" placeholder="+91" required />
                   </div>
                 </div>
 
-                <!-- Equipment Chips Selector -->
-                <div class="form-group" style="margin-top: 0.5rem;">
-                  <label class="form-label">Key Equipment Needed (Click to toggle):</label>
-                  <div class="equipment-chips-selector">
-                    <button type="button" class="chip-btn" data-value="Yamaha TF5 32-ch Mixer">Yamaha TF5 Mixer</button>
-                    <button type="button" class="chip-btn" data-value="Rack-Mounted Shure Wireless Mics">Shure Wireless Mic Rack</button>
-                    <button type="button" class="chip-btn" data-value="LD Systems Column Array PA">Column Line-Array PA</button>
-                    <button type="button" class="chip-btn" data-value="Yamaha PSR-I500 Keyboard + Stand">Yamaha Keyboard</button>
-                    <button type="button" class="chip-btn" data-value="Alesis Electronic Drums + Stool">Alesis Drum Kit</button>
-                    <button type="button" class="chip-btn" data-value="Stage Bass Combo Amp">Bass Combo Amp</button>
-                    <button type="button" class="chip-btn" data-value="Live Production Camcorder Rig">Camcorder on Tripod</button>
-                    <button type="button" class="chip-btn" data-value="Stage & Event Lighting Washes">Stage Lighting Washes</button>
-                    <button type="button" class="chip-btn" data-value="Projectors & Fast-Fold Screens">Projector & Screen</button>
-                    <button type="button" class="chip-btn" data-value="Modular LED Video Wall">Modular LED Video Wall</button>
-                    <button type="button" class="chip-btn" data-value="On-Site Sound Engineer Support">On-Site Audio Engineer</button>
-                  </div>
+                <div class="contact-field">
+                  <label class="contact-label" for="form-email">Email Address</label>
+                  <input type="email" id="form-email" name="email" class="contact-input" placeholder="name@email.com" />
                 </div>
 
-                <!-- Notes / Special Requirements -->
-                <div class="form-group">
-                  <label class="form-label" for="form-notes">Special Requirements / Timelines / Stage Notes</label>
-                  <textarea id="form-notes" name="notes" class="form-textarea" placeholder="Provide any details about load-in time, stage dimensions, acoustic challenges, or rehearsal schedules..."></textarea>
+                <div class="contact-field">
+                  <label class="contact-label" for="form-message">Message</label>
+                  <textarea id="form-message" name="message" class="contact-textarea" placeholder="We're listening..."></textarea>
                 </div>
 
-                <!-- Action Buttons: WhatsApp submit & Email fallback -->
-                <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem;">
-                  <button type="submit" class="btn-primary" style="padding: 0.9rem; font-size: 1.05rem; width: 100%;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.23 8.23 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.63c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.49-.4-.42-.56-.43h-.47c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.72 4.31 3.81.6.26 1.07.42 1.44.54.61.19 1.16.17 1.6.1.49-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.23-.17-.48-.3"/></svg>
-                    Send Formatted Rider via WhatsApp (+91 91331 33003)
-                  </button>
-                  <button type="button" id="send-email-fallback" class="btn-secondary" style="padding: 0.8rem; width: 100%;">
-                    ✉ Send Quote Request via Email (ramavathn813@gmail.com)
+                <button type="submit" class="contact-submit-btn" id="contact-submit-btn">
+                  <span>Schedule via WhatsApp</span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"/>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                  </svg>
+                </button>
+
+                <div style="text-align: center; margin-top: 1rem;">
+                  <button type="button" id="send-email-fallback" style="background: none; border: none; color: var(--text-muted); font-size: 0.85rem; cursor: pointer; text-decoration: underline;">
+                    Or send via Email (ramavathn813@gmail.com)
                   </button>
                 </div>
               </form>
             </div>
 
-            <!-- Direct Contact & Hub Info Sidebar -->
-            <div style="display: flex; flex-direction: column; gap: 2rem;">
-              
-              <!-- Direct Operations Contact Box -->
-              <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 2rem;">
-                <div class="section-kicker"><span>DIRECT DISPATCH</span></div>
-                <h3 style="font-size: 1.35rem; margin-bottom: 0.5rem;">Need Instant Advice?</h3>
-                <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.55;">
-                  If your event is this week or you have an existing rider PDF to review, get in touch directly:
-                </p>
-                <div style="display: flex; flex-direction: column; gap: 0.75rem; font-family: var(--font-mono); font-size: 0.88rem;">
-                  <div>
-                    <span style="color: var(--text-muted); font-size: 0.75rem; display: block;">CONTACT LEAD & FOUNDER:</span>
-                    <strong style="color: var(--text-primary); font-size: 1rem;">Ramavath</strong>
-                  </div>
-                  <div>
-                    <span style="color: var(--text-muted); font-size: 0.75rem; display: block;">DIRECT WHATSAPP:</span>
-                    <a href="https://wa.me/919133133003" style="color: #25D366; font-weight: 700;" target="_blank" rel="noopener">+91 91331 33003</a>
-                  </div>
-                  <div>
-                    <span style="color: var(--text-muted); font-size: 0.75rem; display: block;">OFFICIAL EMAIL:</span>
-                    <a href="mailto:ramavathn813@gmail.com" style="color: var(--text-primary); text-decoration: underline;">ramavathn813@gmail.com</a>
-                  </div>
-                  <div>
-                    <span style="color: var(--text-muted); font-size: 0.75rem; display: block;">SUPPORT HOURS:</span>
-                    <span>Monday to Sunday: 8:00 AM – 10:00 PM IST [CLIENT TO CONFIRM]</span>
-                  </div>
-                </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Metropolitan Regional Hubs Overview (Hyderabad, Bangalore, Mumbai) -->
+      <section style="padding: 3rem 0 4rem; background: var(--bg-surface); border-top: 1px solid var(--border-subtle);">
+        <div class="site-container">
+          <div style="text-align: center; max-width: 650px; margin: 0 auto 2.5rem;">
+            <div class="section-kicker" style="justify-content: center;"><span>REGIONAL COVERAGE</span></div>
+            <h2 style="font-size: 1.6rem; font-weight: 700; margin-bottom: 0.5rem;">Serving Three Metropolitan Hubs</h2>
+            <p style="color: var(--text-secondary); font-size: 0.95rem;">Direct logistics, technical crew dispatch, and equipment rigging across South & West India.</p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+            <!-- Hyderabad Card -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border-medium); border-radius: var(--radius-lg); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <h3 style="font-size: 1.15rem; font-weight: 700;">Hyderabad Hub</h3>
+                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-hot); background: var(--accent-hot-soft); padding: 2px 8px; border-radius: 4px; font-weight: 600;">HEADQUARTERS</span>
               </div>
-
-              <!-- Hub Dispatch Addresses with City Imagery -->
-              <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.75rem;">
-                <div class="section-kicker"><span>CITY CENTRES</span></div>
-                <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem;">Operating City Hubs:</h3>
-                
-                <div style="display: flex; flex-direction: column; gap: 1.25rem;">
-                  <!-- Hyderabad -->
-                  <div style="display: flex; gap: 1rem; align-items: center;">
-                    <img src="images/hyderabad-banner.jpg" alt="Hyderabad hub" style="width: 72px; height: 54px; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);" loading="lazy" />
-                    <div>
-                      <a href="/hyderabad.html" style="font-weight: 700; font-size: 0.95rem; color: var(--text-primary); text-decoration: underline;">Hyderabad City Centre</a>
-                      <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); display: block;">
-                        [Hyderabad City Centre address, CLIENT TO CONFIRM]
-                      </span>
-                    </div>
-                  </div>
-
-                  <!-- Bangalore -->
-                  <div style="display: flex; gap: 1rem; align-items: center;">
-                    <img src="images/bangalore-banner.jpg" alt="Bangalore hub" style="width: 72px; height: 54px; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);" loading="lazy" />
-                    <div>
-                      <a href="/bangalore.html" style="font-weight: 700; font-size: 0.95rem; color: var(--text-primary); text-decoration: underline;">Bangalore City Centre</a>
-                      <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); display: block;">
-                        [Bangalore City Centre address, CLIENT TO CONFIRM]
-                      </span>
-                    </div>
-                  </div>
-
-                  <!-- Mumbai -->
-                  <div style="display: flex; gap: 1rem; align-items: center;">
-                    <img src="images/mumbai-banner.jpg" alt="Mumbai hub" style="width: 72px; height: 54px; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);" loading="lazy" />
-                    <div>
-                      <a href="/mumbai.html" style="font-weight: 700; font-size: 0.95rem; color: var(--text-primary); text-decoration: underline;">Mumbai City Centre</a>
-                      <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); display: block;">
-                        [Mumbai City Centre address, CLIENT TO CONFIRM]
-                      </span>
-                    </div>
-                  </div>
-                </div>
+              <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
+                Post Office, 17-2-625/25, Madannapet, Saidabad, Hyderabad 500059
+              </p>
+              <div style="margin-top: auto; padding-top: 0.75rem; border-top: 1px dashed var(--border-subtle); display: flex; justify-content: space-between; align-items: center;">
+                <a href="/hyderabad.html" style="font-size: 0.85rem; font-weight: 600; color: var(--accent-hot); text-decoration: underline;">City Page ↗</a>
+                <a href="https://maps.app.goo.gl/RydioxUdq9b6WViV7?g_st=aw" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; color: var(--text-muted);">View Map ↗</a>
               </div>
-
             </div>
 
+            <!-- Bangalore Card -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border-medium); border-radius: var(--radius-lg); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <h3 style="font-size: 1.15rem; font-weight: 700;">Bangalore Hub</h3>
+                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); background: var(--bg-surface); padding: 2px 8px; border-radius: 4px;">KARNATAKA</span>
+              </div>
+              <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
+                Operating across Bengaluru Tech Parks, Central Business District & Banquets
+              </p>
+              <div style="margin-top: auto; padding-top: 0.75rem; border-top: 1px dashed var(--border-subtle); display: flex; justify-content: space-between; align-items: center;">
+                <a href="/bangalore.html" style="font-size: 0.85rem; font-weight: 600; color: var(--accent-hot); text-decoration: underline;">City Page ↗</a>
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Local Rigging</span>
+              </div>
+            </div>
+
+            <!-- Mumbai Card -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border-medium); border-radius: var(--radius-lg); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <h3 style="font-size: 1.15rem; font-weight: 700;">Mumbai Hub</h3>
+                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); background: var(--bg-surface); padding: 2px 8px; border-radius: 4px;">MAHARASHTRA</span>
+              </div>
+              <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
+                Providing high-SPL concert sound, video walls & wireless mic packages across BKC & South Mumbai
+              </p>
+              <div style="margin-top: auto; padding-top: 0.75rem; border-top: 1px dashed var(--border-subtle); display: flex; justify-content: space-between; align-items: center;">
+                <a href="/mumbai.html" style="font-size: 0.85rem; font-weight: 600; color: var(--accent-hot); text-decoration: underline;">City Page ↗</a>
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Local Rigging</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
