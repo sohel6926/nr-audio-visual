@@ -179,6 +179,7 @@ function openQuoteDrawer() {
   if (drawer) drawer.classList.add('open');
   if (overlay) overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
+  document.documentElement.style.overflow = 'hidden';
 }
 
 function closeQuoteDrawer() {
@@ -187,6 +188,7 @@ function closeQuoteDrawer() {
   if (drawer) drawer.classList.remove('open');
   if (overlay) overlay.classList.remove('open');
   document.body.style.overflow = '';
+  document.documentElement.style.overflow = '';
 }
 
 function initQuoteDrawer() {
@@ -230,19 +232,43 @@ function initMobileNav() {
 
   if (!toggleBtn || !drawer) return;
 
+  function openMobileNav() {
+    drawer.classList.add('open');
+    drawer.setAttribute('aria-hidden', 'false');
+    toggleBtn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+  }
+
+  function closeMobileNav() {
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden', 'true');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+  }
+
   function toggle() {
-    drawer.classList.toggle('open');
-    document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+    if (drawer.classList.contains('open')) {
+      closeMobileNav();
+    } else {
+      openMobileNav();
+    }
   }
 
   toggleBtn.addEventListener('click', toggle);
-  if (closeBtn) closeBtn.addEventListener('click', toggle);
+  if (closeBtn) closeBtn.addEventListener('click', closeMobileNav);
 
   drawer.querySelectorAll('.mobile-nav-link').forEach(link => {
     link.addEventListener('click', () => {
-      drawer.classList.remove('open');
-      document.body.style.overflow = '';
+      closeMobileNav();
     });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) {
+      closeMobileNav();
+    }
   });
 }
 
@@ -1877,10 +1903,27 @@ function createContactWidgetElement() {
   return widget;
 }
 
+function initStickyHeader() {
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+
+  const onScroll = () => {
+    if (window.scrollY > 15) {
+      header.classList.add('is-scrolled');
+    } else {
+      header.classList.remove('is-scrolled');
+    }
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
+
 /* ==========================================================================
    DOM Ready Bootstrapper
    ========================================================================== */
 function bootApp() {
+  initStickyHeader();
   initTheme();
   initQuoteDrawer();
   initMobileNav();
@@ -1910,3 +1953,4 @@ if (document.readyState === 'loading') {
 } else {
   bootApp();
 }
+

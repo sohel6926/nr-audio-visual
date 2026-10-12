@@ -365,8 +365,11 @@ img {
 
 /* Sticky Header Contract */
 .site-header {
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
   background: var(--bg-surface-translucent);
   backdrop-filter: blur(14px);
@@ -383,6 +386,16 @@ img {
   background: rgba(15, 18, 24, 0.88);
   border-bottom-color: rgba(255, 255, 255, 0.08);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.site-header.is-scrolled {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  border-bottom-color: var(--border-medium);
+}
+
+[data-theme="dark"] .site-header.is-scrolled {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  border-bottom-color: rgba(255, 255, 255, 0.12);
 }
 
 .header-inner {
@@ -689,13 +702,14 @@ img {
   position: fixed;
   inset: 0;
   background: var(--bg-canvas);
-  z-index: 200;
+  z-index: 2100;
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
   transform: translateX(100%);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .mobile-nav-drawer.open {
@@ -703,10 +717,15 @@ img {
 }
 
 .mobile-nav-header {
+  position: sticky;
+  top: 0;
+  background: var(--bg-canvas);
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 2rem;
+  padding-top: 0.25rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--border-subtle);
 }
@@ -1875,7 +1894,7 @@ img {
   max-width: 440px;
   background: var(--bg-card);
   box-shadow: var(--shadow-drawer);
-  z-index: 300;
+  z-index: 2100;
   transform: translateX(100%);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
@@ -1891,7 +1910,7 @@ img {
   inset: 0;
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(2px);
-  z-index: 290;
+  z-index: 2050;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
@@ -2634,7 +2653,7 @@ img {
   inset: 0;
   background: rgba(0, 0, 0, 0.92);
   backdrop-filter: blur(8px);
-  z-index: 400;
+  z-index: 2200;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3244,7 +3263,7 @@ img {
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 500;
+  z-index: 2300;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -3410,7 +3429,7 @@ img {
 html, body {
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
   position: relative;
 }
 
