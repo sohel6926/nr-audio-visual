@@ -1,6 +1,6 @@
 /**
  * NR Audio Visual - Original SVG Background Illustrations & Monogram
- * Domain: nraudiovisual.in
+ * Domain: nraudiovisuals.in
  * Pure vector art themed with CSS variables (no AI slop, no stock art)
  */
 

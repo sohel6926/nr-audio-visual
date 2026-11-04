@@ -1,6 +1,6 @@
 /**
  * NR Audio Visual - Main Client Logic
- * Domain: nraudiovisual.in
+ * Domain: nraudiovisuals.in
  */
 
 import { siteConfig } from './config.js';
@@ -467,7 +467,7 @@ function initQuoteForm() {
     }
     msg += `------------------------------------\n`;
     msg += `*Office:* Post Office, 17-2-625/25, Madannapet, Saidabad, Hyderabad 500059\n`;
-    msg += `Sent via nraudiovisual.in consultation form`;
+    msg += `Sent via nraudiovisuals.in consultation form`;
 
     const encodedMsg = encodeURIComponent(msg);
     const whatsappUrl = `https://wa.me/${siteConfig.contact.phoneClean.replace('+', '')}?text=${encodedMsg}`;

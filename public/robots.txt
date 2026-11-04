@@ -1,4 +1,17 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /admin.html
 
-Sitemap: https://nraudiovisual.in/sitemap.xml
+# Crawlers
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /admin.html
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /admin.html
+
+Sitemap: https://nraudiovisuals.in/sitemap.xml

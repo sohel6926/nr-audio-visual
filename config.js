@@ -1,12 +1,12 @@
 /**
  * NR Audio Visual - Central Business & Configuration Data
- * Domain: nraudiovisual.in
+ * Domain: nraudiovisuals.in
  * All placeholders marked [CLIENT TO CONFIRM] are collected here.
  */
 
 export const siteConfig = {
   brandName: "NR Audio Visual",
-  domain: "nraudiovisual.in",
+  domain: "nraudiovisuals.in",
   tagline: "Professional Audio-Visual Equipment Rental",
   subTagline: "Sound reinforcement, backline, stage lighting, video walls, and live recording across South & West India.",
   
@@ -16,14 +16,14 @@ export const siteConfig = {
     whatsappUrl: "https://wa.me/919133133003",
     email: "ramavathn813@gmail.com",
     contactPerson: "Ramavath",
-    hours: "Monday to Sunday: 8:00 AM – 10:00 PM IST [CLIENT TO CONFIRM]",
+    hours: "Monday to Sunday: 8:00 AM – 10:00 PM IST",
   },
 
   hero: {
     badge: "● SOUND REINFORCEMENT & VISUAL STAGING",
     headline: "Stage & studio gear, calibrated for your live event.",
-    lead: "NR Audio Visual rents genuine concert-grade sound consoles, wireless microphone systems, band backline, and visual production equipment across Hyderabad, Bangalore, and Mumbai.",
-    coverageLabel: "Serving City Centres: Hyderabad, Bangalore, Mumbai",
+    lead: "NR Audio Visual rents genuine concert-grade sound consoles, wireless microphone systems, band backline, and visual production equipment across Hyderabad (Kukkatpally Hub), Bangalore, and Mumbai.",
+    coverageLabel: "Serving City Centres & Key Hubs: Hyderabad · Kukkatpally · Bangalore · Mumbai",
     featuredGearName: "Yamaha TF5 Digital Console",
     featuredGearSpec: "32 Channels · Motorized Faders · Flight Case",
   },
@@ -140,14 +140,14 @@ export const siteConfig = {
       id: "hyderabad",
       name: "Hyderabad",
       state: "Telangana",
-      hubLabel: "Hyderabad City Centre",
-      address: "Ram's projector Rentals with sound speakers mics and camera, Post Office, 17-2-625/25, Madannapet, Saidabad, Hyderabad, Telangana 500059",
+      hubLabel: "Hyderabad & Kukkatpally Hub",
+      address: "Ram's projector Rentals with sound speakers mics and camera, Post Office, 17-2-625/25, Madannapet, Saidabad, Hyderabad, Telangana 500059 (Serving Kukkatpally, Hitec City & Greater Hyderabad)",
       mapsUrl: "https://maps.app.goo.gl/RydioxUdq9b6WViV7?g_st=aw",
       phone: "+91 91331 33003",
       email: "ramavathn813@gmail.com",
-      coverageNote: "Serving Banjara Hills, Jubilee Hills, Hitec City, Gachibowli, Secunderabad, Saidabad, and surrounding Hyderabad districts.",
+      coverageNote: "Serving Kukkatpally, KPHB Colony, Hitec City, Madhapur, Gachibowli, Jubilee Hills, Banjara Hills, Secunderabad, Miyapur, Saidabad, and all Hyderabad localities.",
       mapEmbedUrl: "https://maps.google.com/maps?q=17-2-625/25,+Madannapet,+Saidabad,+Hyderabad,+Telangana+500059&t=&z=15&ie=UTF8&iwloc=&output=embed",
-      typicalVenues: "Hotels, convention centres, outdoor wedding lawns, church halls, university auditoriums.",
+      typicalVenues: "Hotels, convention centres, outdoor wedding lawns, church halls, university auditoriums, banquet halls in Kukkatpally, Hitec City, and Madhapur.",
     },
     bangalore: {
       id: "bangalore",
